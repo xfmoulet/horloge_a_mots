@@ -1,5 +1,5 @@
 # Horloge à Mots
-Par Charlotte, Gil, Sebastien
+Par Charlotte, Gil, Sebastien, Florent, Xavier, ...
 
 ![exemple](https://www.roundoffice.ch/sites/default/files/styles/large/public/inspirations/showroom-20.png?itok=IwkEAxx1)
 
