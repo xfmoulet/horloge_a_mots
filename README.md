@@ -1,8 +1,6 @@
 # Horloge à Mots
 Par Charlotte, Gil, Sebastien, Florent, Xavier, ...
 
-![exemple](https://www.roundoffice.ch/sites/default/files/styles/large/public/inspirations/showroom-20.png?itok=IwkEAxx1)
-
 ## Liens
 
 - Gitlab: https://gitlab.tech.orange/coderoom-atalante/jeudis-electronique/horloge-a-mots
