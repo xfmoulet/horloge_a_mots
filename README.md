@@ -1,5 +1,5 @@
 # Horloge à Mots
-Par Charlotte, Gil, Sebastien, Florent, Xavier, ...
+Par Charlotte, Gil, Sebastien, Florent, François-Xavier, Xavier-Frédéric...
 
 ## Liens
 
@@ -36,4 +36,15 @@ L3  --x-|---x-|--x-|--\
 > The GPIOs (general purpose input/outputs) can sink or source up to ±6 mA, and up to
 ±15 mA with relaxed VOL/VOH. 
 
-🤔
+- Les mesures que nous avons réalisées avec une LED blanche indiquée 2.4V + arduino (5v): 
+
+resistance | courant LED | voltage LED
+-----------|-------------|-------------
+100 Ω | 15 mA | 2.9V
+150 Ω | 11 mA | 2.8V
+
+Donc le voltage reste ~constant et on module le courant avec la résistance.
+
+Avec un multiplexage de 1/36 (et une résistance légèrement plus faible), la LED reste bien visible.
+
+
