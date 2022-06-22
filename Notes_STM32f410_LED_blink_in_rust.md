@@ -11,7 +11,7 @@
 add line to Cargo.toml
 
 	[features]
-	default = ["rt", "stm32g474"]
+	default = ["rt", "stm32f410"]
 
 ## cargo flash
 
