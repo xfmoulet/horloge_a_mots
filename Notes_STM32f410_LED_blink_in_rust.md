@@ -48,9 +48,7 @@ needs permissions to access usb probe: https://probe.rs/docs/getting-started/pro
 
 --> IT BLINKS !
 
-## modification
-
-smooth : 
+## smooth pulse
 
     for n in (0..32u32).chain((0..32u32).rev()) {
         for _ in 0..777 {                    
