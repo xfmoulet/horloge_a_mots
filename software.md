@@ -5,7 +5,7 @@
 - We have one 32768 Hz clock (ticks)
 - for each tick :
     - If we clock the main clock at 8MHz (default) 
-        - 8MHz/32kHz = 244 cycles (not much): computations needs to be done quickly 
+        - 8MHz/32kHz = 244 cycles (not much), 2048 cycles if 64MHz (max speed): computations needs to be done quickly 
         - need to optimize the worst case
     - compute time from ticks
         - on a cortexM0, there is NO division instruction (code will be generated, can be slow) 
