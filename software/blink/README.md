@@ -1,4 +1,4 @@
-# Notes STM32f410 LED blink in rust 
+Notes STM32f410 LED blink in rust 
 
 ## add stm32 core target
 
@@ -48,7 +48,9 @@ needs permissions to access usb probe: https://probe.rs/docs/getting-started/pro
 
 --> IT BLINKS !
 
-## smooth pulse
+## modification
+
+smooth : 
 
     for n in (0..32u32).chain((0..32u32).rev()) {
         for _ in 0..777 {                    
@@ -63,11 +65,45 @@ needs permissions to access usb probe: https://probe.rs/docs/getting-started/pro
 
 - https://jonathanklimt.de/electronics/programming/embedded-rust/rust-on-stm32-2/
 
-## TODO
 
-isolate program from lib
+## Separate project from lib
+
+- create a projet with `cargo init`
+- copy led blinker
+- add dependencies
+```toml
+	[dependencies]
+	embedded-hal = "0.2"
+	nb = "1"
+	cortex-m = "0.7"
+	cortex-m-rt = "0.7"
+	# Panic behaviour, see https://crates.io/keywords/panic-impl for alternatives
+	panic-halt = "0.2"
+
+	[dependencies.stm32f4xx-hal]
+	version = "0.13.2"
+	features = ["stm32f407"] # replace the model of your microcontroller here
+```
+- also optimize for size, use LTO (divides size by 10!)
+
+```toml
+[profile.release]
+lto = true
+opt-level = "s"
+```
+
+- copy `.cargo/config` and `memory.x` from the `stm32f4xx-hal` repository to your project and make sure the sizes match up with the datasheet
+- build with 
+```
+cargo flash --chip stm32f410rbtX --release
+```
+
+## Next steps
+
 documentation / makefile
+separate create 
 
+use IRQ based blinker (with 32kHz crystal interrupts)
 
 board - logic: hour, setup - display logic
-board : LEDs, buttons, rtc (?)
+board : LEDs, buttons, 32kHz interrupt
