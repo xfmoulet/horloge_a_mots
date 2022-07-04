@@ -1,0 +1,86 @@
+// horloge a mots data - this is a generated file
+#[derive(Debug,Clone,Copy,PartialEq)]
+pub enum LED {
+    Une,
+    Deux,
+    Trois,
+    Quatre,
+    Cinq,
+    Six,
+    Sept,
+    Huit,
+    Neuf,
+    Onze,
+    Mi,
+    Di,
+    X,
+    Minuit,
+    Heure,
+    S,
+    Et,
+    Moins,
+    DixMin,
+    Vingt,
+    CinqMin,
+    Le,
+    Quart,
+    Demie,
+    DesBananes,
+    Dot1,
+    Dot2,
+    Dot3,
+    Dot4,
+}
+// ---
+pub const NB_HOURS_LED : usize = 7;
+pub static HOURS_LED: [[Option<LED>;NB_HOURS_LED];24] = [
+    [Some(LED::Minuit), Some(LED::Minuit), Some(LED::Minuit), None, None, None, None, ],
+    [Some(LED::Une), Some(LED::Heure), Some(LED::Heure), Some(LED::Heure), None, None, None, ],
+    [Some(LED::Deux), Some(LED::Deux), Some(LED::Heure), Some(LED::Heure), Some(LED::Heure), Some(LED::S), None, ],
+    [Some(LED::Trois), Some(LED::Trois), Some(LED::Trois), Some(LED::Heure), Some(LED::Heure), Some(LED::Heure), Some(LED::S), ],
+    [Some(LED::Quatre), Some(LED::Quatre), Some(LED::Quatre), Some(LED::Heure), Some(LED::Heure), Some(LED::Heure), Some(LED::S), ],
+    [Some(LED::Cinq), Some(LED::Cinq), Some(LED::Heure), Some(LED::Heure), Some(LED::Heure), Some(LED::S), None, ],
+    [Some(LED::Six), Some(LED::Six), Some(LED::Heure), Some(LED::Heure), Some(LED::Heure), Some(LED::S), None, ],
+    [Some(LED::Sept), Some(LED::Sept), Some(LED::Heure), Some(LED::Heure), Some(LED::Heure), Some(LED::S), None, ],
+    [Some(LED::Huit), Some(LED::Huit), Some(LED::Heure), Some(LED::Heure), Some(LED::Heure), Some(LED::S), None, ],
+    [Some(LED::Neuf), Some(LED::Neuf), Some(LED::Heure), Some(LED::Heure), Some(LED::Heure), Some(LED::S), None, ],
+    [Some(LED::Di), Some(LED::X), Some(LED::Heure), Some(LED::Heure), Some(LED::Heure), Some(LED::S), None, ],
+    [Some(LED::Onze), Some(LED::Onze), Some(LED::Heure), Some(LED::Heure), Some(LED::Heure), Some(LED::S), None, ],
+    [Some(LED::Mi), Some(LED::Di), None, None, None, None, None, ],
+    [Some(LED::Une), Some(LED::Heure), Some(LED::Heure), Some(LED::Heure), None, None, None, ],
+    [Some(LED::Deux), Some(LED::Deux), Some(LED::Heure), Some(LED::Heure), Some(LED::Heure), Some(LED::S), None, ],
+    [Some(LED::Trois), Some(LED::Trois), Some(LED::Trois), Some(LED::Heure), Some(LED::Heure), Some(LED::Heure), Some(LED::S), ],
+    [Some(LED::Quatre), Some(LED::Quatre), Some(LED::Quatre), Some(LED::Heure), Some(LED::Heure), Some(LED::Heure), Some(LED::S), ],
+    [Some(LED::Cinq), Some(LED::Cinq), Some(LED::Heure), Some(LED::Heure), Some(LED::Heure), Some(LED::S), None, ],
+    [Some(LED::Six), Some(LED::Six), Some(LED::Heure), Some(LED::Heure), Some(LED::Heure), Some(LED::S), None, ],
+    [Some(LED::Sept), Some(LED::Sept), Some(LED::Heure), Some(LED::Heure), Some(LED::Heure), Some(LED::S), None, ],
+    [Some(LED::Huit), Some(LED::Huit), Some(LED::Heure), Some(LED::Heure), Some(LED::Heure), Some(LED::S), None, ],
+    [Some(LED::Neuf), Some(LED::Neuf), Some(LED::Heure), Some(LED::Heure), Some(LED::Heure), Some(LED::S), None, ],
+    [Some(LED::Di), Some(LED::X), Some(LED::Heure), Some(LED::Heure), Some(LED::Heure), Some(LED::S), None, ],
+    [Some(LED::Onze), Some(LED::Onze), Some(LED::Heure), Some(LED::Heure), Some(LED::Heure), Some(LED::S), None, ],
+];
+// ---
+pub const NB_MIN5_LED : usize = 8;
+pub static MIN5_LED: [[Option<LED>;NB_MIN5_LED];12] = [
+    [None, None, None, None, None, None, None, None, ],
+    [Some(LED::CinqMin), Some(LED::CinqMin), None, None, None, None, None, None, ],
+    [Some(LED::DixMin), Some(LED::DixMin), None, None, None, None, None, None, ],
+    [Some(LED::Et), Some(LED::Quart), Some(LED::Quart), Some(LED::Quart), None, None, None, None, ],
+    [Some(LED::Vingt), Some(LED::Vingt), Some(LED::Vingt), None, None, None, None, None, ],
+    [Some(LED::Vingt), Some(LED::Vingt), Some(LED::Vingt), Some(LED::CinqMin), Some(LED::CinqMin), None, None, None, ],
+    [Some(LED::Et), Some(LED::Demie), Some(LED::Demie), Some(LED::Demie), None, None, None, None, ],
+    [Some(LED::Moins), Some(LED::Moins), Some(LED::Moins), Some(LED::Vingt), Some(LED::Vingt), Some(LED::Vingt), Some(LED::CinqMin), Some(LED::CinqMin), ],
+    [Some(LED::Moins), Some(LED::Moins), Some(LED::Moins), Some(LED::Vingt), Some(LED::Vingt), Some(LED::Vingt), None, None, ],
+    [Some(LED::Moins), Some(LED::Moins), Some(LED::Moins), Some(LED::Le), Some(LED::Quart), Some(LED::Quart), Some(LED::Quart), None, ],
+    [Some(LED::Moins), Some(LED::Moins), Some(LED::Moins), Some(LED::DixMin), Some(LED::DixMin), None, None, None, ],
+    [Some(LED::Moins), Some(LED::Moins), Some(LED::Moins), Some(LED::CinqMin), Some(LED::CinqMin), None, None, None, ],
+];
+// ---
+pub const NB_MINUTES_LED : usize = 6;
+pub static MINUTES_LED: [[Option<LED>;NB_MINUTES_LED];5] = [
+    [None, None, None, None, None, None, ],
+    [Some(LED::Dot1), None, None, None, None, None, ],
+    [Some(LED::Dot2), None, None, None, None, None, ],
+    [Some(LED::DesBananes), Some(LED::DesBananes), Some(LED::DesBananes), Some(LED::DesBananes), Some(LED::DesBananes), Some(LED::Dot3), ],
+    [Some(LED::DesBananes), Some(LED::DesBananes), Some(LED::DesBananes), Some(LED::DesBananes), Some(LED::DesBananes), Some(LED::Dot4), ],
+];
