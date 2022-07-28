@@ -1,13 +1,18 @@
 #![no_std]
+/*
+ This lib is responsible for handling the logic of multiplexing the LEDs.
+
+
+ */
 
 pub mod data;
 use crate::data::*;
 
-pub const MAX_LEDS: usize = 32; // max LEDs "at a time" (ie muxed) - faster to use a power of two
+pub const MAX_LEDS: usize = NB_HOURS_LED + NB_MIN5_LED + NB_MINUTES_LED; // max LEDs "at a time" (ie muxed) 
 
 // for a given mux tick / hour, return the LED to illuminate
 pub fn led_multiplex(mux_tick: usize, hour: u8, min5: u8, minute: u8) -> Option<LED> {
-    // moins le -> heure suivante, attention a minuit
+    // moins le -> heure effective = heure suivante, attention a minuit
     let ehour = if min5 > 6 {
         if hour < 23 {
             hour + 1
@@ -18,7 +23,7 @@ pub fn led_multiplex(mux_tick: usize, hour: u8, min5: u8, minute: u8) -> Option<
         hour
     };
 
-    // not a match since we dont have exclusive ranges yet in rust matches
+    // not a match since we dont have exclusive ranges yet in rust matches (?)
     if mux_tick < NB_HOURS_LED {
         HOURS_LED[ehour as usize][mux_tick]
     } else if mux_tick < NB_HOURS_LED + NB_MIN5_LED {
@@ -35,12 +40,6 @@ pub fn led_multiplex(mux_tick: usize, hour: u8, min5: u8, minute: u8) -> Option<
 #[cfg(test)]
 mod tests {
     use crate::*;
-
-    #[test]
-    fn test_max_leds_should_be_enough() {
-        // should probably be a const assert
-        assert!(MAX_LEDS >= NB_HOURS_LED + NB_MIN5_LED + NB_MINUTES_LED);
-    }
 
     #[test]
     fn test_led_midnight() {
