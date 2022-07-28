@@ -31,12 +31,12 @@ fn main() -> ! {
         let mut delay = cp.SYST.delay(&clocks);
 
         loop {
-           for n in (0..32u32).chain((0..32u32).rev()) {
-                for _ in 0..777 {                    
+            for n in (0..32u32).chain((0..32u32).rev()) {
+                for _ in 0..777 {
                     led.set_high();
                     delay.delay_us(n);
                     led.set_low();
-                    delay.delay_us(32-n);
+                    delay.delay_us(32 - n);
                 }
             }
         }
