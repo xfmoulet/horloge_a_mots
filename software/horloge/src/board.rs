@@ -1,5 +1,4 @@
 
-// See https://stackoverflow.com/questions/71653128/use-of-generics-for-embedded-hal-structs
 
 use horloge::data::*;
 
@@ -8,6 +7,7 @@ use stm32f4xx_hal as hal;
 use hal::{pac, prelude::*};
 use panic_halt as _; // panic handler
 
+// See https://stackoverflow.com/questions/71653128/use-of-generics-for-embedded-hal-structs if we want to be generic
 pub struct Board {
     delay: hal::timer::SysDelay,
     rtc: hal::rtc::Rtc,
@@ -60,7 +60,7 @@ impl Board {
         }
     }
 
-    // light a LED for a small delay
+    // light a LED 
     pub fn light_led(&mut self, led: Option<LED>) {
         // light correct LED in matrix
         if let Some(l) = led {
@@ -80,8 +80,6 @@ impl Board {
             if column==4 {self.column5.set_high()} else {self.column5.set_low()};
             if column==5 {self.column6.set_high()} else {self.column6.set_low()};
         }
-
-        self.delay.delay_us(10 as u32);
     }
 
     /// this function returns the current time in RTC as H:M5:M (NOT H:M:S !) where
@@ -98,5 +96,10 @@ impl Board {
         let minute = if units >= 5 { units - 5 } else { units }; // min % 5
 
         (hour, min5, minute)
+    }
+
+    // delay a bit
+    pub fn delay_us(&mut self, nb : u32) {
+        self.delay.delay_us(nb);
     }
 }
