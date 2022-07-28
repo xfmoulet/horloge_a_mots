@@ -1,6 +1,7 @@
 // horloge a mots data - this is a generated file
 #[derive(Debug,Clone,Copy,PartialEq)]
 pub enum LED {
+    IlEst,
     Une,
     Deux,
     Trois,
@@ -25,12 +26,46 @@ pub enum LED {
     Le,
     Quart,
     Demie,
-    DesBananes,
+    EtDes,
+    Bananes,
     Dot1,
     Dot2,
     Dot3,
     Dot4,
 }
+pub static LED_POSITIONS : [(u8, u8);31] = [
+    (0,0), // IlEst
+    (1,1), // Une
+    (1,0), // Deux
+    (3,0), // Trois
+    (2,0), // Quatre
+    (5,1), // Cinq
+    (4,1), // Six
+    (2,1), // Sept
+    (3,1), // Huit
+    (0,1), // Neuf
+    (4,2), // Onze
+    (0,2), // Mi
+    (1,2), // Di
+    (2,2), // X
+    (3,2), // Minuit
+    (5,2), // Heure
+    (4,4), // S
+    (5,3), // Et
+    (0,3), // Moins
+    (3,3), // DixMin
+    (1,3), // Vingt
+    (2,3), // CinqMin
+    (4,3), // Le
+    (0,4), // Quart
+    (1,4), // Demie
+    (2,4), // EtDes
+    (0,5), // Bananes
+    (1,5), // Dot1
+    (2,5), // Dot2
+    (3,5), // Dot3
+    (4,5), // Dot4
+];
 // ---
 pub const NB_HOURS_LED : usize = 7;
 pub static HOURS_LED: [[Option<LED>;NB_HOURS_LED];24] = [
@@ -81,6 +116,6 @@ pub static MINUTES_LED: [[Option<LED>;NB_MINUTES_LED];5] = [
     [None, None, None, None, None, None, ],
     [Some(LED::Dot1), None, None, None, None, None, ],
     [Some(LED::Dot2), None, None, None, None, None, ],
-    [Some(LED::DesBananes), Some(LED::DesBananes), Some(LED::DesBananes), Some(LED::DesBananes), Some(LED::DesBananes), Some(LED::Dot3), ],
-    [Some(LED::DesBananes), Some(LED::DesBananes), Some(LED::DesBananes), Some(LED::DesBananes), Some(LED::DesBananes), Some(LED::Dot4), ],
+    [Some(LED::EtDes), Some(LED::EtDes), Some(LED::Bananes), Some(LED::Bananes), Some(LED::Bananes), Some(LED::Dot3), ],
+    [Some(LED::EtDes), Some(LED::EtDes), Some(LED::Bananes), Some(LED::Bananes), Some(LED::Bananes), Some(LED::Dot4), ],
 ];
