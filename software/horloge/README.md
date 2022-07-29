@@ -35,3 +35,44 @@
 - `src/data.rs`  : this is a generated file. It will contain the static correspondence tables for led multiplexing.
 - `src/board.rs` : handling all hardware-related functions. It is currently not a trait bout could be for testing (useful?), implements driving LEDs, reading time and waiting 
 - `src/main.rs`      : main file with high-level logic
+
+# Building / Installing
+
+- Installer rust
+- Ajouter la target ARM cortex-M
+
+```sh
+rustup target add thumbv7em-none-eabihf
+```
+- build
+```sh
+cargo build 
+size target/thumbv7m-none-eabi/release/horloge # to check size of binary
+```
+
+- install cargo flash
+
+> see https://github.com/probe-rs/cargo-flash 
+```sh
+# add libusb dependency
+apt install -y pkg-config libusb-1.0-0-dev 
+apt purge libusb-dev
+
+# install cargo flash
+cargo install cargo-flash                  
+```
+
+- setup permissions (linux)
+
+permissions to access usb probe: https://probe.rs/docs/getting-started/probe-setup/
+```sh
+sudo cp 69-probe-rs.rules /etc/udev/rules.d/
+udevadm control --reload
+udevadm trigger
+```
+
+- build AND transfer via adapter
+
+```sh
+cargo flash --chip stm32f410rbtX --release 
+```
