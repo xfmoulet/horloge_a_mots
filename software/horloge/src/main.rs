@@ -3,13 +3,13 @@
 
 mod board;
 
-use horloge::MAX_LEDS;
 use crate::board::Board;
 use horloge::led_multiplex;
+use horloge::MAX_LEDS;
 
 #[cortex_m_rt::entry]
-fn main() -> ! {    
-    let mut board  = Board::new();
+fn main() -> ! {
+    let mut board = Board::new();
     loop {
         let (hour, min5, minute) = board.time();
         for mux_tick in 0..MAX_LEDS {
