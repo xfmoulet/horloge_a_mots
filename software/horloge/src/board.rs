@@ -85,14 +85,14 @@ impl Board {
     /// this function returns the current time in RTC as H:M5:M (NOT H:M:S !) where
     ///     H is the hour 0-23
     ///     M5 is the 5-minutes number 0-11
-    ///     M is the minutes 0-4
+    ///     M is the remaining minutes 0-4
     pub fn time(&self) -> (u8, u8, u8) {
         // directly read register since we dont need date, sync
         let tr = self.rtc.regs.tr.read();
 
         let hour = tr.ht().bits() * 10 + tr.hu().bits();
-        let min5 = tr.mnt().bits() * 2 + (if tr.mnu().bits() >= 5 { 1 } else { 0 });
-        let units = tr.mnu().bits();
+        let units = tr.mnu().bits(); // 0-9
+        let min5 = tr.mnt().bits() * 2 + (if units >= 5 { 1 } else { 0 });
         let minute = if units >= 5 { units - 5 } else { units }; // min % 5
 
         (hour, min5, minute)
