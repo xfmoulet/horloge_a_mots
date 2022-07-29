@@ -1,5 +1,3 @@
-
-
 use horloge::data::*;
 
 use stm32f4xx_hal as hal;
@@ -12,19 +10,19 @@ pub struct Board {
     delay: hal::timer::SysDelay,
     rtc: hal::rtc::Rtc,
 
-    line1: hal::gpio::Pin<'A',0,hal::gpio::Output>,
-    line2: hal::gpio::Pin<'A',1,hal::gpio::Output>,
-    line3: hal::gpio::Pin<'A',2,hal::gpio::Output>,
-    line4: hal::gpio::Pin<'A',3,hal::gpio::Output>,
-    line5: hal::gpio::Pin<'A',4,hal::gpio::Output>,
-    line6: hal::gpio::Pin<'B',7,hal::gpio::Output>,
+    line1: hal::gpio::Pin<'A', 0, hal::gpio::Output>,
+    line2: hal::gpio::Pin<'A', 1, hal::gpio::Output>,
+    line3: hal::gpio::Pin<'A', 2, hal::gpio::Output>,
+    line4: hal::gpio::Pin<'A', 3, hal::gpio::Output>,
+    line5: hal::gpio::Pin<'A', 4, hal::gpio::Output>,
+    line6: hal::gpio::Pin<'B', 7, hal::gpio::Output>,
 
-    column1: hal::gpio::Pin<'B',3,hal::gpio::Output>,
-    column2: hal::gpio::Pin<'A',11,hal::gpio::Output>,
-    column3: hal::gpio::Pin<'B',0,hal::gpio::Output>,
-    column4: hal::gpio::Pin<'A',7,hal::gpio::Output>,
-    column5: hal::gpio::Pin<'A',6,hal::gpio::Output>,
-    column6: hal::gpio::Pin<'B',5,hal::gpio::Output>,
+    column1: hal::gpio::Pin<'B', 3, hal::gpio::Output>,
+    column2: hal::gpio::Pin<'A', 11, hal::gpio::Output>,
+    column3: hal::gpio::Pin<'B', 0, hal::gpio::Output>,
+    column4: hal::gpio::Pin<'A', 7, hal::gpio::Output>,
+    column5: hal::gpio::Pin<'A', 6, hal::gpio::Output>,
+    column6: hal::gpio::Pin<'B', 5, hal::gpio::Output>,
 }
 
 impl Board {
@@ -40,7 +38,7 @@ impl Board {
         let rcc = dp.RCC.constrain();
         let clocks = rcc.cfgr.sysclk(48.MHz()).freeze();
 
-        Board{
+        Board {
             line1: gpioa.pa0.into_push_pull_output(),
             line2: gpioa.pa1.into_push_pull_output(),
             line3: gpioa.pa2.into_push_pull_output(),
@@ -55,31 +53,33 @@ impl Board {
             column5: gpioa.pa6.into_push_pull_output(),
             column6: gpiob.pb5.into_push_pull_output(),
 
-            delay:cp.SYST.delay(&clocks),
+            delay: cp.SYST.delay(&clocks),
             rtc: hal::rtc::Rtc::<hal::rtc::Lse>::new(dp.RTC, &mut dp.PWR), // lots of ':'
         }
     }
 
-    // light a LED 
+    // light a LED
     pub fn light_led(&mut self, led: Option<LED>) {
         // light correct LED in matrix
-        if let Some(l) = led {
-            let (line, column) = LED_POSITIONS[l as usize];
+        let (line, column) = if let Some(l) = led {
+            LED_POSITIONS[l as usize]
+        } else {
+            (255, 255) // different from everything, will switch all LEDs off
+        };
 
-            if line==0 {self.line1.set_high()} else {self.line1.set_low()};
-            if line==1 {self.line2.set_high()} else {self.line2.set_low()};
-            if line==2 {self.line3.set_high()} else {self.line3.set_low()};
-            if line==3 {self.line4.set_high()} else {self.line4.set_low()};
-            if line==4 {self.line5.set_high()} else {self.line5.set_low()};
-            if line==5 {self.line6.set_high()} else {self.line6.set_low()};
+        if line == 0 { self.line1.set_high() } else { self.line1.set_low() };
+        if line == 1 { self.line2.set_high() } else { self.line2.set_low() };
+        if line == 2 { self.line3.set_high() } else { self.line3.set_low() };
+        if line == 3 { self.line4.set_high() } else { self.line4.set_low() };
+        if line == 4 { self.line5.set_high() } else { self.line5.set_low() };
+        if line == 5 { self.line6.set_high() } else { self.line6.set_low() };
 
-            if column==0 {self.column1.set_high()} else {self.column1.set_low()};
-            if column==1 {self.column2.set_high()} else {self.column2.set_low()};
-            if column==2 {self.column3.set_high()} else {self.column3.set_low()};
-            if column==3 {self.column4.set_high()} else {self.column4.set_low()};
-            if column==4 {self.column5.set_high()} else {self.column5.set_low()};
-            if column==5 {self.column6.set_high()} else {self.column6.set_low()};
-        }
+        if column == 0 { self.column1.set_high() } else {self.column1.set_low() };
+        if column == 1 { self.column2.set_high() } else {self.column2.set_low() };
+        if column == 2 { self.column3.set_high() } else {self.column3.set_low() };
+        if column == 3 { self.column4.set_high() } else {self.column4.set_low() };
+        if column == 4 { self.column5.set_high() } else {self.column5.set_low() };
+        if column == 5 { self.column6.set_high() } else {self.column6.set_low() };
     }
 
     /// this function returns the current time in RTC as H:M5:M (NOT H:M:S !) where
@@ -99,7 +99,7 @@ impl Board {
     }
 
     // delay a bit
-    pub fn delay_us(&mut self, nb : u32) {
+    pub fn delay_us(&mut self, nb: u32) {
         self.delay.delay_us(nb);
     }
 }

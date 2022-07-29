@@ -1,14 +1,14 @@
 #![no_std]
 /*
- This lib is responsible for handling the logic of multiplexing the LEDs.
+This lib is responsible for handling the logic of multiplexing the LEDs.
 
 
- */
+*/
 
 pub mod data;
 use crate::data::*;
 
-pub const MAX_LEDS: usize = NB_HOURS_LED + NB_MIN5_LED + NB_MINUTES_LED; // max LEDs "at a time" (ie muxed) 
+pub const MAX_LEDS: usize = NB_HOURS_LED + NB_MIN5_LED + NB_MINUTES_LED; // max LEDs "at a time" (ie muxed)
 
 // for a given mux tick / hour, return the LED to illuminate
 pub fn led_multiplex(mux_tick: usize, hour: u8, min5: u8, minute: u8) -> Option<LED> {
@@ -82,5 +82,3 @@ mod tests {
         }
     }
 }
-
-
