@@ -103,14 +103,24 @@ static MINUTES_LED: [&str; 5] = [
     "EtDes Bananes Dot4",
 ];
 
+
+// Code Gen ------------------------------------------------------------------------------------
+
 // Write to a file the table of option<LED>s (with name `title`, of `max_leds` size) from a list of strings (`elts`), repeating the LEDs accordingly to the durations table
 fn write_elements<'a>(
     file: &mut File,
     title: &str,
-    max_leds: usize,
     elts: &[&'a str],
     durations: &HashMap<&str, usize>,
 ) {
+
+    let max_leds = elts.iter().map(|s| 
+        if !s.is_empty() { 
+            s.split(' ').map(|word| *durations.get(word).unwrap()).sum()
+        } else {
+            0
+        }).fold(0, |a,b| a.max(b));
+
     writeln!(file, "pub const NB_{} : usize = {};", title, max_leds).unwrap();
     writeln!(
         file,
@@ -198,9 +208,9 @@ fn main() {
 
     // LED hours tables
     writeln!(&mut file, "// ---").unwrap();
-    write_elements(&mut file, "HOURS_LED", 7, &HOURS_LED, &led_durations);
+    write_elements(&mut file, "HOURS_LED", &HOURS_LED, &led_durations);
     writeln!(&mut file, "// ---").unwrap();
-    write_elements(&mut file, "MIN5_LED", 8, &MINUTES_5_LED, &led_durations);
+    write_elements(&mut file, "MIN5_LED",  &MINUTES_5_LED, &led_durations);
     writeln!(&mut file, "// ---").unwrap();
-    write_elements(&mut file, "MINUTES_LED", 6, &MINUTES_LED, &led_durations);
+    write_elements(&mut file, "MINUTES_LED",  &MINUTES_LED, &led_durations);
 }
