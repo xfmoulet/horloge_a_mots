@@ -23,10 +23,13 @@
     - some LED signals need to be "on" for several ticks to appear as bright as the ones that are split between several LEDs
     - computations show that we need 32 leds ticks max. By example we will not light "one", "two" , "three" simultaneously. but any combinations of hours will be output with any computations of minutes.
     - If we have 32 LED ticks (see hereafter) and we output a LED every tick, we need to be fast to not flicker.
+    - In order to light a LED, we set the line (anod) as high, columns (cathods) to LOW. Reverse voltage of 3.3v is within spec.
 
 - To be fast, we pre-generate some `hour:minute -> array (line / column) of LEDs to turn on` tables in flash
     - In rust, this is done using a `build.rs` script
     - since those (hours, 5 minute, minutes) tables are independent we can generate several smaller tables in flash/ROM
+
+> mini board : to test, a 4x2 board with 8 LEDs can be generated. Use the mini_board feature in Cargo.toml defaults
 
 ## Files
 

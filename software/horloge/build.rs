@@ -5,6 +5,9 @@ use std::collections::HashMap;
 use std::fs::File;
 use std::io::Write;
 
+// Big Panel ------------------------------------------------------------------------------------
+
+#[cfg(feature="big_panel")]
 // used for placement
 static LED_PANEL: [&str; 6] = [
     "IlEst Deux Quatre Trois",
@@ -15,6 +18,7 @@ static LED_PANEL: [&str; 6] = [
     "Bananes Dot1 Dot2 Dot3 Dot4", // Alt: use "presque"
 ];
 
+#[cfg(feature="big_panel")]
 static LED_DURATIONS: [(&str, usize); 31] = [
     ("IlEst", 3),
     ("Une", 1),
@@ -51,6 +55,7 @@ static LED_DURATIONS: [(&str, usize); 31] = [
 
 // TODO try other durations patterns to reach 16 Max ?
 // Correspondence bewteen 0-23 hour and corresponding LEDs to illuminate
+#[cfg(feature="big_panel")]
 static HOURS_LED: [&str; 24] = [
     "Minuit",
     "Une Heure",
@@ -79,6 +84,7 @@ static HOURS_LED: [&str; 24] = [
 ];
 
 // Correspondence between 0-11 5-minutes packs and LEDs
+#[cfg(feature="big_panel")]
 static MINUTES_5_LED: [&str; 12] = [
     "",
     "CinqMin",
@@ -95,6 +101,7 @@ static MINUTES_5_LED: [&str; 12] = [
 ];
 
 // Correspondence between 0-5 remaining minute and LEDs
+#[cfg(feature="big_panel")]
 static MINUTES_LED: [&str; 5] = [
     "",
     "Dot1",
@@ -103,6 +110,56 @@ static MINUTES_LED: [&str; 5] = [
     "EtDes Bananes Dot4",
 ];
 
+// Mini Panel (4x2) ------------------------------------------------------------------------------------
+
+#[cfg(feature="mini_panel")]
+// used for placement
+static LED_PANEL: [&str;4] = [
+    "Moins Vingt",
+    "CinqMin DixMin",
+    "Le Et",
+    "Quart Demie",
+];
+
+#[cfg(feature="mini_panel")]
+static LED_DURATIONS: [(&str, usize); 8] = [
+    ("Et", 1),
+    ("Moins", 1),
+    ("DixMin", 1),
+    ("Vingt", 1),
+    ("CinqMin", 1),
+    ("Le", 1),
+    ("Quart", 1),
+    ("Demie", 1),
+];
+
+// TODO try other durations patterns to reach 16 Max ?
+// Correspondence bewteen 0-23 hour and corresponding LEDs to illuminate
+#[cfg(feature="mini_panel")]
+static HOURS_LED: [&str; 0] = [
+];
+
+// Correspondence between 0-11 5-minutes packs and LEDs
+#[cfg(feature="mini_panel")]
+static MINUTES_5_LED: [&str; 12] = [
+    "",
+    "CinqMin",
+    "DixMin",
+    "Et Quart",
+    "Vingt",
+    "Vingt CinqMin",
+    "Et Demie",
+    "Moins Vingt CinqMin",
+    "Moins Vingt",
+    "Moins Le Quart",
+    "Moins DixMin",
+    "Moins CinqMin",
+];
+
+// Correspondence between 0-5 remaining minute and LEDs
+#[cfg(feature="mini_panel")]
+static MINUTES_LED: [&str; 0] = [
+];
 
 // Code Gen ------------------------------------------------------------------------------------
 
