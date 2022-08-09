@@ -5,7 +5,7 @@ Par Charlotte, Gil, Sebastien, Florent, François-Xavier, Xavier-Frédéric...
 
 - Gitlab: https://gitlab.tech.orange/coderoom-atalante/jeudis-electronique/horloge-a-mots
 - EasyEDA: https://easyeda.com/editor#id=7d74d455c30843a59e121c8b445ea3cb|077fc49e57d04595857739c424e2151a
-- Easel: https://easel.inventables.com/projects/V98n_mdxueLtMtyQ1k6LNg
+- Easel: https://easel.inventables.com/projects/dvpuCEvz0pOS_8ivUtRTIw
 - Page STM32G030F6: https://www.st.com/en/microcontrollers-microprocessors/stm32g030f6.html
 - Datasheet: https://www.st.com/resource/en/datasheet/stm32g030f6.pdf
 
