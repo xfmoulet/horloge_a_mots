@@ -67,6 +67,7 @@ impl Board {
             (255, 255) // different from everything, will switch all LEDs off
         };
 
+        // Lines = Anods ; on = high else low
         if line == 0 { self.line1.set_high() } else { self.line1.set_low() };
         if line == 1 { self.line2.set_high() } else { self.line2.set_low() };
         if line == 2 { self.line3.set_high() } else { self.line3.set_low() };
@@ -74,12 +75,13 @@ impl Board {
         if line == 4 { self.line5.set_high() } else { self.line5.set_low() };
         if line == 5 { self.line6.set_high() } else { self.line6.set_low() };
 
-        if column == 0 { self.column1.set_high() } else {self.column1.set_low() };
-        if column == 1 { self.column2.set_high() } else {self.column2.set_low() };
-        if column == 2 { self.column3.set_high() } else {self.column3.set_low() };
-        if column == 3 { self.column4.set_high() } else {self.column4.set_low() };
-        if column == 4 { self.column5.set_high() } else {self.column5.set_low() };
-        if column == 5 { self.column6.set_high() } else {self.column6.set_low() };
+        // Columns = Cathod ; on = low else high
+        if column == 0 { self.column1.set_low() } else {self.column1.set_high() };
+        if column == 1 { self.column2.set_low() } else {self.column2.set_high() };
+        if column == 2 { self.column3.set_low() } else {self.column3.set_high() };
+        if column == 3 { self.column4.set_low() } else {self.column4.set_high() };
+        if column == 4 { self.column5.set_low() } else {self.column5.set_high() };
+        if column == 5 { self.column6.set_low() } else {self.column6.set_high() };
     }
 
     /// this function returns the current time in RTC as H:M5:M (NOT H:M:S !) where
