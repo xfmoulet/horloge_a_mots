@@ -1,8 +1,8 @@
 #![no_std]
 #![no_main]
 
-extern crate panic_halt;
-use arduino_hal::prelude::*;
+use panic_halt as _;
+//use arduino_hal::prelude::*;
 use arduino_hal::port::mode::Output;
 use arduino_hal::hal::port::PB5;
 

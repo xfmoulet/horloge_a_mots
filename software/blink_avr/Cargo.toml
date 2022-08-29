@@ -11,8 +11,6 @@ panic-halt = "0.2.0"
 git = "https://github.com/Rahix/avr-hal"
 features = ["arduino-nano"]
 
-
 [profile.release]
-panic = "abort"
 lto = true
 opt-level = "s"
