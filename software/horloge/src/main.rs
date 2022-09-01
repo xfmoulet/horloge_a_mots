@@ -11,7 +11,7 @@ use horloge::MAX_LEDS;
 fn main() -> ! {
     let mut board = Board::new();
     loop {
-        board.tick32kHz(); // NO FIXME
+        board.update_time();
         let (hour, min5, minute) = board.time();
         for mux_tick in 0..MAX_LEDS {
             let led = led_multiplex(mux_tick, hour, min5, minute);
