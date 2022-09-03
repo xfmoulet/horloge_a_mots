@@ -30,7 +30,7 @@ $102 = 188.443 (z, step/mm)
 # Gugi.zip 
 la police utilisé pour l'horloge
 
-# FINALhorlogeSVG
+# FINALhorlogeSVG.zip
 l'export du projet easel
 
 # compte easel 
