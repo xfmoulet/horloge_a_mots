@@ -37,7 +37,7 @@ pub fn led_multiplex(mux_tick: usize, hour: u8, min5: u8, minute: u8) -> Option<
 
 // TODO move to rustdoc tests since they dont support specific target ?
 // if we want to test those, disable  .cargo/config settings
-#[cfg( all(test, feature="big_panel" ))]
+#[cfg(all(test, feature = "big_panel"))]
 mod tests {
     use crate::*;
 

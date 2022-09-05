@@ -7,7 +7,7 @@ use std::io::Write;
 
 // Big Panel ------------------------------------------------------------------------------------
 
-#[cfg(feature="big_panel")]
+#[cfg(feature = "big_panel")]
 // used for placement
 static LED_PANEL: [&str; 6] = [
     "IlEst Deux Quatre Trois",
@@ -18,7 +18,7 @@ static LED_PANEL: [&str; 6] = [
     "Bananes Dot1 Dot2 Dot3 Dot4", // Alt: use "presque"
 ];
 
-#[cfg(feature="big_panel")]
+#[cfg(feature = "big_panel")]
 static LED_DURATIONS: [(&str, usize); 31] = [
     ("IlEst", 3),
     ("Une", 1),
@@ -55,7 +55,7 @@ static LED_DURATIONS: [(&str, usize); 31] = [
 
 // TODO try other durations patterns to reach 16 Max ?
 // Correspondence bewteen 0-23 hour and corresponding LEDs to illuminate
-#[cfg(feature="big_panel")]
+#[cfg(feature = "big_panel")]
 static HOURS_LED: [&str; 24] = [
     "Minuit",
     "Une Heure",
@@ -84,7 +84,7 @@ static HOURS_LED: [&str; 24] = [
 ];
 
 // Correspondence between 0-11 5-minutes packs and LEDs
-#[cfg(feature="big_panel")]
+#[cfg(feature = "big_panel")]
 static MINUTES_5_LED: [&str; 12] = [
     "",
     "CinqMin",
@@ -101,7 +101,7 @@ static MINUTES_5_LED: [&str; 12] = [
 ];
 
 // Correspondence between 0-5 remaining minute and LEDs
-#[cfg(feature="big_panel")]
+#[cfg(feature = "big_panel")]
 static MINUTES_LED: [&str; 5] = [
     "",
     "Dot1",
@@ -112,16 +112,11 @@ static MINUTES_LED: [&str; 5] = [
 
 // Mini Panel (4x2) ------------------------------------------------------------------------------------
 
-#[cfg(feature="mini_panel")]
+#[cfg(feature = "mini_panel")]
 // used for placement
-static LED_PANEL: [&str;4] = [
-    "Moins Vingt",
-    "CinqMin DixMin",
-    "Le Et",
-    "Quart Demie",
-];
+static LED_PANEL: [&str; 4] = ["Moins Vingt", "CinqMin DixMin", "Le Et", "Quart Demie"];
 
-#[cfg(feature="mini_panel")]
+#[cfg(feature = "mini_panel")]
 static LED_DURATIONS: [(&str, usize); 8] = [
     ("Et", 1),
     ("Moins", 1),
@@ -135,12 +130,11 @@ static LED_DURATIONS: [(&str, usize); 8] = [
 
 // TODO try other durations patterns to reach 16 Max ?
 // Correspondence bewteen 0-23 hour and corresponding LEDs to illuminate
-#[cfg(feature="mini_panel")]
-static HOURS_LED: [&str; 0] = [
-];
+#[cfg(feature = "mini_panel")]
+static HOURS_LED: [&str; 0] = [];
 
 // Correspondence between 0-11 5-minutes packs and LEDs
-#[cfg(feature="mini_panel")]
+#[cfg(feature = "mini_panel")]
 static MINUTES_5_LED: [&str; 12] = [
     "",
     "CinqMin",
@@ -157,9 +151,8 @@ static MINUTES_5_LED: [&str; 12] = [
 ];
 
 // Correspondence between 0-5 remaining minute and LEDs
-#[cfg(feature="mini_panel")]
-static MINUTES_LED: [&str; 0] = [
-];
+#[cfg(feature = "mini_panel")]
+static MINUTES_LED: [&str; 0] = [];
 
 // Code Gen ------------------------------------------------------------------------------------
 
@@ -170,13 +163,16 @@ fn write_elements<'a>(
     elts: &[&'a str],
     durations: &HashMap<&str, usize>,
 ) {
-
-    let max_leds = elts.iter().map(|s| 
-        if !s.is_empty() { 
-            s.split(' ').map(|word| *durations.get(word).unwrap()).sum()
-        } else {
-            0
-        }).fold(0, |a,b| a.max(b));
+    let max_leds = elts
+        .iter()
+        .map(|s| {
+            if !s.is_empty() {
+                s.split(' ').map(|word| *durations.get(word).unwrap()).sum()
+            } else {
+                0
+            }
+        })
+        .fold(0, |a, b| a.max(b));
 
     writeln!(file, "pub const NB_{} : usize = {};", title, max_leds).unwrap();
     writeln!(
@@ -267,7 +263,7 @@ fn main() {
     writeln!(&mut file, "// ---").unwrap();
     write_elements(&mut file, "HOURS_LED", &HOURS_LED, &led_durations);
     writeln!(&mut file, "// ---").unwrap();
-    write_elements(&mut file, "MIN5_LED",  &MINUTES_5_LED, &led_durations);
+    write_elements(&mut file, "MIN5_LED", &MINUTES_5_LED, &led_durations);
     writeln!(&mut file, "// ---").unwrap();
-    write_elements(&mut file, "MINUTES_LED",  &MINUTES_LED, &led_durations);
+    write_elements(&mut file, "MINUTES_LED", &MINUTES_LED, &led_durations);
 }
