@@ -1,8 +1,7 @@
 #![no_std]
 /*
 This lib is responsible for handling the logic of multiplexing the LEDs.
-
-
+It uses the data generated in data.rs
 */
 
 pub mod data;

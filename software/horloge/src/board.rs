@@ -21,7 +21,7 @@ const PRESCALER: u32 = 1024; // also check clock setup
 const ROLLOVER_SECONDS: u32 = 1;
 const ROLLOVER_TICKS: u32 = 32768 / PRESCALER * ROLLOVER_SECONDS + 1;
 
-const _: () = assert!(ROLLOVER_TICKS < 255); // we compute but check
+const _: () = assert!(ROLLOVER_TICKS < 255); // we compute but check at build time
 const _: () = assert!(60 % ROLLOVER_SECONDS == 0);
 
 // use a https://docs.rust-embedded.org/book/peripherals/singletons.html ?
@@ -40,7 +40,7 @@ pub struct Board {
     column5: atmega_hal::port::Pin<Output, PC4>,
     column6: atmega_hal::port::Pin<Output, PC5>,
 
-    tick: u8, // 32Hz if presecaled 1024
+    tick: u8, // past value of the timer, updated at 32Hz if presecaled by 1024
 
     second: u8,
     hour: u8,
@@ -69,14 +69,15 @@ impl Board {
                 //.prescale_256()
                 .variant(CS2_A::PRESCALE_1024)
                 .wgm22()
-                .bit(true) // TODO: understand
+                .bit(true) // TODO: what is wgm22 ? 
         });
+
         timer
             .ocr2a
             .write(|w| unsafe { w.bits(ROLLOVER_TICKS as u8) });
-        // TODO also set up the timer src on ext clock
+        // TODO also set up the timer src on EXT OSC - timer ! 
 
-        // Set up the system clock: keep default internal RC@8MHz
+        // System clock: keep default internal RC@8MHz
 
         // for interrupt based ticks, see https://blog.rahix.de/005-avr-hal-millis/
 
@@ -195,7 +196,7 @@ impl Board {
         self.delay.delay_us(us)
     }
 
-    // to be called faster than ROLLOVER_SECONDS. main thread, not interrupt
+    // to be called faster than ROLLOVER_SECONDS. main thread, not in an interrupt
     pub fn update_time(&mut self) {
         let counter_value = self.timer.tcnt2.read().bits();
 

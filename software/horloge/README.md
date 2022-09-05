@@ -15,7 +15,8 @@
 - See clock tree in reference manual, page 124
 - We have one 32768 Hz crystal. We cannot use this crystal for main clock : if we want to use it as main clock the whole microcontroller (MCU) will be driven at 32kHz and NOT a multiple of it using the PLL. This is very slow.
 - As a consequence we will use the internal (not precise, fast) 8MHz clock for running the program and display the LED but not update the clock
-- Update of the clock will be done in hardware by the RTC device : (page 650 of reference manual), reading from `RTC_TR` (stored in BCD!), driven by the Crystal (precise)
+- Update of the clock will be done using a timer driven by the Crystal (precise), see `board.rs` file, method `update_time`
+
 
 ## LED display
 
@@ -38,44 +39,3 @@
 - `src/data.rs`  : this is a generated file. It will contain the static correspondence tables for led multiplexing.
 - `src/board.rs` : handling all hardware-related functions. It is currently not a trait bout could be for testing (useful?), implements driving LEDs, reading time and waiting 
 - `src/main.rs`      : main file with high-level logic
-
-# Building / Installing
-
-- Installer rust
-- Ajouter la target ARM cortex-M
-
-```sh
-rustup target add thumbv7em-none-eabihf
-```
-- build
-```sh
-cargo build 
-size target/thumbv7m-none-eabi/release/horloge # to check size of binary
-```
-
-- install cargo flash
-
-> see https://github.com/probe-rs/cargo-flash 
-```sh
-# add libusb dependency
-apt install -y pkg-config libusb-1.0-0-dev 
-apt purge libusb-dev
-
-# install cargo flash
-cargo install cargo-flash                  
-```
-
-- setup permissions (linux)
-
-permissions to access usb probe: https://probe.rs/docs/getting-started/probe-setup/
-```sh
-sudo cp 69-probe-rs.rules /etc/udev/rules.d/
-udevadm control --reload
-udevadm trigger
-```
-
-- build AND transfer via adapter
-
-```sh
-cargo flash --chip stm32f410rbtX --release 
-```
