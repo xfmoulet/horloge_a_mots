@@ -19,6 +19,7 @@ rustup override set nightly
 
 ### flashing 
 
-	avrdude -q -C/etc/avrdude.conf -patmega328p -carduino -P/dev/ttyACM0 -D "-Uflash:w:$1:e"
-(see also https://github.com/Rahix/avr-hal/tree/main/ravedude ?)
+	avrdude -patmega328p -carduino -P /dev/ttyUSB0 -b57600 -D -Uflash:w:target/avr-atmega328p/release/blink_avr.elf:e
 
+
+(see also https://github.com/Rahix/avr-hal/tree/main/ravedude ?)
