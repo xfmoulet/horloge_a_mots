@@ -19,6 +19,6 @@ git = "https://github.com/Rahix/avr-hal"
 features = ["atmega328p"]
 
 [features]
-default = ["big_panel"]
+default = ["mini_panel"]
 big_panel=[]
 mini_panel=[]

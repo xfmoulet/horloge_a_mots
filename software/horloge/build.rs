@@ -114,18 +114,25 @@ static MINUTES_LED: [&str; 5] = [
 
 #[cfg(feature = "mini_panel")]
 // used for placement
-static LED_PANEL: [&str; 4] = ["Moins Vingt", "CinqMin DixMin", "Le Et", "Quart Demie"];
+static LED_PANEL: [&str;6] = [
+"x1 x2",
+"x3 x4",
+"L1 L2", 
+"L3 L4", 
+"L5 L6", 
+"L7 L8"
+];
 
 #[cfg(feature = "mini_panel")]
 static LED_DURATIONS: [(&str, usize); 8] = [
-    ("Et", 1),
-    ("Moins", 1),
-    ("DixMin", 1),
-    ("Vingt", 1),
-    ("CinqMin", 1),
-    ("Le", 1),
-    ("Quart", 1),
-    ("Demie", 1),
+    ("L1", 1),
+    ("L2", 4),
+    ("L3", 1),
+    ("L4", 1),
+    ("L5", 1),
+    ("L6", 1),
+    ("L7", 1),
+    ("L8", 1),
 ];
 
 // TODO try other durations patterns to reach 16 Max ?
@@ -136,18 +143,18 @@ static HOURS_LED: [&str; 0] = [];
 // Correspondence between 0-11 5-minutes packs and LEDs
 #[cfg(feature = "mini_panel")]
 static MINUTES_5_LED: [&str; 12] = [
-    "",
-    "CinqMin",
-    "DixMin",
-    "Et Quart",
-    "Vingt",
-    "Vingt CinqMin",
-    "Et Demie",
-    "Moins Vingt CinqMin",
-    "Moins Vingt",
-    "Moins Le Quart",
-    "Moins DixMin",
-    "Moins CinqMin",
+    "L1",
+    "L3",
+    "L5",
+    "L7",
+    "L8",
+    "L6",
+    "L4",
+    "L2",
+    "L1 L2",
+    "L1 L2 L3 L4",
+    "L1 L2 L3 L4 L5 L6",
+    "L1 L2 L3 L4 L5 L6 L7 L8",
 ];
 
 // Correspondence between 0-5 remaining minute and LEDs
