@@ -2,7 +2,7 @@
 #![no_main]
 
 use panic_halt as _;
-//use arduino_hal::prelude::*;
+
 use arduino_hal::port::mode::Output;
 use arduino_hal::hal::port::PB5;
 
@@ -22,6 +22,6 @@ fn main() -> ! {
     let mut led = pins.d13.into_output();
 
     loop {
-        stutter_blink(&mut led, 25);
+        stutter_blink(&mut led, 25);        
     }
 }
