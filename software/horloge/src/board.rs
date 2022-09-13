@@ -25,7 +25,102 @@ const _: () = assert!(ROLLOVER_TICKS < 255); // we compute but check at build ti
 const _: () = assert!(60 % ROLLOVER_SECONDS == 0);
 
 // use a https://docs.rust-embedded.org/book/peripherals/singletons.html ?
-pub struct Board {
+pub struct BoardTimer {
+    tick: u16, // past value of the timer, updated at 32Hz if presecaled by 1024
+
+    second: u8,
+    hour: u8,
+    min5: u8,
+    minute: u8,
+
+    delay: Delay<ClockSpeed>,
+}
+
+impl BoardTimer {
+    pub fn new(timer: TC2) -> BoardTimer {
+        // Set up async timer tc2
+        // https://github.com/Rahix/avr-hal/blob/main/examples/arduino-uno/src/bin/uno-timer.rs
+
+        timer.tccr2a.write(|w| w.wgm2().bits(0b00)); // TODO: understand
+        timer.tccr2b.write(|w| {
+            // TODO: understand
+            w.cs2()
+                //.prescale_256()
+                .variant(CS2_A::PRESCALE_1024)
+                .wgm22()
+                .bit(true) // TODO: what is wgm22 ?
+        });
+
+        timer
+            .ocr2a
+            .write(|w| unsafe { w.bits(ROLLOVER_TICKS as u8) });
+        // TODO also set up the timer src on EXT OSC - timer !
+
+        // System clock: keep default internal RC@8MHz
+
+        // for interrupt based ticks, see https://blog.rahix.de/005-avr-hal-millis/
+
+        BoardTimer {
+            tick: 0,
+
+            second: 0,
+            minute: 0,
+            min5: 0,
+            hour: 0,
+
+            delay: Delay::new(),
+        }
+    }
+
+    /// this function returns the current time in RTC as H:M5:M (NOT H:M:S !) where
+    ///     H is the hour 0-23
+    ///     M5 is the 5-minutes number 0-11
+    ///     M is the remaining minutes 0-4
+    pub fn time(&self) -> (u8, u8, u8) {
+        (self.hour, self.min5, self.minute)
+    }
+
+    /// delay a bit
+    pub fn delay_us(&mut self, us: u16) {
+        self.delay.delay_us(us)
+    }
+
+    // to be called faster than ROLLOVER_SECONDS. main thread, not in an interrupt
+    pub fn update_time(&mut self) {
+        /*
+        let counter_value = self.timer.tcnt2.read().bits();
+
+        if self.tick < counter_value {
+            // we looped, so rollover has passed, update N seconds
+            self.second += (60 / ROLLOVER_SECONDS) as u8;
+        }
+        self.tick = counter_value;
+        */
+        self.tick += 1;
+        if self.tick >= 5 {
+            self.tick = 0;
+            self.second += 1;
+        }
+
+        if self.second >= 60 {
+            self.minute += 1;
+            self.second = 0;
+        }
+        if self.minute >= 5 {
+            self.minute -= 5;
+            self.min5 += 1;
+        }
+        if self.min5 >= 12 {
+            self.min5 -= 12;
+            self.hour += 1;
+        }
+        if self.hour >= 24 {
+            self.hour -= 24;
+        }
+    }
+}
+
+pub struct BoardLEDs {
     line1: atmega_hal::port::Pin<Output, PD0>,
     line2: atmega_hal::port::Pin<Output, PD1>,
     line3: atmega_hal::port::Pin<Output, PD2>,
@@ -39,49 +134,11 @@ pub struct Board {
     column4: atmega_hal::port::Pin<Output, PC3>,
     column5: atmega_hal::port::Pin<Output, PC4>,
     column6: atmega_hal::port::Pin<Output, PC5>,
-
-    tick: u8, // past value of the timer, updated at 32Hz if presecaled by 1024
-
-    second: u8,
-    hour: u8,
-    min5: u8,
-    minute: u8,
-
-    delay: Delay<ClockSpeed>,
-    timer: TC2,
 }
 
-impl Board {
-    pub fn new() -> Board {
-        let peripherals = atmega_hal::Peripherals::take().unwrap();
-
-        // Set up the LEDs
-        let pins = atmega_hal::pins!(peripherals);
-
-        // Set up async timer tc2
-        // https://github.com/Rahix/avr-hal/blob/main/examples/arduino-uno/src/bin/uno-timer.rs
-
-        let timer: TC2 = peripherals.TC2;
-        timer.tccr2a.write(|w| w.wgm2().bits(0b00)); // TODO: understand
-        timer.tccr2b.write(|w| {
-            // TODO: understand
-            w.cs2()
-                //.prescale_256()
-                .variant(CS2_A::PRESCALE_1024)
-                .wgm22()
-                .bit(true) // TODO: what is wgm22 ? 
-        });
-
-        timer
-            .ocr2a
-            .write(|w| unsafe { w.bits(ROLLOVER_TICKS as u8) });
-        // TODO also set up the timer src on EXT OSC - timer ! 
-
-        // System clock: keep default internal RC@8MHz
-
-        // for interrupt based ticks, see https://blog.rahix.de/005-avr-hal-millis/
-
-        Board {
+impl BoardLEDs {
+    pub fn new(pins: atmega_hal::Pins) -> BoardLEDs {
+        BoardLEDs {
             line1: pins.pd0.into_output(),
             line2: pins.pd1.into_output(),
             line3: pins.pd2.into_output(),
@@ -95,16 +152,6 @@ impl Board {
             column4: pins.pc3.into_output(),
             column5: pins.pc4.into_output(),
             column6: pins.pc5.into_output(),
-
-            tick: 0,
-
-            second: 0,
-            minute: 0,
-            min5: 0,
-            hour: 0,
-
-            delay: Delay::new(),
-            timer: timer,
         }
     }
 
@@ -112,7 +159,7 @@ impl Board {
     /// light a LED on the matrix
     pub fn light_led(&mut self, led: Option<LED>) {
         // light correct LED in matrix
-        let (line, column) = if let Some(l) = led {
+        let (column, line) = if let Some(l) = led {
             LED_POSITIONS[l as usize]
         } else {
             (255, 255) // different from everything, will switch all LEDs off
@@ -182,44 +229,12 @@ impl Board {
             self.column6.set_high()
         };
     }
+}
 
-    /// this function returns the current time in RTC as H:M5:M (NOT H:M:S !) where
-    ///     H is the hour 0-23
-    ///     M5 is the 5-minutes number 0-11
-    ///     M is the remaining minutes 0-4
-    pub fn time(&self) -> (u8, u8, u8) {
-        (self.hour, self.min5, self.minute)
-    }
-
-    /// delay a bit
-    pub fn delay_us(&mut self, us: u16) {
-        self.delay.delay_us(us)
-    }
-
-    // to be called faster than ROLLOVER_SECONDS. main thread, not in an interrupt
-    pub fn update_time(&mut self) {
-        let counter_value = self.timer.tcnt2.read().bits();
-
-        if self.tick < counter_value {
-            // we looped, so rollover has passed, update N seconds
-            self.second += (60 / ROLLOVER_SECONDS) as u8;
-        }
-        self.tick = counter_value;
-
-        if self.second >= 60 {
-            self.minute += 1;
-            self.second = 0;
-        }
-        if self.minute >= 5 {
-            self.minute -= 5;
-            self.min5 += 1;
-        }
-        if self.min5 >= 12 {
-            self.min5 -= 12;
-            self.hour += 1;
-        }
-        if self.hour >= 24 {
-            self.hour -= 24;
-        }
-    }
+pub fn new_board() -> (BoardLEDs, BoardTimer) {
+    let peripherals = atmega_hal::Peripherals::take().unwrap();
+    (
+        BoardLEDs::new(atmega_hal::pins!(peripherals)),
+        BoardTimer::new(peripherals.TC2),
+    )
 }
