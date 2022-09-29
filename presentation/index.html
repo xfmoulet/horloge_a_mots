@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Horloge a mots</title>
+
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/night.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/monokai.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h2> horloge a mots </h2>
+
+				</section>
+				<section>
+					<h3>Sommaire</h3>
+					<p>
+						<ul>
+							<li>  </li>
+							<li>  </li>
+							<li>  </li>
+							<li> </li>
+							<li>  </li>
+							<li>  </li>
+							<li>  </li>
+						</ul>
+					</p>
+				</section>
+				
+				<!-- color Orange -->
+				<!--  color brand  : noir(#000000) white(#FFFFFF)  orange(#FF7900)
+				color secondaire : blue (#4BB4E6) green (#50BE87) , pink (#FFB4E6), purple (#A885D8), yellow (#FFD200)
+				color dark : blue (#085EBD) green (#0A6E31) , pink (#FF8AD4), purple (#492191), yellow (#FFB400)
+				color light : blue (#B5E8F7) green (#B8EBD6) , pink (#FFE8F7), purple (#D9C2F0), yellow (#FFF6B6)
+				-->
+
+				<section data-background-color=#50BE87>
+					<section>
+					<h3>Introduction</h3>
+					<p>fleche bas pour la suite d'introduction a droite pour la suite des sous parties </p>
+					<!-- slide -->
+					</section>
+					<section>
+						<h3>descendre pour la suite d'introduction</h3>
+						<!-- slide -->
+					</section>
+				</section>
+				<!-- fin de l'introduction -->
+				<section data-background-color=#4BB4E6>
+					<section>
+					<p> fond bleu</p>
+					</section>
+				</section>
+				<section data-autoslide="75000">
+					<h4> mettre du code c'est bo</h4>
+					<pre><code data-trim data-noescape>
+- name: Partition filesystem(s)
+become: true
+parted:
+device: /dev/vdb
+number: 1
+state: present
+fs_type: ext4
+
+
+						  </code></pre>
+				</section>
+
+				<section>
+				<section data-background="#FFD200">
+					<h2>Conclusion</h2>
+				</section>
+					<section data-markdown>
+					<textarea data-template>
+						### titre
+						- liste
+					</textarea>
+					</section>
+				</section>
+				<!-- fin de conclusion -->
+				<section>
+					<h2>Questions ?</h2>
+				</section>
+			</div>
+		</div>
+		<script src="js/reveal.js"></script>
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			// https://revealjs.com/markdown/
+			Reveal.initialize({
+				autoPlayMedia: true,
+				history: true,
+				slideNumber: true,
+				progress: true,
+				plantuml: true,
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true },
+					{ src: '//cdn.jsdelivr.net/npm/reveal-plantuml' },
+				]
+			});
+		</script>
+	</body>
+</html>
+<!--<section data-autoslide="2000">
+					<p>After 2 seconds the first fragment will be shown.</p>
+					<p class="fragment" data-autoslide="10000">After 10 seconds the next fragment will be shown.</p>
+					<p class="fragment">Now, the fragment is displayed for 2 seconds before the next slide is shown.</p>
+				  </section>
+				
+				  // Slide every five seconds
+					Reveal.initialize({
+  					autoSlide: 5000,
+ 					 loop: true
+					});
+
+					autoSlideStoppable
+				-->
