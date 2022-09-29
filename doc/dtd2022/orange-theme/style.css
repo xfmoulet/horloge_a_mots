@@ -1,0 +1,47 @@
+body {
+	font-family: "Helvetica 45 Light", sans-serif;
+}
+.slide {
+	background: no-repeat url('orange-theme/Master_Logo_RGB.png') top 20px right 20px;
+}
+
+h1, h3, a {
+	color: #FF7900;
+}
+
+blockquote {
+	background: #ddd;
+	padding: 30px;
+	font-style: italic;
+}
+
+blockquote p {
+	margin:  5px;
+}
+
+.slide-content {
+	margin-top: 30px;
+	width: 1600px;
+	height: 960px;
+}
+
+pre {
+	padding:  5px;
+	background: #ddd;
+}
+
+table {
+	border:  1px solid #ddd ;
+    border-collapse: collapse;
+	font-size: smaller;
+	align:  center;
+}
+
+td {
+	padding: 0 35px 0 35px;
+  border-bottom: 1px solid #ccc;
+}
+
+th  {  
+  border-bottom: 2px solid #888;
+}
