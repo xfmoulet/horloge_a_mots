@@ -19,7 +19,7 @@ theme: ./orange-theme
 ### Le projet : l'horloge à mots (2mn)
 - Présentation, fonctionnement, tarifs commerciaux
 
-<center>![horloge](images/horloge.png)</center>
+<center>![horloge](images/horloge.png) ![horloge gold](images/horloge-gold.png)</center>
 
 - Nos objectifs : faible coût, composants simples
 ---
