@@ -56,17 +56,90 @@ theme: ./orange-theme
 # Partie afficheur  (13mn) - Charlotte Gil 
 ---
 ### Principe retenu pour l'assemblage en multi-couches : (5mn)
-- Planche de lettres remplie de résine
-- Séparateur de mots rempli de résine
-- Eclairage
+**3 Planches** 
+
+- La première pour les lettres
+
+  <img src="images/resine-lettres.png" alt="planche_lettres" style="zoom:50%;" />
+
+---
+
+- La seconde pour les mots
+
+  
+
+<img src="/home/gil/Projets/horloge-a-mots/doc/dtd2022/images/resine-mots.png" alt="planche_mots" style="zoom:50%;" />
+
+---
+
+- La troisième pour les leds
+
+
+<img src="/home/gil/Projets/horloge-a-mots/doc/dtd2022/images/resine-leds.png" alt="planche_leds" style="zoom:50%;" />
+
+---
+
+**La résine**
+
+[Résine Epodex : https://www.epodex.com/fr/produit/pro-system](https://www.epodex.com/fr/produit/pro-system/)
+
+![resine_epodex](/home/gil/Projets/horloge-a-mots/doc/dtd2022/images/resine-epodex.png)
+
+---
 
 - Découpe laser vs découpe CNC, les problèmes (3mn)
   > EASEL
 
-- Comment couler de la résine (3mn)
+  
 
-- Choix des LED (2mn)
-  > Tests d'illumination des LEDs, CMS ou classiques
+---
+
+Comment couler de la résine (3mn)
+
+**Etape 1 : Mettre du scotch pour contenir la résine**
+
+<img src="/home/gil/Projets/horloge-a-mots/doc/dtd2022/images/resine-scotch.jpg" alt="resine-scotch" width="600" />
+
+**Etape 2 : Mettre la couche des mots**
+
+<img src="/home/gil/Projets/horloge-a-mots/doc/dtd2022/images/resine-2PremieresCouches.jpg" alt="resine-2PremieresCouches" width="600" />
+
+---
+
+**Etape 3 : Préparer la résine.**
+
+- Respecter les dosages (2 pour 1)
+
+  <img src="/home/gil/Projets/horloge-a-mots/doc/dtd2022/images/resine-Preparation.jpg" alt="resine-Preparation" width="200" />
+
+- Bien remuer (5mn)
+
+- Faire ça dans un environnement chaud 20°C
+
+---
+
+**Etape 4 : Couler la résine.**
+
+<img src="/home/gil/Projets/horloge-a-mots/doc/dtd2022/images/resine-onVerseLaResine.jpg" alt="resine-onVerseLaResine" width="600" />
+
+**Etape 5 : Positionner les Leds**
+
+<img src="/home/gil/Projets/horloge-a-mots/doc/dtd2022/images/resine-sechageDesLeds.jpg" alt="resine-sechageDesLeds" width="600" />
+
+---
+
+**Test des différents types de LED**
+
+- LED traversantes (30°-60°)
+
+<img src="/home/gil/Projets/horloge-a-mots/doc/dtd2022/images/resine-ledsTranversantes.jpg" alt="resine-ledsTranversantes" width="350" />
+
+- LEDs cms (120°)
+
+<img src="/home/gil/Projets/horloge-a-mots/doc/dtd2022/images/resine-ledCms.jpg" alt="resine-ledCms" width="350" />
+
+
+
 ---
 # Développement (13mn)
 ---
