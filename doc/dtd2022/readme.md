@@ -3,6 +3,10 @@
 -  installer cleaver : 
 https://github.com/jdan/cleaver
 
+```sh
+npm install -g cleaver
+```
+
 - lancer cleaver :
 ```sh
 cleaver watch conf.md 

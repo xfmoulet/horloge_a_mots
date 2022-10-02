@@ -30,16 +30,105 @@ theme: ./orange-theme
 - Les rubans de LEDs adressables
 - Connexion Wi-Fi, mise à jour par NTP
 ---
+### Ce qu'on doit conserver
+- afficher des LEDs
+- garder l'heure juste
+- (éventuellement) régler l'heure
+---
 ### La problématique de base : comment piloter XX leds ? (5mn)
   - Quand XX = 1 : 
-     - courant
-     - voltage d'une LED
-     - contraintes d'un microcontrôleur
-  - Les différents types de multiplexage
-    - nombre de GPIO nécessaires, 
-  - choix du µc: 
-    - la pénurie
-    - les stm32 et atmega8 (alimentation, )
+     - courant: dans la spec
+     - voltage d'une LED: dans la datasheet de la LED, ~3V pour une LED blanche. Qq mesures pour contrôler
+     - contraintes d'un microcontrôleur: IO qq dizaines mA OU circuit plus complexe
+     ![LED datasheet](images/led_specs.png)
+---
+### Piloter XX=30 LEDs : 1/3
+  - 1 pin / LED : 30 IO
+    - MCU plus chers, plus complexes à souder
+    - ![lqfp64](images/lqfp64.png)
+    - pas possible de tout allumer en même temps sans *driver* 30\*30mA = 1 A !
+  - Circuit supplémentaires 
+    - 74HC595 : série -> parallèle
+    - 2 pattes pour piloter toutes les LED (chaînables)
+    - 8 LED / circuit : 4 circuits x 10cts ! 
+    - Plus complexe a souder / réaliser plus complexe a réaliser.
+---
+### Piloter 30 LEDs : 2/3
+  ![multiplex](images/led-matrix.png)
+- Multiplexage ligne/colonne: (n/2)²
+- De N=30 à 2\*√N = 12 ! : 
+  - MCU à 20 pattes convient
+- 1 LED allumée à la fois
+  - joue sur la persistence rétitienne
+  - Contrôle du courant 
+  - Assez rapide pour ne pas clignoter
+
+---
+### Piloter 30 LEDs : 3/3
+![charlieplex](images/charlieplex.png)
+- CharliePlex: n²-n (\~2001)
+- 2 LED tête bêche, emploie le fait d'éteindre une IO    
+- 6 pattes => 30 pins ! 
+- beaucoup plus complexe, pas nécessaire
+---
+### Choix du microncontrôleur
+  - Microcontrôleurs: Périphériques (timers, horloges...), RAM, Flash, Processeur, IO (boîtier/pattes!), ...
+    - CPU: Attn : division (ticks horloge M/kHz -> 5 minutes ?), 1MHz OK, compiler ! AVR, ARM OK
+    - RAM: pas un souci, programme: 1 octet de RAM (optimisable)
+    - Flash: qq tableaux mais OK ~ qq Ko
+    - Tension alim: 3v3 / 5v, courant délivré par IO, ...
+  - Simplicité de mise en oeuvre (connaissance, disponibilité de programmateurs), puissance
+---
+### Exemple de constructeurs
+- Padauk: 1k flash, 64oRAM ,qq centimes MAIS programmateur cher, langage pseudo-C 
+- AVR Atmega328P (arduino): connu, fiable, pas cher*
+- AVR Attiny : Idem, moins de mémoire, périphériques
+- STM32: de 0.5€ -> qq dizaines d'euros (fait tourner linux), de 4 à 150 IOs, de 32 à 550MHz ... 
+- PIC, NXP (philips), japonais, ...
+---
+### Choix du microncontrôleur: choix de la famille dans la gamme constructeur
+![famille](images/stm32-1.png)
+---
+### Choix du microncontrôleur: choix du modèle
+![modele1](images/stm32-2.png)
+![modele2](images/stm32-3.png)
+---
+### Notre choix final
+- STM32 : 
+    - très large famille (64MHz, crystal, 32/8ko, 1€, 20pin)
+    - simple à programmer (ARM, programmateurs très répandus, USB)
+    - MCU disponibles peu chers 
+- version 1 de la board
+- MAIS AVR: 5V (alim directe par USB 5V), IO plus puissantes  
+---
+# Choix: beaucoup plus simple !
+---
+### Choix sur un site connu: Atmega328P
+- atmega328P (arduino), rechercher ...
+
+![rechercher mouser](images/achat328-1.png)
+- choix packages 
+- click sur "in stock"
+---
+### Choix sur un site connu : atmega328P
+![rechercher mouser](images/achat328-2.png)
+---
+### Choix sur un site connu : atmega328P
+- Autre site ! 
+
+![rechercher mouser](images/achat328-3.png)
+---
+### Algorithme V2
+- Choisir un constructeur
+- Sélectionner "en stock"
+- Prendre le moins cher
+- S'adapter
+---
+### Algorithme V2
+
+![rechercher lcsc](images/achat328-4.png)
+
+- * note: les Attiny, moins puissants, ne sont pas moins chers 
 ---
 ### Comment interagir avec l'objet ? (3mn)
   - Nos idées d'interface utilisateur (PIR, boutons, mise sous tension à heure fixe...)
@@ -47,7 +136,6 @@ theme: ./orange-theme
 ### Le schéma de la board (5mn)
   ![le schema](images/schema_avr.png)
   - explications de chaque élément 
-
 ---
 ### Réalisation du circuit imprimé avec EasyEDA (5mn)
   ![pcb editor](images/pcb_avr.png)
@@ -146,7 +234,18 @@ Comment couler de la résine (3mn)
 - L'environnement PlatformIO (5mn) - Florent & Seb
   > Pour ceux qui ne connaissent pas et sont restés sur Arduino
   
+
 - Description du code, conception détaillée (3mn) - Xav + Seb
+---
+### Code de l'horloge
+
+- savoir l'heure qu'il est (de façon précise)
+un timer 32kHz
+- driver les LEDs
+- 
+
+
+---
 - Comment on (essaie (péniblement) de) (on a brillament su) faire en Rust (3mn) - Xav + ?
 ---
 # Conclusion
