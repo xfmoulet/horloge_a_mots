@@ -141,6 +141,13 @@ theme: ./orange-theme
   ![pcb editor](images/pcb_avr.png)
   - Facilité de réalisation, le routage auto (démo live ?), les prix
 ---
+### Au final
+![3D schema](images/board3d.png)
+- LCPCB (china): 2 semaines, 10€ pour 15 boards
+---
+### Au final
+![boards finies](images/boards.jpg)
+---
 # Partie afficheur  (13mn) - Charlotte Gil 
 ---
 ### Principe retenu pour l'assemblage en multi-couches : (5mn)
@@ -240,13 +247,24 @@ Comment couler de la résine (3mn)
 ### Code de l'horloge
 
 - savoir l'heure qu'il est (de façon précise)
-un timer 32kHz
+  - un timer 32kHz piloté par le quartz
+  - pré-diviser par 1024 en HW
+  - lire ticks fréquemment, 
+  - si valeur précédente: 
+      - +1 et augmenter secondes, minutes, heures ...
+- transformer les LED
+  - à partir d'une minute donnée, précalculer les LED "minutes" à allumer  
+  - ex: 35 -> "moins" vingt" "cinq" (et +1 heure) (attention à 23h) 
+  - génère un tableau de LEDs à allumer parmi N max
 - driver les LEDs
-- 
-
-
+  - prégénération de tableaux minute/heure -> paquet de LEDs sur lesquelles cycler
+   - certaines LEDs sont doubles: rester plus longtemps dessus
+  - multiplex : boucler rapidement sur les LED 
+- fonctions "avancées": réglage de l'heure, détection si quelqu'un passe, ...
+  - TODO ! 
 ---
 - Comment on (essaie (péniblement) de) (on a brillament su) faire en Rust (3mn) - Xav + ?
+
 ---
 # Conclusion
 ## Envoyez des sioux ! (à l'arc) !
