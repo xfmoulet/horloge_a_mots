@@ -59,7 +59,7 @@ theme: ./orange-theme
 - De N=30 à 2\*√N = 12 ! : 
   - MCU à 20 pattes convient
 - 1 LED allumée à la fois
-  - joue sur la persistence rétitienne
+  - joue sur la persistence rétinienne
   - Contrôle du courant 
   - Assez rapide pour ne pas clignoter
 
@@ -72,19 +72,27 @@ theme: ./orange-theme
 - beaucoup plus complexe, pas nécessaire
 ---
 ### Choix du microncontrôleur
-  - Microcontrôleurs: Périphériques (timers, horloges...), RAM, Flash, Processeur, IO (boîtier/pattes!), ...
-    - CPU: Attn : division (ticks horloge M/kHz -> 5 minutes ?), 1MHz OK, compiler ! AVR, ARM OK
-    - RAM: pas un souci, programme: 1 octet de RAM (optimisable)
-    - Flash: qq tableaux mais OK ~ qq Ko
-    - Tension alim: 3v3 / 5v, courant délivré par IO, ...
-  - Simplicité de mise en oeuvre (connaissance, disponibilité de programmateurs), puissance
+
+
+| Quoi | Caractéristiques | Besoin |
+|---|-----|----|
+| CPU | 4-32 bits, 1-250 MHZ, ARM/AVR/Autre? ✖ ➗ ? | compilateur, 8/32 bits, 1MHz OK |
+| RAM interne | 0 (!) à 1MB | code actuel: 1 octet |
+| Flash interne | de 0k (OTP), 2Ko à 2Mo | 4Ko |
+| Périphériques | 1-10+ Timers, n UART, SPI, I2C, CAN ... | Timer Quartz 32KHz |
+| IO | Nb pattes (boîtier), mA | 12 GPIO, qq dizaines mA ! |
+| Horloges | PLL, Osc interne / Quartz, ... | Osc. Int High speed ou PLL |
+| Power | 3v3, 1v2, 5v ? | 5V plus simple, sinon 3v3|
+| Programmateur | USB, UART, SWD/SPI, autre high power .. | USB, UART |
+
+
 ---
 ### Exemple de constructeurs
-- Padauk: 1k flash, 64oRAM ,qq centimes MAIS programmateur cher, langage pseudo-C 
+- Padauk: 1k OTP, 64oRAM, 3cts MAIS programmateur cher, langage pseudo-C 
 - AVR Atmega328P (arduino): connu, fiable, pas cher*
 - AVR Attiny : Idem, moins de mémoire, périphériques
 - STM32: de 0.5€ -> qq dizaines d'euros (fait tourner linux), de 4 à 150 IOs, de 32 à 550MHz ... 
-- PIC, NXP (philips), japonais, ...
+- Microchip PIC, NXP (philips), STM8, TI, Cypress, Renesas, 8051 ...
 ---
 ### Choix du microncontrôleur: choix de la famille dans la gamme constructeur
 ![famille](images/stm32-1.png)
@@ -101,7 +109,8 @@ theme: ./orange-theme
 - version 1 de la board
 - MAIS AVR: 5V (alim directe par USB 5V), IO plus puissantes  
 ---
-# Choix: beaucoup plus simple !
+# MAIS
+## Choix beaucoup plus simple !
 ---
 ### Choix sur un site connu: Atmega328P
 - atmega328P (arduino), rechercher ...
@@ -155,22 +164,20 @@ theme: ./orange-theme
 
 - La première pour les lettres
 
-  <img src="images/resine-lettres.png" alt="planche_lettres" style="zoom:50%;" />
-
+![planche lettres](images/resine-lettres.png)
+  
 ---
 
 - La seconde pour les mots
 
   
-
-<img src="/home/gil/Projets/horloge-a-mots/doc/dtd2022/images/resine-mots.png" alt="planche_mots" style="zoom:50%;" />
+![planche mots](images/resine-mots.png)
 
 ---
 
 - La troisième pour les leds
 
-
-<img src="/home/gil/Projets/horloge-a-mots/doc/dtd2022/images/resine-leds.png" alt="planche_leds" style="zoom:50%;" />
+![planche leds](images/resine-leds.png)
 
 ---
 
@@ -178,7 +185,7 @@ theme: ./orange-theme
 
 [Résine Epodex : https://www.epodex.com/fr/produit/pro-system](https://www.epodex.com/fr/produit/pro-system/)
 
-![resine_epodex](/home/gil/Projets/horloge-a-mots/doc/dtd2022/images/resine-epodex.png)
+![resine_epodex](images/resine-epodex.png)
 
 ---
 
@@ -193,11 +200,11 @@ Comment couler de la résine (3mn)
 
 **Etape 1 : Mettre du scotch pour contenir la résine**
 
-<img src="/home/gil/Projets/horloge-a-mots/doc/dtd2022/images/resine-scotch.jpg" alt="resine-scotch" width="600" />
+<img src="images/resine-scotch.jpg" alt="resine-scotch" width="600" />
 
 **Etape 2 : Mettre la couche des mots**
 
-<img src="/home/gil/Projets/horloge-a-mots/doc/dtd2022/images/resine-2PremieresCouches.jpg" alt="resine-2PremieresCouches" width="600" />
+<img src="images/resine-2PremieresCouches.jpg" alt="resine-2PremieresCouches" width="600" />
 
 ---
 
@@ -205,7 +212,7 @@ Comment couler de la résine (3mn)
 
 - Respecter les dosages (2 pour 1)
 
-  <img src="/home/gil/Projets/horloge-a-mots/doc/dtd2022/images/resine-Preparation.jpg" alt="resine-Preparation" width="200" />
+  <img src="images/resine-Preparation.jpg" alt="resine-Preparation" width="200" />
 
 - Bien remuer (5mn)
 
@@ -215,11 +222,11 @@ Comment couler de la résine (3mn)
 
 **Etape 4 : Couler la résine.**
 
-<img src="/home/gil/Projets/horloge-a-mots/doc/dtd2022/images/resine-onVerseLaResine.jpg" alt="resine-onVerseLaResine" width="600" />
+<img src="images/resine-onVerseLaResine.jpg" alt="resine-onVerseLaResine" width="600" />
 
 **Etape 5 : Positionner les Leds**
 
-<img src="/home/gil/Projets/horloge-a-mots/doc/dtd2022/images/resine-sechageDesLeds.jpg" alt="resine-sechageDesLeds" width="600" />
+<img src="images/resine-sechageDesLeds.jpg" alt="resine-sechageDesLeds" width="600" />
 
 ---
 
@@ -227,11 +234,11 @@ Comment couler de la résine (3mn)
 
 - LED traversantes (30°-60°)
 
-<img src="/home/gil/Projets/horloge-a-mots/doc/dtd2022/images/resine-ledsTranversantes.jpg" alt="resine-ledsTranversantes" width="350" />
+<img src="images/resine-ledsTranversantes.jpg" alt="resine-ledsTranversantes" width="350" />
 
 - LEDs cms (120°)
 
-<img src="/home/gil/Projets/horloge-a-mots/doc/dtd2022/images/resine-ledCms.jpg" alt="resine-ledCms" width="350" />
+<img src="images/resine-ledCms.jpg" alt="resine-ledCms" width="350" />
 
 
 

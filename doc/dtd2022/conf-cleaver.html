@@ -506,7 +506,7 @@ th  {
 </ul>
 </li>
 <li>1 LED allumée à la fois<ul>
-<li>joue sur la persistence rétitienne</li>
+<li>joue sur la persistence rétinienne</li>
 <li>Contrôle du courant </li>
 <li>Assez rapide pour ne pas clignoter</li>
 </ul>
@@ -527,26 +527,67 @@ th  {
   </div>
   <div class="slide hidden -" id="slide-12">
     <section class="slide-content"><h3 id="choix-du-microncontr-leur">Choix du microncontrôleur</h3>
-<ul>
-<li>Microcontrôleurs: Périphériques (timers, horloges...), RAM, Flash, Processeur, IO (boîtier/pattes!), ...<ul>
-<li>CPU: Attn : division (ticks horloge M/kHz -&gt; 5 minutes ?), 1MHz OK, compiler ! AVR, ARM OK</li>
-<li>RAM: pas un souci, programme: 1 octet de RAM (optimisable)</li>
-<li>Flash: qq tableaux mais OK ~ qq Ko</li>
-<li>Tension alim: 3v3 / 5v, courant délivré par IO, ...</li>
-</ul>
-</li>
-<li>Simplicité de mise en oeuvre (connaissance, disponibilité de programmateurs), puissance</li>
-</ul>
+<table>
+<thead>
+<tr>
+<th>Quoi</th>
+<th>Caractéristiques</th>
+<th>Besoin</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CPU</td>
+<td>4-32 bits, 1-250 MHZ, ARM/AVR/Autre? ✖ ➗ ?</td>
+<td>compilateur, 8/32 bits, 1MHz OK</td>
+</tr>
+<tr>
+<td>RAM interne</td>
+<td>0 (!) à 1MB</td>
+<td>code actuel: 1 octet</td>
+</tr>
+<tr>
+<td>Flash interne</td>
+<td>de 0k (OTP), 2Ko à 2Mo</td>
+<td>4Ko</td>
+</tr>
+<tr>
+<td>Périphériques</td>
+<td>1-10+ Timers, n UART, SPI, I2C, CAN ...</td>
+<td>Timer Quartz 32KHz</td>
+</tr>
+<tr>
+<td>IO</td>
+<td>Nb pattes (boîtier), mA</td>
+<td>12 GPIO, qq dizaines mA !</td>
+</tr>
+<tr>
+<td>Horloges</td>
+<td>PLL, Osc interne / Quartz, ...</td>
+<td>Osc. Int High speed ou PLL</td>
+</tr>
+<tr>
+<td>Power</td>
+<td>3v3, 1v2, 5v ?</td>
+<td>5V plus simple, sinon 3v3</td>
+</tr>
+<tr>
+<td>Programmateur</td>
+<td>USB, UART, SWD/SPI, autre high power ..</td>
+<td>USB, UART</td>
+</tr>
+</tbody>
+</table>
 </section>
   </div>
   <div class="slide hidden -" id="slide-13">
     <section class="slide-content"><h3 id="exemple-de-constructeurs">Exemple de constructeurs</h3>
 <ul>
-<li>Padauk: 1k flash, 64oRAM ,qq centimes MAIS programmateur cher, langage pseudo-C </li>
+<li>Padauk: 1k OTP, 64oRAM, 3cts MAIS programmateur cher, langage pseudo-C </li>
 <li>AVR Atmega328P (arduino): connu, fiable, pas cher*</li>
 <li>AVR Attiny : Idem, moins de mémoire, périphériques</li>
 <li>STM32: de 0.5€ -&gt; qq dizaines d&#39;euros (fait tourner linux), de 4 à 150 IOs, de 32 à 550MHz ... </li>
-<li>PIC, NXP (philips), japonais, ...</li>
+<li>Microchip PIC, NXP (philips), STM8, TI, Cypress, Renesas, 8051 ...</li>
 </ul>
 </section>
   </div>
@@ -576,7 +617,8 @@ th  {
 </section>
   </div>
   <div class="slide hidden -" id="slide-17">
-    <section class="slide-content"><h1 id="choix-beaucoup-plus-simple-">Choix: beaucoup plus simple !</h1>
+    <section class="slide-content"><h1 id="mais">MAIS</h1>
+<h2 id="choix-beaucoup-plus-simple-">Choix beaucoup plus simple !</h2>
 </section>
   </div>
   <div class="slide hidden -" id="slide-18">
@@ -669,30 +711,29 @@ th  {
     <section class="slide-content"><h3 id="principe-retenu-pour-l-assemblage-en-multi-couches-5mn-">Principe retenu pour l&#39;assemblage en multi-couches : (5mn)</h3>
 <p><strong>3 Planches</strong> </p>
 <ul>
-<li><p>La première pour les lettres</p>
-<p><img src="images/resine-lettres.png" alt="planche_lettres" style="zoom:50%;" /></p>
-</li>
+<li>La première pour les lettres</li>
 </ul>
+<p><img src="images/resine-lettres.png" alt="planche lettres"></p>
 </section>
   </div>
   <div class="slide hidden -" id="slide-30">
     <section class="slide-content"><ul>
 <li>La seconde pour les mots</li>
 </ul>
-<p><img src="/home/gil/Projets/horloge-a-mots/doc/dtd2022/images/resine-mots.png" alt="planche_mots" style="zoom:50%;" /></p>
+<p><img src="images/resine-mots.png" alt="planche mots"></p>
 </section>
   </div>
   <div class="slide hidden -" id="slide-31">
     <section class="slide-content"><ul>
 <li>La troisième pour les leds</li>
 </ul>
-<p><img src="/home/gil/Projets/horloge-a-mots/doc/dtd2022/images/resine-leds.png" alt="planche_leds" style="zoom:50%;" /></p>
+<p><img src="images/resine-leds.png" alt="planche leds"></p>
 </section>
   </div>
   <div class="slide hidden -" id="slide-32">
     <section class="slide-content"><p><strong>La résine</strong></p>
 <p><a href="https://www.epodex.com/fr/produit/pro-system/">Résine Epodex : https://www.epodex.com/fr/produit/pro-system</a></p>
-<p><img src="/home/gil/Projets/horloge-a-mots/doc/dtd2022/images/resine-epodex.png" alt="resine_epodex"></p>
+<p><img src="images/resine-epodex.png" alt="resine_epodex"></p>
 </section>
   </div>
   <div class="slide hidden -" id="slide-33">
@@ -707,16 +748,16 @@ th  {
   <div class="slide hidden -" id="slide-34">
     <section class="slide-content"><p>Comment couler de la résine (3mn)</p>
 <p><strong>Etape 1 : Mettre du scotch pour contenir la résine</strong></p>
-<p><img src="/home/gil/Projets/horloge-a-mots/doc/dtd2022/images/resine-scotch.jpg" alt="resine-scotch" width="600" /></p>
+<p><img src="images/resine-scotch.jpg" alt="resine-scotch" width="600" /></p>
 <p><strong>Etape 2 : Mettre la couche des mots</strong></p>
-<p><img src="/home/gil/Projets/horloge-a-mots/doc/dtd2022/images/resine-2PremieresCouches.jpg" alt="resine-2PremieresCouches" width="600" /></p>
+<p><img src="images/resine-2PremieresCouches.jpg" alt="resine-2PremieresCouches" width="600" /></p>
 </section>
   </div>
   <div class="slide hidden -" id="slide-35">
     <section class="slide-content"><p><strong>Etape 3 : Préparer la résine.</strong></p>
 <ul>
 <li><p>Respecter les dosages (2 pour 1)</p>
-<p><img src="/home/gil/Projets/horloge-a-mots/doc/dtd2022/images/resine-Preparation.jpg" alt="resine-Preparation" width="200" /></p>
+<p><img src="images/resine-Preparation.jpg" alt="resine-Preparation" width="200" /></p>
 </li>
 <li><p>Bien remuer (5mn)</p>
 </li>
@@ -727,9 +768,9 @@ th  {
   </div>
   <div class="slide hidden -" id="slide-36">
     <section class="slide-content"><p><strong>Etape 4 : Couler la résine.</strong></p>
-<p><img src="/home/gil/Projets/horloge-a-mots/doc/dtd2022/images/resine-onVerseLaResine.jpg" alt="resine-onVerseLaResine" width="600" /></p>
+<p><img src="images/resine-onVerseLaResine.jpg" alt="resine-onVerseLaResine" width="600" /></p>
 <p><strong>Etape 5 : Positionner les Leds</strong></p>
-<p><img src="/home/gil/Projets/horloge-a-mots/doc/dtd2022/images/resine-sechageDesLeds.jpg" alt="resine-sechageDesLeds" width="600" /></p>
+<p><img src="images/resine-sechageDesLeds.jpg" alt="resine-sechageDesLeds" width="600" /></p>
 </section>
   </div>
   <div class="slide hidden -" id="slide-37">
@@ -737,11 +778,11 @@ th  {
 <ul>
 <li>LED traversantes (30°-60°)</li>
 </ul>
-<p><img src="/home/gil/Projets/horloge-a-mots/doc/dtd2022/images/resine-ledsTranversantes.jpg" alt="resine-ledsTranversantes" width="350" /></p>
+<p><img src="images/resine-ledsTranversantes.jpg" alt="resine-ledsTranversantes" width="350" /></p>
 <ul>
 <li>LEDs cms (120°)</li>
 </ul>
-<p><img src="/home/gil/Projets/horloge-a-mots/doc/dtd2022/images/resine-ledCms.jpg" alt="resine-ledCms" width="350" /></p>
+<p><img src="images/resine-ledCms.jpg" alt="resine-ledCms" width="350" /></p>
 </section>
   </div>
   <div class="slide hidden -" id="slide-38">
