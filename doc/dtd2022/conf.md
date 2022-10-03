@@ -1,6 +1,6 @@
 title: Horloge à mots au Secteur 3
 author:
-  name: Gil, Charlotte, Sebastien, Xavier
+  name: Florent, François-Xavier, Gil, Charlotte, Seb, Xavier-Frédéric
 controls: false
 theme: ./orange-theme
 ---
@@ -9,7 +9,7 @@ theme: ./orange-theme
 ---
 # Introduction
 ---
-### C'est quoi le secteur 3 et la code room ? (3mn)
+### C'est quoi le secteur 3 et la code room ?
 
 - Infos utiles :
   - ouvert à tous !
@@ -20,9 +20,11 @@ theme: ./orange-theme
   - TomTom
   - Afficheur led rotatif
   - Développement d'un jeu GameBoy
+  - linky
+  - Horlogeobus
 
 ---
-### Le projet : l'horloge à mots (2mn)
+### Le projet : l'horloge à mots
 - Présentation, fonctionnement, tarifs commerciaux
 
 <center>![horloge](images/horloge.png) ![horloge gold](images/horloge-gold.png)</center>
@@ -30,9 +32,8 @@ theme: ./orange-theme
 - Nos objectifs : faible coût, composants simples
 ---
 # Composants et design de la board
-## (15mn) - Xav +Florent
 ---
-### Préambule : tout ce qu'on a souhaité écarter (2mn)
+### Préambule : tout ce qu'on a souhaité écarter
 - Les rubans de LEDs adressables
 - Connexion Wi-Fi, mise à jour par NTP
 - Arduino, C
@@ -42,7 +43,7 @@ theme: ./orange-theme
 - Garder l'heure juste
 - (éventuellement) régler l'heure
 ---
-### La problématique de base : comment piloter XX leds ? (5mn)
+### La problématique de base : comment piloter XX leds ?
   - Quand XX = 1 : 
      - courant: dans la spec
      - voltage d'une LED: dans la datasheet de la LED, ~3V pour une LED blanche. Qq mesures pour contrôler
@@ -93,7 +94,7 @@ theme: ./orange-theme
   - besoin d'une horloge stable (temps, quartz) + 1 horloge "rapide" (CPU)
 
 ---
-### Choix du microncontrôleur
+### Choix du micro-contrôleur
 
 | Quoi | Caractéristiques | Besoin |
 |---|-----|----|
@@ -124,29 +125,28 @@ theme: ./orange-theme
   - MAIS AVR: 5V (alim directe par USB 5V), IO plus puissantes  
 ---
 ### Choix du microncontrôleur: choix de la famille dans la gamme constructeur
-![famille](images/stm32-1.png)
+<center>![famille](images/stm32-1.png)</center>
 ---
 ### Choix du microncontrôleur: choix du modèle
-![modele1](images/stm32-2.png)
-![modele2](images/stm32-3.png)
+<center>![modele1](images/stm32-2.png)
+![modele2](images/stm32-3.png)</center>
 ---
 # MAIS
 ## Choix beaucoup plus simple !
 ---
 ### Choix sur un site connu: Atmega328P
 - atmega328P (arduino), rechercher ...
-
-![rechercher mouser](images/achat328-1.png)
+<center>![rechercher mouser](images/achat328-1.png)</center>
 - choix packages 
 - click sur "in stock"
 ---
 ### Choix sur un site connu : atmega328P
-![rechercher mouser](images/achat328-2.png)
+<center>![rechercher mouser](images/achat328-2.png)</center>
 ---
 ### Choix sur un site connu : atmega328P
 - Autre site ! 
 
-![rechercher mouser](images/achat328-3.png)
+<center>![rechercher mouser](images/achat328-3.png)</center>
 ---
 ### Algorithme V2
 - Choisir un constructeur
@@ -160,46 +160,42 @@ theme: ./orange-theme
 
 - * note: les Attiny, moins puissants, ne sont pas moins chers 
 ---
-### Comment interagir avec l'objet ? (3mn)
+### Comment interagir avec l'objet ?
   - Nos idées d'interface utilisateur (PIR, boutons, mise sous tension à heure fixe...)
 ---
-### Le schéma de la board (5mn)
+### Le schéma de la board
   ![le schema](images/schema_avr.png)
   - explications de chaque élément 
 ---
-### Réalisation du circuit imprimé avec EasyEDA (5mn)
-  ![pcb editor](images/pcb_avr.png)
+### Réalisation du circuit imprimé avec EasyEDA
+  <center>![pcb editor](images/pcb_avr.png)</center>
   - Facilité de réalisation, le routage auto (démo live ?), les prix
 ---
 ### Au final
-![3D schema](images/board3d.png)
+<center>![3D schema](images/board3d.png)</center>
 - LCPCB (china): 2 semaines, 10€ pour 15 boards
 ---
 ### Au final
-![boards finies](images/boards.jpg)
+<center>![boards finies](images/boards.jpg)</center>
 ---
-# Partie afficheur  (13mn) - Charlotte Gil 
+# Partie afficheur - Charlotte Gil 
 ---
-### Principe retenu pour l'assemblage en multi-couches : (5mn)
+### Principe retenu pour l'assemblage en multi-couches :
 **3 Planches** 
 
-- La première pour les lettres
-
+<div style="display:grid; grid-template-columns: repeat(2, 1fr);">
+<span>- La première pour les lettres</span>
+<span>- La seconde pour les mots</span>
 ![planche lettres](images/resine-lettres.png)
-  
----
-
-- La seconde pour les mots
-
-  
 ![planche mots](images/resine-mots.png)
-
+</div>
 ---
-
-- La troisième pour les leds
-
-![planche leds](images/resine-leds.png)
-
+<span>- La troisième pour les leds</span>
+<center>![planche leds](images/resine-leds.png)</center>
+---
+- Découpe laser vs découpe CNC, les problèmes
+  > EASEL
+  <center>![decoupe CNC](images/decoupe.jpg)</center>
 ---
 
 **La résine**
@@ -209,15 +205,7 @@ theme: ./orange-theme
 ![resine_epodex](images/resine-epodex.png)
 
 ---
-
-- Découpe laser vs découpe CNC, les problèmes (3mn)
-  > EASEL
-
-  
-
----
-
-Comment couler de la résine (3mn)
+Comment couler de la résine
 
 **Etape 1 : Mettre du scotch pour contenir la résine**
 
@@ -262,9 +250,9 @@ Comment couler de la résine (3mn)
 <img src="images/resine-ledCms.jpg" alt="resine-ledCms" width="350" />
 
 ---
-# Développement (13mn)
+# Développement
 ---
-### Environnement PlatformIO (5mn) - Florent & Seb
+### Environnement PlatformIO - Florent & Seb
 > Pour ceux qui ne connaissent pas et sont restés sur Arduino 
   
   - Plate-forme pour le développement embarqué, IoT, Arduino, CMSIS, ESP-IDF, FreeRTOS
@@ -279,8 +267,6 @@ Comment couler de la résine (3mn)
   <div class="largeImage">![platormIO ini](images/platformio_ini.png)<div>
 ---
   
-- Description du code, conception détaillée (3mn) - Xav + Seb
----
 # Code de l'horloge
 ---
 ### Compter l'heure (précisément)
@@ -302,12 +288,12 @@ Comment couler de la résine (3mn)
 ### Choisir les LED à allumer (et le faire)
 - Choisir les LED
   - à partir d'une minute donnée, choisir les LED "minutes" à allumer
-  - ex: 35 -> "moins" vingt" "cinq" (et +1 heure) (attention à 23h) 
+  - ex: 35 -> "moins" "vingt" "cinq" (et +1 heure) (attention à 23h) 
   - ex: 15 -> "et" "quart" 
   - Génération de tableau en Flash
    - Heures et minutes indépendantes: 60x12=720 vs 60+12=72
   - Génère un tableau de LEDs à allumer parmi N max
-  - une LED -> une ligne, une colonne (un tableau, ou directement précalc)
+  - une LED -> une ligne, une colonne (un tableau, ou directement précalculé)
 - multiplex
   - boucler rapidement sur les LED du tableau
   - certaines LEDs sont doubles: rester plus longtemps dessus -> ds le tableau  
@@ -324,10 +310,12 @@ Comment couler de la résine (3mn)
   - Borrow checker
   - Mutex sur matériel
 - Mais se compile en qq octets (Cf. make info) : 1o de RAM
-- Option<LED>[10] en flash
+- Option&lt;LED&gt;[10] en flash
 - Prégénération de code en rust avec build.rs
 - Crate `embedded_hal`
 - ARM32 mieux que AVR (dispo)
 ---
 # Conclusion
 ## Envoyez des sioux ! (à l'arc) !
+
+<center>![fablab image](images/fablab.JPG)</center>
