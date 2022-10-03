@@ -8,12 +8,18 @@ theme: ./orange-theme
 ## Les jeudis de l'electronique au secteur 3
 ---
 # Introduction
-## (5mn): Seb
 ---
 ### C'est quoi le secteur 3 et la code room ? (3mn)
 
-- Infos utiles, qui peut venir, quels jours...
+- Infos utiles :
+  - ouvert à tous !
+  - Activités (coding dojos, jeudi électronique, rencontre agile)
+
 - Quelques vieux projets:
+  - Borne d'arcade
+  - TomTom
+  - Afficheur led rotatif
+  - Développement d'un jeu GameBoy
 
 ---
 ### Le projet : l'horloge à mots (2mn)
@@ -255,15 +261,24 @@ Comment couler de la résine (3mn)
 
 <img src="images/resine-ledCms.jpg" alt="resine-ledCms" width="350" />
 
-
-
 ---
 # Développement (13mn)
 ---
-- L'environnement PlatformIO (5mn) - Florent & Seb
-  > Pour ceux qui ne connaissent pas et sont restés sur Arduino
+### Environnement PlatformIO (5mn) - Florent & Seb
+> Pour ceux qui ne connaissent pas et sont restés sur Arduino 
   
-
+  - Plate-forme pour le développement embarqué, IoT, Arduino, CMSIS, ESP-IDF, FreeRTOS
+  - Intégration à VSCode sous forme de plugin
+  - Installation et gestion facilitée pour les boards
+  - Installation et gestion facilitée des librairies
+  - (Non testé) des possibilités avancées de debug directement sur la board
+  - Possibilité d'utiliser un vrai IDE
+---
+  <div class="largeImage">![platormIO home](images/platformio_home.png)<div>
+---
+  <div class="largeImage">![platormIO ini](images/platformio_ini.png)<div>
+---
+  
 - Description du code, conception détaillée (3mn) - Xav + Seb
 ---
 # Code de l'horloge
@@ -297,7 +312,8 @@ Comment couler de la résine (3mn)
   - boucler rapidement sur les LED du tableau
   - certaines LEDs sont doubles: rester plus longtemps dessus -> ds le tableau  
 - fonctions "avancées": réglage de l'heure, détection si quelqu'un passe, ...
-  - TODO ! 
+  - TODO !
+  - Par exemple appuyer sur le bouton reset à un moment précis (par exemple 13h37 !)
 ---
 # Rust 🦀
 ## Comment on (essaie (péniblement) de) (on a brillament su) faire en Rust

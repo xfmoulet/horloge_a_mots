@@ -404,19 +404,6 @@ th  {
   border-bottom: 2px solid #888;
 }
 
-<<<<<<< HEAD
-strong {
-	font-weight: bold;
-=======
-div.largeImage {
-	display: flex;
-	justify-content: center;
-}
-
-div.largeImage img {
-	max-width: 80%;
->>>>>>> 8fc8584 (Add info on presentation and platformio)
-}
   </style>
 </head>
 <body>
@@ -431,25 +418,14 @@ div.largeImage img {
   </div>
   <div class="slide hidden -" id="slide-2">
     <section class="slide-content"><h1 id="introduction">Introduction</h1>
+<h2 id="-5mn-seb">(5mn): Seb</h2>
 </section>
   </div>
   <div class="slide hidden -" id="slide-3">
     <section class="slide-content"><h3 id="c-est-quoi-le-secteur-3-et-la-code-room-3mn-">C&#39;est quoi le secteur 3 et la code room ? (3mn)</h3>
 <ul>
-<li><p>Infos utiles :</p>
-<ul>
-<li>ouvert à tous !</li>
-<li>Activités (coding dojos, jeudi électronique, rencontre agile)</li>
-</ul>
-</li>
-<li><p>Quelques vieux projets:</p>
-<ul>
-<li>Borne d&#39;arcade</li>
-<li>TomTom</li>
-<li>Afficheur led rotatif</li>
-<li>Développement d&#39;un jeu GameBoy</li>
-</ul>
-</li>
+<li>Infos utiles, qui peut venir, quels jours...</li>
+<li>Quelques vieux projets:</li>
 </ul>
 </section>
   </div>
@@ -475,15 +451,14 @@ div.largeImage img {
 <ul>
 <li>Les rubans de LEDs adressables</li>
 <li>Connexion Wi-Fi, mise à jour par NTP</li>
-<li>Arduino, C</li>
 </ul>
 </section>
   </div>
   <div class="slide hidden -" id="slide-7">
     <section class="slide-content"><h3 id="ce-qu-on-doit-conserver">Ce qu&#39;on doit conserver</h3>
 <ul>
-<li>Afficher des LEDs</li>
-<li>Garder l&#39;heure juste</li>
+<li>afficher des LEDs</li>
+<li>garder l&#39;heure juste</li>
 <li>(éventuellement) régler l&#39;heure</li>
 </ul>
 </section>
@@ -530,7 +505,7 @@ div.largeImage img {
 </ul>
 </li>
 <li>1 LED allumée à la fois<ul>
-<li>joue sur la persistence rétinienne</li>
+<li>joue sur la persistence rétitienne</li>
 <li>Contrôle du courant </li>
 <li>Assez rapide pour ne pas clignoter</li>
 </ul>
@@ -550,122 +525,57 @@ div.largeImage img {
 </section>
   </div>
   <div class="slide hidden -" id="slide-12">
-    <section class="slide-content"><h3 id="garder-l-heure">Garder l&#39;heure</h3>
+    <section class="slide-content"><h3 id="choix-du-microncontr-leur">Choix du microncontrôleur</h3>
 <ul>
-<li>quartz + circuits dédiés logiques<ul>
-<li>CD 4060: driver quartz + prédiviseur puissance de 2</li>
-<li>quartz pas chers: 32kHz = 32768Hz, 1s sans division</li>
-<li>MAIS division par 3 et 5 complexes (60=5*3*2²)<ul>
-<li>depuis les babyloniens, difficile de redéfinir la minute, l&#39;heure</li>
-<li>tentative en 1793: 10h, minute décimale, seconde décimale      </li>
+<li>Microcontrôleurs: Périphériques (timers, horloges...), RAM, Flash, Processeur, IO (boîtier/pattes!), ...<ul>
+<li>CPU: Attn : division (ticks horloge M/kHz -&gt; 5 minutes ?), 1MHz OK, compiler ! AVR, ARM OK</li>
+<li>RAM: pas un souci, programme: 1 octet de RAM (optimisable)</li>
+<li>Flash: qq tableaux mais OK ~ qq Ko</li>
+<li>Tension alim: 3v3 / 5v, courant délivré par IO, ...</li>
 </ul>
 </li>
-<li>plusieurs puces</li>
-</ul>
-</li>
-<li>microcontrôleur : CPU + mémoire intégrée<ul>
-<li>oscillateur interne précis à 1% : 14min/jour ...</li>
-<li>base de temps: Quartz 32kHz, 50Hz secteur </li>
-<li>besoin d&#39;une horloge stable (temps, quartz) + 1 horloge &quot;rapide&quot; (CPU)</li>
-</ul>
-</li>
+<li>Simplicité de mise en oeuvre (connaissance, disponibilité de programmateurs), puissance</li>
 </ul>
 </section>
   </div>
   <div class="slide hidden -" id="slide-13">
-    <section class="slide-content"><h3 id="choix-du-microncontr-leur">Choix du microncontrôleur</h3>
-<table>
-<thead>
-<tr>
-<th>Quoi</th>
-<th>Caractéristiques</th>
-<th>Besoin</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>CPU</td>
-<td>4-32 bits, 1-250 MHZ, ARM/AVR/Autre? ✖ ➗ ?</td>
-<td>compilateur, 8/32 bits, 1MHz OK</td>
-</tr>
-<tr>
-<td>RAM interne</td>
-<td>0 (!) à 1MB</td>
-<td>code actuel: 1 octet</td>
-</tr>
-<tr>
-<td>Flash interne</td>
-<td>de 0k (OTP), 2Ko à 2Mo</td>
-<td>4Ko</td>
-</tr>
-<tr>
-<td>Périphériques</td>
-<td>1-10+ Timers, n UART, SPI, I2C, CAN ...</td>
-<td>Timer Quartz 32KHz</td>
-</tr>
-<tr>
-<td>IO</td>
-<td>Nb pattes (boîtier), mA</td>
-<td>12 GPIO, qq dizaines mA !</td>
-</tr>
-<tr>
-<td>Horloges</td>
-<td>PLL, Osc interne / Quartz, ...</td>
-<td>Osc. Int High speed ou PLL</td>
-</tr>
-<tr>
-<td>Power</td>
-<td>3v3, 1v2, 5v ? mA: Low power ? Sleep ?</td>
-<td>5V plus simple, sinon 3v3</td>
-</tr>
-<tr>
-<td>Programmateur</td>
-<td>USB, UART, SWD/SPI, autre high power ..</td>
-<td>USB, UART</td>
-</tr>
-</tbody>
-</table>
+    <section class="slide-content"><h3 id="exemple-de-constructeurs">Exemple de constructeurs</h3>
+<ul>
+<li>Padauk: 1k flash, 64oRAM ,qq centimes MAIS programmateur cher, langage pseudo-C </li>
+<li>AVR Atmega328P (arduino): connu, fiable, pas cher*</li>
+<li>AVR Attiny : Idem, moins de mémoire, périphériques</li>
+<li>STM32: de 0.5€ -&gt; qq dizaines d&#39;euros (fait tourner linux), de 4 à 150 IOs, de 32 à 550MHz ... </li>
+<li>PIC, NXP (philips), japonais, ...</li>
+</ul>
 </section>
   </div>
   <div class="slide hidden -" id="slide-14">
-    <section class="slide-content"><h3 id="choix-d-un-constructeur">Choix d&#39;un constructeur</h3>
-<ul>
-<li>Exemple de constructeurs<ul>
-<li>Padauk: 1k OTP, 64oRAM, 3cts MAIS programmateur cher, langage pseudo-C </li>
-<li>AVR Atmega328P (arduino): 8bits connu, fiable, pas cher*</li>
-<li>AVR Attiny : Idem, moins de mémoire, périphériques</li>
-<li>STM32: de 0.5€ -&gt; qq dizaines d&#39;euros, de 4 à 150 IOs, de 32 à 550MHz, 8k -&gt; 2Mo flash ... </li>
-<li>Microchip PIC, NXP (philips), STM8, TI, Cypress, Renesas, 8051 ...</li>
-</ul>
-</li>
-<li>Notre choix<ul>
-<li>STM32 : <ul>
-<li>très large famille (64MHz, crystal, 32/8ko, 1€, 20pin)</li>
-<li>simple à programmer (ARM, programmateurs très répandus, USB)</li>
-<li>MCU disponibles peu chers </li>
-<li>version 1 de la board</li>
-</ul>
-</li>
-<li>MAIS AVR: 5V (alim directe par USB 5V), IO plus puissantes</li>
-</ul>
-</li>
-</ul>
-</section>
-  </div>
-  <div class="slide hidden -" id="slide-15">
     <section class="slide-content"><h3 id="choix-du-microncontr-leur-choix-de-la-famille-dans-la-gamme-constructeur">Choix du microncontrôleur: choix de la famille dans la gamme constructeur</h3>
 <p><img src="images/stm32-1.png" alt="famille"></p>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-16">
+  <div class="slide hidden -" id="slide-15">
     <section class="slide-content"><h3 id="choix-du-microncontr-leur-choix-du-mod-le">Choix du microncontrôleur: choix du modèle</h3>
 <p><img src="images/stm32-2.png" alt="modele1">
 <img src="images/stm32-3.png" alt="modele2"></p>
 </section>
   </div>
+  <div class="slide hidden -" id="slide-16">
+    <section class="slide-content"><h3 id="notre-choix-final">Notre choix final</h3>
+<ul>
+<li>STM32 : <ul>
+<li>très large famille (64MHz, crystal, 32/8ko, 1€, 20pin)</li>
+<li>simple à programmer (ARM, programmateurs très répandus, USB)</li>
+<li>MCU disponibles peu chers </li>
+</ul>
+</li>
+<li>version 1 de la board</li>
+<li>MAIS AVR: 5V (alim directe par USB 5V), IO plus puissantes</li>
+</ul>
+</section>
+  </div>
   <div class="slide hidden -" id="slide-17">
-    <section class="slide-content"><h1 id="mais">MAIS</h1>
-<h2 id="choix-beaucoup-plus-simple-">Choix beaucoup plus simple !</h2>
+    <section class="slide-content"><h1 id="choix-beaucoup-plus-simple-">Choix: beaucoup plus simple !</h1>
 </section>
   </div>
   <div class="slide hidden -" id="slide-18">
@@ -758,29 +668,30 @@ div.largeImage img {
     <section class="slide-content"><h3 id="principe-retenu-pour-l-assemblage-en-multi-couches-5mn-">Principe retenu pour l&#39;assemblage en multi-couches : (5mn)</h3>
 <p><strong>3 Planches</strong> </p>
 <ul>
-<li>La première pour les lettres</li>
+<li><p>La première pour les lettres</p>
+<p><img src="images/resine-lettres.png" alt="planche_lettres" style="zoom:50%;" /></p>
+</li>
 </ul>
-<p><img src="images/resine-lettres.png" alt="planche lettres"></p>
 </section>
   </div>
   <div class="slide hidden -" id="slide-30">
     <section class="slide-content"><ul>
 <li>La seconde pour les mots</li>
 </ul>
-<p><img src="images/resine-mots.png" alt="planche mots"></p>
+<p><img src="/home/gil/Projets/horloge-a-mots/doc/dtd2022/images/resine-mots.png" alt="planche_mots" style="zoom:50%;" /></p>
 </section>
   </div>
   <div class="slide hidden -" id="slide-31">
     <section class="slide-content"><ul>
 <li>La troisième pour les leds</li>
 </ul>
-<p><img src="images/resine-leds.png" alt="planche leds"></p>
+<p><img src="/home/gil/Projets/horloge-a-mots/doc/dtd2022/images/resine-leds.png" alt="planche_leds" style="zoom:50%;" /></p>
 </section>
   </div>
   <div class="slide hidden -" id="slide-32">
     <section class="slide-content"><p><strong>La résine</strong></p>
 <p><a href="https://www.epodex.com/fr/produit/pro-system/">Résine Epodex : https://www.epodex.com/fr/produit/pro-system</a></p>
-<p><img src="images/resine-epodex.png" alt="resine_epodex"></p>
+<p><img src="/home/gil/Projets/horloge-a-mots/doc/dtd2022/images/resine-epodex.png" alt="resine_epodex"></p>
 </section>
   </div>
   <div class="slide hidden -" id="slide-33">
@@ -795,16 +706,16 @@ div.largeImage img {
   <div class="slide hidden -" id="slide-34">
     <section class="slide-content"><p>Comment couler de la résine (3mn)</p>
 <p><strong>Etape 1 : Mettre du scotch pour contenir la résine</strong></p>
-<p><img src="images/resine-scotch.jpg" alt="resine-scotch" width="600" /></p>
+<p><img src="/home/gil/Projets/horloge-a-mots/doc/dtd2022/images/resine-scotch.jpg" alt="resine-scotch" width="600" /></p>
 <p><strong>Etape 2 : Mettre la couche des mots</strong></p>
-<p><img src="images/resine-2PremieresCouches.jpg" alt="resine-2PremieresCouches" width="600" /></p>
+<p><img src="/home/gil/Projets/horloge-a-mots/doc/dtd2022/images/resine-2PremieresCouches.jpg" alt="resine-2PremieresCouches" width="600" /></p>
 </section>
   </div>
   <div class="slide hidden -" id="slide-35">
     <section class="slide-content"><p><strong>Etape 3 : Préparer la résine.</strong></p>
 <ul>
 <li><p>Respecter les dosages (2 pour 1)</p>
-<p><img src="images/resine-Preparation.jpg" alt="resine-Preparation" width="200" /></p>
+<p><img src="/home/gil/Projets/horloge-a-mots/doc/dtd2022/images/resine-Preparation.jpg" alt="resine-Preparation" width="200" /></p>
 </li>
 <li><p>Bien remuer (5mn)</p>
 </li>
@@ -815,9 +726,9 @@ div.largeImage img {
   </div>
   <div class="slide hidden -" id="slide-36">
     <section class="slide-content"><p><strong>Etape 4 : Couler la résine.</strong></p>
-<p><img src="images/resine-onVerseLaResine.jpg" alt="resine-onVerseLaResine" width="600" /></p>
+<p><img src="/home/gil/Projets/horloge-a-mots/doc/dtd2022/images/resine-onVerseLaResine.jpg" alt="resine-onVerseLaResine" width="600" /></p>
 <p><strong>Etape 5 : Positionner les Leds</strong></p>
-<p><img src="images/resine-sechageDesLeds.jpg" alt="resine-sechageDesLeds" width="600" /></p>
+<p><img src="/home/gil/Projets/horloge-a-mots/doc/dtd2022/images/resine-sechageDesLeds.jpg" alt="resine-sechageDesLeds" width="600" /></p>
 </section>
   </div>
   <div class="slide hidden -" id="slide-37">
@@ -825,11 +736,11 @@ div.largeImage img {
 <ul>
 <li>LED traversantes (30°-60°)</li>
 </ul>
-<p><img src="images/resine-ledsTranversantes.jpg" alt="resine-ledsTranversantes" width="350" /></p>
+<p><img src="/home/gil/Projets/horloge-a-mots/doc/dtd2022/images/resine-ledsTranversantes.jpg" alt="resine-ledsTranversantes" width="350" /></p>
 <ul>
 <li>LEDs cms (120°)</li>
 </ul>
-<p><img src="images/resine-ledCms.jpg" alt="resine-ledCms" width="350" /></p>
+<p><img src="/home/gil/Projets/horloge-a-mots/doc/dtd2022/images/resine-ledCms.jpg" alt="resine-ledCms" width="350" /></p>
 </section>
   </div>
   <div class="slide hidden -" id="slide-38">
@@ -837,132 +748,63 @@ div.largeImage img {
 </section>
   </div>
   <div class="slide hidden -" id="slide-39">
-    <section class="slide-content"><h3 id="environnement-platformio-5mn-florent-seb">Environnement PlatformIO (5mn) - Florent &amp; Seb</h3>
-<blockquote>
-<p>Pour ceux qui ne connaissent pas et sont restés sur Arduino </p>
-</blockquote>
-<ul>
-<li>Plate-forme pour le développement embarqué, IoT, Arduino, CMSIS, ESP-IDF, FreeRTOS</li>
-<li>Intégration à VSCode sous forme de plugin</li>
-<li>Installation et gestion facilitée pour les boards</li>
-<li>Installation et gestion facilitée des librairies</li>
-<li>(Non testé) des possibilités avancées de debug directement sur la board</li>
-<li>Possibilité d&#39;utiliser un vrai IDE</li>
-</ul>
-</section>
-  </div>
-  <div class="slide hidden -" id="slide-40">
-<<<<<<< HEAD
-    <section class="slide-content"><h1 id="code-de-l-horloge">Code de l&#39;horloge</h1>
-</section>
-  </div>
-  <div class="slide hidden -" id="slide-41">
-    <section class="slide-content"><h3 id="compter-l-heure-pr-cis-ment-">Compter l&#39;heure (précisément)</h3>
-=======
-    <section class="slide-content"><p><div class="largeImage"><img src="images/platformio_home.png" alt="platormIO home"><div></p>
-</section>
-  </div>
-  <div class="slide hidden -" id="slide-41">
-    <section class="slide-content"><p><div class="largeImage"><img src="images/platformio_ini.png" alt="platormIO ini"><div></p>
-</section>
-  </div>
-  <div class="slide hidden -" id="slide-42">
     <section class="slide-content"><ul>
+<li>L&#39;environnement PlatformIO (5mn) - Florent &amp; Seb<blockquote>
+<p>Pour ceux qui ne connaissent pas et sont restés sur Arduino</p>
+</blockquote>
+</li>
+</ul>
+<ul>
 <li>Description du code, conception détaillée (3mn) - Xav + Seb</li>
 </ul>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-43">
+  <div class="slide hidden -" id="slide-40">
     <section class="slide-content"><h3 id="code-de-l-horloge">Code de l&#39;horloge</h3>
->>>>>>> 8fc8584 (Add info on presentation and platformio)
 <ul>
-<li>un <em>timer</em> 32kHz<ul>
-<li>un timer HW : un compteur de N à zero, et recommence</li>
-<li>compter 1 minute = 60 secondes = 1966080 clocks</li>
-<li>compteur <del>32</del> 8 bits </li>
-<li>sans division (ou peu)</li>
-</ul>
-</li>
-<li>32kHz = 32768 Hz ! <ul>
-<li>pré-diviser par 1024 en HW -&gt; 32Hz</li>
-<li>1 minute = 32768/1024 * 60 = 1920 ticks &gt; 255 :(</li>
-<li>Rollover : diviseur entier de 1920 &lt;255 : 6 (~0.19s), 10, 15, 30, <strong>32</strong> (1s), 60, 64, 128, 192 (6s.)</li>
-</ul>
-</li>
-<li>Algo<ul>
-<li>lire ticks timer &quot;fréquemment&quot; :<ul>
-<li>si <code>ticks</code> plus petit que valeur précédente: +1 tour</li>
-</ul>
-</li>
-<li>alternative : interruption sur rollover</li>
-<li>si nb tours &gt; rollover, augmenter secondes, minutes, heures ...</li>
+<li>savoir l&#39;heure qu&#39;il est (de façon précise)<ul>
+<li>un timer 32kHz piloté par le quartz</li>
+<li>pré-diviser par 1024 en HW</li>
+<li>lire ticks fréquemment, </li>
+<li>si valeur précédente: <ul>
+<li>+1 et augmenter secondes, minutes, heures ...</li>
 </ul>
 </li>
 </ul>
-</section>
-  </div>
-  <div class="slide hidden -" id="slide-42">
-    <section class="slide-content"><h3 id="choisir-les-led-allumer-et-le-faire-">Choisir les LED à allumer (et le faire)</h3>
-<ul>
-<li>Choisir les LED<ul>
-<li>à partir d&#39;une minute donnée, choisir les LED &quot;minutes&quot; à allumer</li>
+</li>
+<li>transformer les LED<ul>
+<li>à partir d&#39;une minute donnée, précalculer les LED &quot;minutes&quot; à allumer  </li>
 <li>ex: 35 -&gt; &quot;moins&quot; vingt&quot; &quot;cinq&quot; (et +1 heure) (attention à 23h) </li>
-<li>ex: 15 -&gt; &quot;et&quot; &quot;quart&quot; </li>
-<li>Génération de tableau en Flash<ul>
-<li>Heures et minutes indépendantes: 60x12=720 vs 60+12=72</li>
+<li>génère un tableau de LEDs à allumer parmi N max</li>
 </ul>
 </li>
-<li>Génère un tableau de LEDs à allumer parmi N max</li>
-<li>une LED -&gt; une ligne, une colonne (un tableau, ou directement précalc)</li>
+<li>driver les LEDs<ul>
+<li>prégénération de tableaux minute/heure -&gt; paquet de LEDs sur lesquelles cycler<ul>
+<li>certaines LEDs sont doubles: rester plus longtemps dessus</li>
 </ul>
 </li>
-<li>multiplex<ul>
-<li>boucler rapidement sur les LED du tableau</li>
-<li>certaines LEDs sont doubles: rester plus longtemps dessus -&gt; ds le tableau  </li>
+<li>multiplex : boucler rapidement sur les LED </li>
 </ul>
 </li>
 <li>fonctions &quot;avancées&quot;: réglage de l&#39;heure, détection si quelqu&#39;un passe, ...<ul>
 <li>TODO !</li>
-<li>Par exemple appuyer sur le bouton reset à un moment précis (par exemple 13h37 !)</li>
 </ul>
 </li>
 </ul>
 </section>
   </div>
-<<<<<<< HEAD
-  <div class="slide hidden -" id="slide-43">
-    <section class="slide-content"><h1 id="rust-">Rust 🦀</h1>
-<h2 id="comment-on-essaie-p-niblement-de-on-a-brillament-su-faire-en-rust">Comment on (essaie (péniblement) de) (on a brillament su) faire en Rust</h2>
-</section>
-  </div>
-  <div class="slide hidden -" id="slide-44">
-    <section class="slide-content"><h3 id="rust-sur-microcontr-leur">Rust sur microcontrôleur</h3>
-<ul>
-<li>Tout est fortement typé / sécure<ul>
-<li>Move semantics</li>
-<li>Borrow checker</li>
-<li>Mutex sur matériel</li>
-</ul>
-</li>
-<li>Mais se compile en qq octets (Cf. make info) : 1o de RAM</li>
-<li>Option<LED>[10] en flash</li>
-<li>Prégénération de code en rust avec build.rs</li>
-<li>Crate <code>embedded_hal</code></li>
-<li>ARM32 mieux que AVR (dispo)</li>
-=======
-  <div class="slide hidden -" id="slide-44">
+  <div class="slide hidden -" id="slide-41">
     <section class="slide-content"><ul>
 <li>Comment on (essaie (péniblement) de) (on a brillament su) faire en Rust (3mn) - Xav + ?</li>
->>>>>>> 8fc8584 (Add info on presentation and platformio)
 </ul>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-45">
+  <div class="slide hidden -" id="slide-42">
     <section class="slide-content"><h1 id="conclusion">Conclusion</h1>
 <h2 id="envoyez-des-sioux-l-arc-">Envoyez des sioux ! (à l&#39;arc) !</h2>
 </section>
   </div>
-  <div class="slide hidden author-slide" id="slide-46">
+  <div class="slide hidden author-slide" id="slide-43">
     <section class="slide-content"><div class="author">
   <h1 class="name">Gil, Charlotte, Sebastien, Xavier</h1>
 </div>

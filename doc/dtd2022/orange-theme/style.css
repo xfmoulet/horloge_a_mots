@@ -49,3 +49,12 @@ th  {
 strong {
 	font-weight: bold;
 }
+
+div.largeImage {
+	display: flex;
+	justify-content: center;
+}
+
+div.largeImage img {
+	max-width: 80%;
+}
