@@ -404,6 +404,9 @@ th  {
   border-bottom: 2px solid #888;
 }
 
+strong {
+	font-weight: bold;
+}
   </style>
     <script async src="http://localhost:35729/livereload.js"></script>
 </head>
@@ -452,14 +455,15 @@ th  {
 <ul>
 <li>Les rubans de LEDs adressables</li>
 <li>Connexion Wi-Fi, mise à jour par NTP</li>
+<li>Arduino, C</li>
 </ul>
 </section>
   </div>
   <div class="slide hidden -" id="slide-7">
     <section class="slide-content"><h3 id="ce-qu-on-doit-conserver">Ce qu&#39;on doit conserver</h3>
 <ul>
-<li>afficher des LEDs</li>
-<li>garder l&#39;heure juste</li>
+<li>Afficher des LEDs</li>
+<li>Garder l&#39;heure juste</li>
 <li>(éventuellement) régler l&#39;heure</li>
 </ul>
 </section>
@@ -526,6 +530,29 @@ th  {
 </section>
   </div>
   <div class="slide hidden -" id="slide-12">
+    <section class="slide-content"><h3 id="garder-l-heure">Garder l&#39;heure</h3>
+<ul>
+<li>quartz + circuits dédiés logiques<ul>
+<li>CD 4060: driver quartz + prédiviseur puissance de 2</li>
+<li>quartz pas chers: 32kHz = 32768Hz, 1s sans division</li>
+<li>MAIS division par 3 et 5 complexes (60=5*3*2²)<ul>
+<li>depuis les babyloniens, difficile de redéfinir la minute, l&#39;heure</li>
+<li>tentative en 1793: 10h, minute décimale, seconde décimale      </li>
+</ul>
+</li>
+<li>plusieurs puces</li>
+</ul>
+</li>
+<li>microcontrôleur : CPU + mémoire intégrée<ul>
+<li>oscillateur interne précis à 1% : 14min/jour ...</li>
+<li>base de temps: Quartz 32kHz, 50Hz secteur </li>
+<li>besoin d&#39;une horloge stable (temps, quartz) + 1 horloge &quot;rapide&quot; (CPU)</li>
+</ul>
+</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-13">
     <section class="slide-content"><h3 id="choix-du-microncontr-leur">Choix du microncontrôleur</h3>
 <table>
 <thead>
@@ -568,7 +595,7 @@ th  {
 </tr>
 <tr>
 <td>Power</td>
-<td>3v3, 1v2, 5v ?</td>
+<td>3v3, 1v2, 5v ? mA: Low power ? Sleep ?</td>
 <td>5V plus simple, sinon 3v3</td>
 </tr>
 <tr>
@@ -580,40 +607,40 @@ th  {
 </table>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-13">
-    <section class="slide-content"><h3 id="exemple-de-constructeurs">Exemple de constructeurs</h3>
+  <div class="slide hidden -" id="slide-14">
+    <section class="slide-content"><h3 id="choix-d-un-constructeur">Choix d&#39;un constructeur</h3>
 <ul>
+<li>Exemple de constructeurs<ul>
 <li>Padauk: 1k OTP, 64oRAM, 3cts MAIS programmateur cher, langage pseudo-C </li>
-<li>AVR Atmega328P (arduino): connu, fiable, pas cher*</li>
+<li>AVR Atmega328P (arduino): 8bits connu, fiable, pas cher*</li>
 <li>AVR Attiny : Idem, moins de mémoire, périphériques</li>
-<li>STM32: de 0.5€ -&gt; qq dizaines d&#39;euros (fait tourner linux), de 4 à 150 IOs, de 32 à 550MHz ... </li>
+<li>STM32: de 0.5€ -&gt; qq dizaines d&#39;euros, de 4 à 150 IOs, de 32 à 550MHz, 8k -&gt; 2Mo flash ... </li>
 <li>Microchip PIC, NXP (philips), STM8, TI, Cypress, Renesas, 8051 ...</li>
 </ul>
-</section>
-  </div>
-  <div class="slide hidden -" id="slide-14">
-    <section class="slide-content"><h3 id="choix-du-microncontr-leur-choix-de-la-famille-dans-la-gamme-constructeur">Choix du microncontrôleur: choix de la famille dans la gamme constructeur</h3>
-<p><img src="images/stm32-1.png" alt="famille"></p>
-</section>
-  </div>
-  <div class="slide hidden -" id="slide-15">
-    <section class="slide-content"><h3 id="choix-du-microncontr-leur-choix-du-mod-le">Choix du microncontrôleur: choix du modèle</h3>
-<p><img src="images/stm32-2.png" alt="modele1">
-<img src="images/stm32-3.png" alt="modele2"></p>
-</section>
-  </div>
-  <div class="slide hidden -" id="slide-16">
-    <section class="slide-content"><h3 id="notre-choix-final">Notre choix final</h3>
-<ul>
+</li>
+<li>Notre choix<ul>
 <li>STM32 : <ul>
 <li>très large famille (64MHz, crystal, 32/8ko, 1€, 20pin)</li>
 <li>simple à programmer (ARM, programmateurs très répandus, USB)</li>
 <li>MCU disponibles peu chers </li>
+<li>version 1 de la board</li>
 </ul>
 </li>
-<li>version 1 de la board</li>
 <li>MAIS AVR: 5V (alim directe par USB 5V), IO plus puissantes</li>
 </ul>
+</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-15">
+    <section class="slide-content"><h3 id="choix-du-microncontr-leur-choix-de-la-famille-dans-la-gamme-constructeur">Choix du microncontrôleur: choix de la famille dans la gamme constructeur</h3>
+<p><img src="images/stm32-1.png" alt="famille"></p>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-16">
+    <section class="slide-content"><h3 id="choix-du-microncontr-leur-choix-du-mod-le">Choix du microncontrôleur: choix du modèle</h3>
+<p><img src="images/stm32-2.png" alt="modele1">
+<img src="images/stm32-3.png" alt="modele2"></p>
 </section>
   </div>
   <div class="slide hidden -" id="slide-17">
@@ -802,30 +829,55 @@ th  {
 </section>
   </div>
   <div class="slide hidden -" id="slide-40">
-    <section class="slide-content"><h3 id="code-de-l-horloge">Code de l&#39;horloge</h3>
+    <section class="slide-content"><h1 id="code-de-l-horloge">Code de l&#39;horloge</h1>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-41">
+    <section class="slide-content"><h3 id="compter-l-heure-pr-cis-ment-">Compter l&#39;heure (précisément)</h3>
 <ul>
-<li>savoir l&#39;heure qu&#39;il est (de façon précise)<ul>
-<li>un timer 32kHz piloté par le quartz</li>
-<li>pré-diviser par 1024 en HW</li>
-<li>lire ticks fréquemment, </li>
-<li>si valeur précédente: <ul>
-<li>+1 et augmenter secondes, minutes, heures ...</li>
+<li>un <em>timer</em> 32kHz<ul>
+<li>un timer HW : un compteur de N à zero, et recommence</li>
+<li>compter 1 minute = 60 secondes = 1966080 clocks</li>
+<li>compteur <del>32</del> 8 bits </li>
+<li>sans division (ou peu)</li>
+</ul>
+</li>
+<li>32kHz = 32768 Hz ! <ul>
+<li>pré-diviser par 1024 en HW -&gt; 32Hz</li>
+<li>1 minute = 32768/1024 * 60 = 1920 ticks &gt; 255 :(</li>
+<li>Rollover : diviseur entier de 1920 &lt;255 : 6 (~0.19s), 10, 15, 30, <strong>32</strong> (1s), 60, 64, 128, 192 (6s.)</li>
+</ul>
+</li>
+<li>Algo<ul>
+<li>lire ticks timer &quot;fréquemment&quot; :<ul>
+<li>si <code>ticks</code> plus petit que valeur précédente: +1 tour</li>
+</ul>
+</li>
+<li>alternative : interruption sur rollover</li>
+<li>si nb tours &gt; rollover, augmenter secondes, minutes, heures ...</li>
 </ul>
 </li>
 </ul>
-</li>
-<li>transformer les LED<ul>
-<li>à partir d&#39;une minute donnée, précalculer les LED &quot;minutes&quot; à allumer  </li>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-42">
+    <section class="slide-content"><h3 id="choisir-les-led-allumer-et-le-faire-">Choisir les LED à allumer (et le faire)</h3>
+<ul>
+<li>Choisir les LED<ul>
+<li>à partir d&#39;une minute donnée, choisir les LED &quot;minutes&quot; à allumer</li>
 <li>ex: 35 -&gt; &quot;moins&quot; vingt&quot; &quot;cinq&quot; (et +1 heure) (attention à 23h) </li>
-<li>génère un tableau de LEDs à allumer parmi N max</li>
+<li>ex: 15 -&gt; &quot;et&quot; &quot;quart&quot; </li>
+<li>Génération de tableau en Flash<ul>
+<li>Heures et minutes indépendantes: 60x12=720 vs 60+12=72</li>
 </ul>
 </li>
-<li>driver les LEDs<ul>
-<li>prégénération de tableaux minute/heure -&gt; paquet de LEDs sur lesquelles cycler<ul>
-<li>certaines LEDs sont doubles: rester plus longtemps dessus</li>
+<li>Génère un tableau de LEDs à allumer parmi N max</li>
+<li>une LED -&gt; une ligne, une colonne (un tableau, ou directement précalc)</li>
 </ul>
 </li>
-<li>multiplex : boucler rapidement sur les LED </li>
+<li>multiplex<ul>
+<li>boucler rapidement sur les LED du tableau</li>
+<li>certaines LEDs sont doubles: rester plus longtemps dessus -&gt; ds le tableau  </li>
 </ul>
 </li>
 <li>fonctions &quot;avancées&quot;: réglage de l&#39;heure, détection si quelqu&#39;un passe, ...<ul>
@@ -835,18 +887,34 @@ th  {
 </ul>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-41">
-    <section class="slide-content"><ul>
-<li>Comment on (essaie (péniblement) de) (on a brillament su) faire en Rust (3mn) - Xav + ?</li>
+  <div class="slide hidden -" id="slide-43">
+    <section class="slide-content"><h1 id="rust-">Rust 🦀</h1>
+<h2 id="comment-on-essaie-p-niblement-de-on-a-brillament-su-faire-en-rust">Comment on (essaie (péniblement) de) (on a brillament su) faire en Rust</h2>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-44">
+    <section class="slide-content"><h3 id="rust-sur-microcontr-leur">Rust sur microcontrôleur</h3>
+<ul>
+<li>Tout est fortement typé / sécure<ul>
+<li>Move semantics</li>
+<li>Borrow checker</li>
+<li>Mutex sur matériel</li>
+</ul>
+</li>
+<li>Mais se compile en qq octets (Cf. make info) : 1o de RAM</li>
+<li>Option<LED>[10] en flash</li>
+<li>Prégénération de code en rust avec build.rs</li>
+<li>Crate <code>embedded_hal</code></li>
+<li>ARM32 mieux que AVR (dispo)</li>
 </ul>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-42">
+  <div class="slide hidden -" id="slide-45">
     <section class="slide-content"><h1 id="conclusion">Conclusion</h1>
 <h2 id="envoyez-des-sioux-l-arc-">Envoyez des sioux ! (à l&#39;arc) !</h2>
 </section>
   </div>
-  <div class="slide hidden author-slide" id="slide-43">
+  <div class="slide hidden author-slide" id="slide-46">
     <section class="slide-content"><div class="author">
   <h1 class="name">Gil, Charlotte, Sebastien, Xavier</h1>
 </div>

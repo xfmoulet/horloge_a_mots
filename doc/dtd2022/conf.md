@@ -29,10 +29,11 @@ theme: ./orange-theme
 ### Préambule : tout ce qu'on a souhaité écarter (2mn)
 - Les rubans de LEDs adressables
 - Connexion Wi-Fi, mise à jour par NTP
+- Arduino, C
 ---
 ### Ce qu'on doit conserver
-- afficher des LEDs
-- garder l'heure juste
+- Afficher des LEDs
+- Garder l'heure juste
 - (éventuellement) régler l'heure
 ---
 ### La problématique de base : comment piloter XX leds ? (5mn)
@@ -71,8 +72,22 @@ theme: ./orange-theme
 - 6 pattes => 30 pins ! 
 - beaucoup plus complexe, pas nécessaire
 ---
-### Choix du microncontrôleur
+### Garder l'heure
 
+- quartz + circuits dédiés logiques
+    - CD 4060: driver quartz + prédiviseur puissance de 2
+    - quartz pas chers: 32kHz = 32768Hz, 1s sans division
+    - MAIS division par 3 et 5 complexes (60=5\*3\*2²)
+      - depuis les babyloniens, difficile de redéfinir la minute, l'heure
+      - tentative en 1793: 10h, minute décimale, seconde décimale      
+    - plusieurs puces
+- microcontrôleur : CPU + mémoire intégrée
+  - oscillateur interne précis à 1% : 14min/jour ...
+  - base de temps: Quartz 32kHz, 50Hz secteur 
+  - besoin d'une horloge stable (temps, quartz) + 1 horloge "rapide" (CPU)
+
+---
+### Choix du microncontrôleur
 
 | Quoi | Caractéristiques | Besoin |
 |---|-----|----|
@@ -82,17 +97,25 @@ theme: ./orange-theme
 | Périphériques | 1-10+ Timers, n UART, SPI, I2C, CAN ... | Timer Quartz 32KHz |
 | IO | Nb pattes (boîtier), mA | 12 GPIO, qq dizaines mA ! |
 | Horloges | PLL, Osc interne / Quartz, ... | Osc. Int High speed ou PLL |
-| Power | 3v3, 1v2, 5v ? | 5V plus simple, sinon 3v3|
+| Power | 3v3, 1v2, 5v ? mA: Low power ? Sleep ? | 5V plus simple, sinon 3v3|
 | Programmateur | USB, UART, SWD/SPI, autre high power .. | USB, UART |
 
 
 ---
-### Exemple de constructeurs
-- Padauk: 1k OTP, 64oRAM, 3cts MAIS programmateur cher, langage pseudo-C 
-- AVR Atmega328P (arduino): connu, fiable, pas cher*
-- AVR Attiny : Idem, moins de mémoire, périphériques
-- STM32: de 0.5€ -> qq dizaines d'euros (fait tourner linux), de 4 à 150 IOs, de 32 à 550MHz ... 
-- Microchip PIC, NXP (philips), STM8, TI, Cypress, Renesas, 8051 ...
+### Choix d'un constructeur
+- Exemple de constructeurs
+  - Padauk: 1k OTP, 64oRAM, 3cts MAIS programmateur cher, langage pseudo-C 
+  - AVR Atmega328P (arduino): 8bits connu, fiable, pas cher*
+  - AVR Attiny : Idem, moins de mémoire, périphériques
+  - STM32: de 0.5€ -> qq dizaines d'euros, de 4 à 150 IOs, de 32 à 550MHz, 8k -> 2Mo flash ... 
+  - Microchip PIC, NXP (philips), STM8, TI, Cypress, Renesas, 8051 ...
+- Notre choix
+  - STM32 : 
+    - très large famille (64MHz, crystal, 32/8ko, 1€, 20pin)
+    - simple à programmer (ARM, programmateurs très répandus, USB)
+    - MCU disponibles peu chers 
+    - version 1 de la board
+  - MAIS AVR: 5V (alim directe par USB 5V), IO plus puissantes  
 ---
 ### Choix du microncontrôleur: choix de la famille dans la gamme constructeur
 ![famille](images/stm32-1.png)
@@ -100,14 +123,6 @@ theme: ./orange-theme
 ### Choix du microncontrôleur: choix du modèle
 ![modele1](images/stm32-2.png)
 ![modele2](images/stm32-3.png)
----
-### Notre choix final
-- STM32 : 
-    - très large famille (64MHz, crystal, 32/8ko, 1€, 20pin)
-    - simple à programmer (ARM, programmateurs très répandus, USB)
-    - MCU disponibles peu chers 
-- version 1 de la board
-- MAIS AVR: 5V (alim directe par USB 5V), IO plus puissantes  
 ---
 # MAIS
 ## Choix beaucoup plus simple !
@@ -251,27 +266,52 @@ Comment couler de la résine (3mn)
 
 - Description du code, conception détaillée (3mn) - Xav + Seb
 ---
-### Code de l'horloge
-
-- savoir l'heure qu'il est (de façon précise)
-  - un timer 32kHz piloté par le quartz
-  - pré-diviser par 1024 en HW
-  - lire ticks fréquemment, 
-  - si valeur précédente: 
-      - +1 et augmenter secondes, minutes, heures ...
-- transformer les LED
-  - à partir d'une minute donnée, précalculer les LED "minutes" à allumer  
+# Code de l'horloge
+---
+### Compter l'heure (précisément)
+- un *timer* 32kHz
+   - un timer HW : un compteur de N à zero, et recommence
+   - compter 1 minute = 60 secondes = 1966080 clocks
+   - compteur ~~32~~ 8 bits 
+   - sans division (ou peu)
+- 32kHz = 32768 Hz ! 
+  - pré-diviser par 1024 en HW -> 32Hz
+  - 1 minute = 32768/1024 * 60 = 1920 ticks > 255 :(
+  - Rollover : diviseur entier de 1920 <255 : 6 (\~0.19s), 10, 15, 30, **32** (1s), 60, 64, 128, 192 (6s.)
+- Algo
+  - lire ticks timer "fréquemment" :
+   - si `ticks` plus petit que valeur précédente: +1 tour
+  - alternative : interruption sur rollover
+  - si nb tours > rollover, augmenter secondes, minutes, heures ...
+---
+### Choisir les LED à allumer (et le faire)
+- Choisir les LED
+  - à partir d'une minute donnée, choisir les LED "minutes" à allumer
   - ex: 35 -> "moins" vingt" "cinq" (et +1 heure) (attention à 23h) 
-  - génère un tableau de LEDs à allumer parmi N max
-- driver les LEDs
-  - prégénération de tableaux minute/heure -> paquet de LEDs sur lesquelles cycler
-   - certaines LEDs sont doubles: rester plus longtemps dessus
-  - multiplex : boucler rapidement sur les LED 
+  - ex: 15 -> "et" "quart" 
+  - Génération de tableau en Flash
+   - Heures et minutes indépendantes: 60x12=720 vs 60+12=72
+  - Génère un tableau de LEDs à allumer parmi N max
+  - une LED -> une ligne, une colonne (un tableau, ou directement précalc)
+- multiplex
+  - boucler rapidement sur les LED du tableau
+  - certaines LEDs sont doubles: rester plus longtemps dessus -> ds le tableau  
 - fonctions "avancées": réglage de l'heure, détection si quelqu'un passe, ...
   - TODO ! 
 ---
-- Comment on (essaie (péniblement) de) (on a brillament su) faire en Rust (3mn) - Xav + ?
-
+# Rust 🦀
+## Comment on (essaie (péniblement) de) (on a brillament su) faire en Rust
+---
+### Rust sur microcontrôleur 
+- Tout est fortement typé / sécure
+  - Move semantics
+  - Borrow checker
+  - Mutex sur matériel
+- Mais se compile en qq octets (Cf. make info) : 1o de RAM
+- Option<LED>[10] en flash
+- Prégénération de code en rust avec build.rs
+- Crate `embedded_hal`
+- ARM32 mieux que AVR (dispo)
 ---
 # Conclusion
 ## Envoyez des sioux ! (à l'arc) !

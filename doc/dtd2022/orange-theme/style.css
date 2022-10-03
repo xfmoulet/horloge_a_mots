@@ -45,3 +45,7 @@ td {
 th  {  
   border-bottom: 2px solid #888;
 }
+
+strong {
+	font-weight: bold;
+}
