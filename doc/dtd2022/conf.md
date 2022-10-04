@@ -130,19 +130,23 @@ theme: ./orange-theme
 
 ### Garder l'heure
 
-- quartz + circuits dédiés logiques
+- Avec un quartz et des circuits dédiés logiques
     - CD 4060: driver quartz + prédiviseur puissance de 2
+      <img alt="CD4060" src="images/CD4060-pinout.png"  style="float: right;">
     - quartz pas chers: 32kHz = 32768Hz, 1s sans division
     - MAIS division par 3 et 5 complexes (60=5\*3\*2²)
       - depuis les babyloniens, difficile de redéfinir la minute, l'heure
       - tentative en 1793: 10h, minute décimale, seconde décimale      
     - plusieurs puces
-- microcontrôleur : CPU + mémoire intégrée
+
+
+- Avec un microcontrôleur : CPU + mémoire intégrée
   - oscillateur interne précis à 1% : 14min/jour ...
   - base de temps: Quartz 32kHz, 50Hz secteur 
   - besoin d'une horloge stable (temps, quartz) + 1 horloge "rapide" (CPU)
 
 ---
+
 ### Choix du micro-contrôleur
 
 | Quoi | Caractéristiques | Besoin |
@@ -156,80 +160,134 @@ theme: ./orange-theme
 | Power | 3v3, 1v2, 5v ? mA: Low power ? Sleep ? | 5V plus simple, sinon 3v3|
 | Programmateur | USB, UART, SWD/SPI, autre high power .. | USB, UART |
 
-
 ---
+
 ### Choix d'un constructeur
+
 - Exemple de constructeurs
   - Padauk: 1k OTP, 64oRAM, 3cts MAIS programmateur cher, langage pseudo-C 
   - AVR Atmega328P (arduino): 8bits connu, fiable, pas cher*
   - AVR Attiny : Idem, moins de mémoire, périphériques
   - STM32: de 0.5€ -> qq dizaines d'euros, de 4 à 150 IOs, de 32 à 550MHz, 8k -> 2Mo flash ... 
   - Microchip PIC, NXP (philips), STM8, TI, Cypress, Renesas, 8051 ...
+
 - Notre choix
   - STM32 : 
     - très large famille (64MHz, crystal, 32/8ko, 1€, 20pin)
     - simple à programmer (ARM, programmateurs très répandus, USB)
     - MCU disponibles peu chers 
     - version 1 de la board
-  - MAIS AVR: 5V (alim directe par USB 5V), IO plus puissantes  
+  - MAIS AVR: 5V (alim directe par USB 5V), IO plus puissantes
+
 ---
+
 ### Choix du microncontrôleur: choix de la famille dans la gamme constructeur
+
 <center>![famille](images/stm32-1.png)</center>
+
 ---
+
 ### Choix du microncontrôleur: choix du modèle
+
 <center>![modele1](images/stm32-2.png)
 ![modele2](images/stm32-3.png)</center>
+
 ---
+
 # MAIS
 ## Choix beaucoup plus simple !
+
 ---
+
 ### Choix sur un site connu: Atmega328P
+
 - atmega328P (arduino), rechercher ...
 <center>![rechercher mouser](images/achat328-1.png)</center>
 - choix packages 
 - click sur "in stock"
+
 ---
+
 ### Choix sur un site connu : atmega328P
 <center>![rechercher mouser](images/achat328-2.png)</center>
+
 ---
+
 ### Choix sur un site connu : atmega328P
 - Autre site ! 
 
 <center>![rechercher mouser](images/achat328-3.png)</center>
+
 ---
+
 ### Algorithme V2
+
 - Choisir un constructeur
 - Sélectionner "en stock"
 - Prendre le moins cher
 - S'adapter
+
+<center>![Improvise, adapt, overcome](images/improvise-adapt-overcome.png)</center>
+
 ---
+
 ### Algorithme V2
 
 ![rechercher lcsc](images/achat328-4.png)
 
 - * note: les Attiny, moins puissants, ne sont pas moins chers 
+
 ---
-### Comment interagir avec l'objet ?
-  - Nos idées d'interface utilisateur (PIR, boutons, mise sous tension à heure fixe...)
+
+### Comment régler l'heure ?
+
+  - Avec un ou plusieurs boutons ?
+    <img alt="button" src="images/push-button.jpg"  style="float: right; width: 300px;">
+    - Des GPIO en plus 😒
+
+  - Avec un détecteur infrarouge ?
+    <img alt="PIR" src="images/pir-sensor.jpeg"  style="float: right; width: 400px;">
+    - Une ergonomie douteuse 🤨
+
+  - Aucune entrée utilisateur
+    - Facile à coder !
+    - Pas de bug 🥰
+
+
 ---
+
 ### Le schéma de la board
-  ![le schema](images/schema_avr.png)
-  - explications de chaque élément 
+
+  <img alt="Schéma" src="images/schema_avr.png" width="80%">
+
 ---
+
 ### Réalisation du circuit imprimé avec EasyEDA
   <center>![pcb editor](images/pcb_avr.png)</center>
-  - Facilité de réalisation, le routage auto (démo live ?), les prix
+  - Facile à réaliser, routage automatique
+
 ---
+
 ### Au final
+
 <center>![3D schema](images/board3d.png)</center>
+
 - LCPCB (china): 2 semaines, 10€ pour 15 boards
+
 ---
+
 ### Au final
-<center>![boards finies](images/boards.jpg)</center>
+
+<center><img alt="Boards finies" src="images/boards.jpg" width="80%"></center>
+
 ---
-# Partie afficheur - Charlotte Gil 
+
+# Partie afficheur
+
 ---
-### Principe retenu pour l'assemblage en multi-couches :
+
+### Principe retenu pour l'assemblage en multi-couches
+
 **3 Planches** 
 
 <div style="display:grid; grid-template-columns: repeat(2, 1fr);">
@@ -238,23 +296,32 @@ theme: ./orange-theme
 ![planche lettres](images/resine-lettres.png)
 ![planche mots](images/resine-mots.png)
 </div>
----
-<span>- La troisième pour les leds</span>
-<center>![planche leds](images/resine-leds.png)</center>
----
-- Découpe laser vs découpe CNC, les problèmes
-  > EASEL
-  <center>![decoupe CNC](images/decoupe.jpg)</center>
+
 ---
 
-**La résine**
+### Principe retenu pour l'assemblage en multi-couches
+
+<span>- La troisième pour les leds</span>
+<center>![planche leds](images/resine-leds.png)</center>
+
+---
+
+### Découpe laser vs découpe CNC, les problèmes
+  > EASEL
+
+  <center>![decoupe CNC](images/decoupe.jpg)</center>
+
+---
+
+### La résine
 
 [Résine Epodex : https://www.epodex.com/fr/produit/pro-system](https://www.epodex.com/fr/produit/pro-system/)
 
 ![resine_epodex](images/resine-epodex.png)
 
 ---
-Comment couler de la résine
+
+### Comment couler de la résine
 
 **Etape 1 : Mettre du scotch pour contenir la résine**
 
@@ -265,6 +332,8 @@ Comment couler de la résine
 <img src="images/resine-2PremieresCouches.jpg" alt="resine-2PremieresCouches" width="600" />
 
 ---
+
+### Comment couler de la résine
 
 **Etape 3 : Préparer la résine.**
 
@@ -278,6 +347,8 @@ Comment couler de la résine
 
 ---
 
+### Comment couler de la résine
+
 **Etape 4 : Couler la résine.**
 
 <img src="images/resine-onVerseLaResine.jpg" alt="resine-onVerseLaResine" width="600" />
@@ -288,7 +359,7 @@ Comment couler de la résine
 
 ---
 
-**Test des différents types de LED**
+### Test des différents types de LED
 
 - LED traversantes (30°-60°)
 
@@ -299,9 +370,13 @@ Comment couler de la résine
 <img src="images/resine-ledCms.jpg" alt="resine-ledCms" width="350" />
 
 ---
+
 # Développement
+
 ---
+
 ### Environnement PlatformIO - Florent & Seb
+
 > Pour ceux qui ne connaissent pas et sont restés sur Arduino 
   
   - Plate-forme pour le développement embarqué, IoT, Arduino, CMSIS, ESP-IDF, FreeRTOS
@@ -310,15 +385,24 @@ Comment couler de la résine
   - Installation et gestion facilitée des librairies
   - (Non testé) des possibilités avancées de debug directement sur la board
   - Possibilité d'utiliser un vrai IDE
+
 ---
+
   <div class="largeImage">![platormIO home](images/platformio_home.png)<div>
+
 ---
+
   <div class="largeImage">![platormIO ini](images/platformio_ini.png)<div>
+
 ---
   
+
 # Code de l'horloge
+
 ---
+
 ### Compter l'heure (précisément)
+
 - un *timer* 32kHz
    - un timer HW : un compteur de N à zero, et recommence
    - compter 1 minute = 60 secondes = 1966080 clocks
@@ -333,8 +417,11 @@ Comment couler de la résine
    - si `ticks` plus petit que valeur précédente: +1 tour
   - alternative : interruption sur rollover
   - si nb tours > rollover, augmenter secondes, minutes, heures ...
+
 ---
+
 ### Choisir les LED à allumer (et le faire)
+
 - Choisir les LED
   - à partir d'une minute donnée, choisir les LED "minutes" à allumer
   - ex: 35 -> "moins" "vingt" "cinq" (et +1 heure) (attention à 23h) 
@@ -349,11 +436,18 @@ Comment couler de la résine
 - fonctions "avancées": réglage de l'heure, détection si quelqu'un passe, ...
   - TODO !
   - Par exemple appuyer sur le bouton reset à un moment précis (par exemple 13h37 !)
+
 ---
+
 # Rust 🦀
 ## Comment on (essaie (péniblement) de) (on a brillament su) faire en Rust
+
 ---
+
 ### Rust sur microcontrôleur 
+
+**Un screenshot du code peut-être ?**
+
 - Tout est fortement typé / sécure
   - Move semantics
   - Borrow checker
@@ -363,7 +457,10 @@ Comment couler de la résine
 - Prégénération de code en rust avec build.rs
 - Crate `embedded_hal`
 - ARM32 mieux que AVR (dispo)
+- https://gitlab.tech.orange/coderoom-atalante/coding-dojos/embedded-rust
+
 ---
+
 # Conclusion
 ## Envoyez des sioux ! (à l'arc) !
 

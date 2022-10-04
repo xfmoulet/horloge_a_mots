@@ -580,8 +580,9 @@ div.largeImage img {
   <div class="slide hidden -" id="slide-13">
     <section class="slide-content"><h3 id="garder-l-heure">Garder l&#39;heure</h3>
 <ul>
-<li>quartz + circuits dédiés logiques<ul>
-<li>CD 4060: driver quartz + prédiviseur puissance de 2</li>
+<li>Avec un quartz et des circuits dédiés logiques<ul>
+<li>CD 4060: driver quartz + prédiviseur puissance de 2
+<img alt="CD4060" src="images/CD4060-pinout.png"  style="float: right;"></li>
 <li>quartz pas chers: 32kHz = 32768Hz, 1s sans division</li>
 <li>MAIS division par 3 et 5 complexes (60=5*3*2²)<ul>
 <li>depuis les babyloniens, difficile de redéfinir la minute, l&#39;heure</li>
@@ -591,7 +592,9 @@ div.largeImage img {
 <li>plusieurs puces</li>
 </ul>
 </li>
-<li>microcontrôleur : CPU + mémoire intégrée<ul>
+</ul>
+<ul>
+<li>Avec un microcontrôleur : CPU + mémoire intégrée<ul>
 <li>oscillateur interne précis à 1% : 14min/jour ...</li>
 <li>base de temps: Quartz 32kHz, 50Hz secteur </li>
 <li>besoin d&#39;une horloge stable (temps, quartz) + 1 horloge &quot;rapide&quot; (CPU)</li>
@@ -658,7 +661,8 @@ div.largeImage img {
   <div class="slide hidden -" id="slide-15">
     <section class="slide-content"><h3 id="choix-d-un-constructeur">Choix d&#39;un constructeur</h3>
 <ul>
-<li>Exemple de constructeurs<ul>
+<li><p>Exemple de constructeurs</p>
+<ul>
 <li>Padauk: 1k OTP, 64oRAM, 3cts MAIS programmateur cher, langage pseudo-C </li>
 <li>AVR Atmega328P (arduino): 8bits connu, fiable, pas cher*</li>
 <li>AVR Attiny : Idem, moins de mémoire, périphériques</li>
@@ -666,7 +670,8 @@ div.largeImage img {
 <li>Microchip PIC, NXP (philips), STM8, TI, Cypress, Renesas, 8051 ...</li>
 </ul>
 </li>
-<li>Notre choix<ul>
+<li><p>Notre choix</p>
+<ul>
 <li>STM32 : <ul>
 <li>très large famille (64MHz, crystal, 32/8ko, 1€, 20pin)</li>
 <li>simple à programmer (ARM, programmateurs très répandus, USB)</li>
@@ -722,7 +727,7 @@ div.largeImage img {
 <li>Prendre le moins cher</li>
 <li>S&#39;adapter</li>
 </ul>
-</section>
+<center><img src="images/improvise-adapt-overcome.png" alt="Improvise, adapt, overcome"></center></section>
   </div>
   <div class="slide hidden -" id="slide-23">
     <section class="slide-content"><h3 id="algorithme-v2">Algorithme V2</h3>
@@ -736,31 +741,46 @@ div.largeImage img {
 </section>
   </div>
   <div class="slide hidden -" id="slide-24">
-    <section class="slide-content"><h3 id="comment-interagir-avec-l-objet-">Comment interagir avec l&#39;objet ?</h3>
+    <section class="slide-content"><h3 id="comment-r-gler-l-heure-">Comment régler l&#39;heure ?</h3>
 <ul>
-<li>Nos idées d&#39;interface utilisateur (PIR, boutons, mise sous tension à heure fixe...)</li>
+<li><p>Avec un ou plusieurs boutons ?
+<img alt="button" src="images/push-button.jpg"  style="float: right; width: 300px;"></p>
+<ul>
+<li>Des GPIO en plus 😒</li>
+</ul>
+</li>
+<li><p>Avec un détecteur infrarouge ?
+<img alt="PIR" src="images/pir-sensor.jpeg"  style="float: right; width: 400px;"></p>
+<ul>
+<li>Une ergonomie douteuse 🤨</li>
+</ul>
+</li>
+<li><p>Aucune entrée utilisateur</p>
+<ul>
+<li>Facile à coder !</li>
+<li>Pas de bug 🥰</li>
+</ul>
+</li>
 </ul>
 </section>
   </div>
   <div class="slide hidden -" id="slide-25">
     <section class="slide-content"><h3 id="le-sch-ma-de-la-board">Le schéma de la board</h3>
-<p>  <img src="images/schema_avr.png" alt="le schema"></p>
-<ul>
-<li>explications de chaque élément</li>
-</ul>
+<p>  <img alt="Schéma" src="images/schema_avr.png" width="80%"></p>
 </section>
   </div>
   <div class="slide hidden -" id="slide-26">
     <section class="slide-content"><h3 id="r-alisation-du-circuit-imprim-avec-easyeda">Réalisation du circuit imprimé avec EasyEDA</h3>
 <p>  <center><img src="images/pcb_avr.png" alt="pcb editor"></center></p>
 <ul>
-<li>Facilité de réalisation, le routage auto (démo live ?), les prix</li>
+<li>Facile à réaliser, routage automatique</li>
 </ul>
 </section>
   </div>
   <div class="slide hidden -" id="slide-27">
     <section class="slide-content"><h3 id="au-final">Au final</h3>
-<p><center><img src="images/board3d.png" alt="3D schema"></center></p>
+<center><img src="images/board3d.png" alt="3D schema"></center>
+
 <ul>
 <li>LCPCB (china): 2 semaines, 10€ pour 15 boards</li>
 </ul>
@@ -768,14 +788,14 @@ div.largeImage img {
   </div>
   <div class="slide hidden -" id="slide-28">
     <section class="slide-content"><h3 id="au-final">Au final</h3>
-<center><img src="images/boards.jpg" alt="boards finies"></center></section>
+<center><img alt="Boards finies" src="images/boards.jpg" width="80%"></center></section>
   </div>
   <div class="slide hidden -" id="slide-29">
-    <section class="slide-content"><h1 id="partie-afficheur-charlotte-gil">Partie afficheur - Charlotte Gil</h1>
+    <section class="slide-content"><h1 id="partie-afficheur">Partie afficheur</h1>
 </section>
   </div>
   <div class="slide hidden -" id="slide-30">
-    <section class="slide-content"><h3 id="principe-retenu-pour-l-assemblage-en-multi-couches-">Principe retenu pour l&#39;assemblage en multi-couches :</h3>
+    <section class="slide-content"><h3 id="principe-retenu-pour-l-assemblage-en-multi-couches">Principe retenu pour l&#39;assemblage en multi-couches</h3>
 <p><strong>3 Planches</strong> </p>
 <div style="display:grid; grid-template-columns: repeat(2, 1fr);">
 <span>- La première pour les lettres</span>
@@ -785,26 +805,25 @@ div.largeImage img {
 </div></section>
   </div>
   <div class="slide hidden -" id="slide-31">
-    <section class="slide-content"><p><span>- La troisième pour les leds</span></p>
+    <section class="slide-content"><h3 id="principe-retenu-pour-l-assemblage-en-multi-couches">Principe retenu pour l&#39;assemblage en multi-couches</h3>
+<p><span>- La troisième pour les leds</span></p>
 <center><img src="images/resine-leds.png" alt="planche leds"></center></section>
   </div>
   <div class="slide hidden -" id="slide-32">
-    <section class="slide-content"><ul>
-<li>Découpe laser vs découpe CNC, les problèmes<blockquote>
+    <section class="slide-content"><h3 id="d-coupe-laser-vs-d-coupe-cnc-les-probl-mes">Découpe laser vs découpe CNC, les problèmes</h3>
+<blockquote>
 <p>EASEL</p>
 </blockquote>
-<center><img src="images/decoupe.jpg" alt="decoupe CNC"></center></li>
-</ul>
-</section>
+  <center><img src="images/decoupe.jpg" alt="decoupe CNC"></center></section>
   </div>
   <div class="slide hidden -" id="slide-33">
-    <section class="slide-content"><p><strong>La résine</strong></p>
+    <section class="slide-content"><h3 id="la-r-sine">La résine</h3>
 <p><a href="https://www.epodex.com/fr/produit/pro-system/">Résine Epodex : https://www.epodex.com/fr/produit/pro-system</a></p>
 <p><img src="images/resine-epodex.png" alt="resine_epodex"></p>
 </section>
   </div>
   <div class="slide hidden -" id="slide-34">
-    <section class="slide-content"><p>Comment couler de la résine</p>
+    <section class="slide-content"><h3 id="comment-couler-de-la-r-sine">Comment couler de la résine</h3>
 <p><strong>Etape 1 : Mettre du scotch pour contenir la résine</strong></p>
 <p><img src="images/resine-scotch.jpg" alt="resine-scotch" width="600" /></p>
 <p><strong>Etape 2 : Mettre la couche des mots</strong></p>
@@ -812,7 +831,8 @@ div.largeImage img {
 </section>
   </div>
   <div class="slide hidden -" id="slide-35">
-    <section class="slide-content"><p><strong>Etape 3 : Préparer la résine.</strong></p>
+    <section class="slide-content"><h3 id="comment-couler-de-la-r-sine">Comment couler de la résine</h3>
+<p><strong>Etape 3 : Préparer la résine.</strong></p>
 <ul>
 <li><p>Respecter les dosages (2 pour 1)</p>
 <p><img src="images/resine-Preparation.jpg" alt="resine-Preparation" width="200" /></p>
@@ -825,14 +845,15 @@ div.largeImage img {
 </section>
   </div>
   <div class="slide hidden -" id="slide-36">
-    <section class="slide-content"><p><strong>Etape 4 : Couler la résine.</strong></p>
+    <section class="slide-content"><h3 id="comment-couler-de-la-r-sine">Comment couler de la résine</h3>
+<p><strong>Etape 4 : Couler la résine.</strong></p>
 <p><img src="images/resine-onVerseLaResine.jpg" alt="resine-onVerseLaResine" width="600" /></p>
 <p><strong>Etape 5 : Positionner les Leds</strong></p>
 <p><img src="images/resine-sechageDesLeds.jpg" alt="resine-sechageDesLeds" width="600" /></p>
 </section>
   </div>
   <div class="slide hidden -" id="slide-37">
-    <section class="slide-content"><p><strong>Test des différents types de LED</strong></p>
+    <section class="slide-content"><h3 id="test-des-diff-rents-types-de-led">Test des différents types de LED</h3>
 <ul>
 <li>LED traversantes (30°-60°)</li>
 </ul>
@@ -937,6 +958,7 @@ div.largeImage img {
   </div>
   <div class="slide hidden -" id="slide-46">
     <section class="slide-content"><h3 id="rust-sur-microcontr-leur">Rust sur microcontrôleur</h3>
+<p><strong>Un screenshot du code peut-être ?</strong></p>
 <ul>
 <li>Tout est fortement typé / sécure<ul>
 <li>Move semantics</li>
@@ -949,6 +971,7 @@ div.largeImage img {
 <li>Prégénération de code en rust avec build.rs</li>
 <li>Crate <code>embedded_hal</code></li>
 <li>ARM32 mieux que AVR (dispo)</li>
+<li><a href="https://gitlab.tech.orange/coderoom-atalante/coding-dojos/embedded-rust">https://gitlab.tech.orange/coderoom-atalante/coding-dojos/embedded-rust</a></li>
 </ul>
 </section>
   </div>
