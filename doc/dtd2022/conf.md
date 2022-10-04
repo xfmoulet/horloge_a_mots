@@ -3,12 +3,14 @@ author:
   name: Florent, François-Xavier, Gil, Charlotte, Seb, Xavier-Frédéric
 controls: false
 theme: ./orange-theme
+
 ---
+
 # Une Horloge à mots
 ## Les jeudis de l'electronique au secteur 3
+
 ---
-# Introduction
----
+
 ### C'est quoi le secteur 3 et la code room ?
 
 - Infos utiles :
@@ -25,6 +27,7 @@ theme: ./orange-theme
   - Horlogeobus
 
 ---
+
 ### Le projet : l'horloge à mots
 
 <center><img src="images/horloge.png" width="500"><img src="images/horloge-gold.png" width="500"></center>
@@ -34,6 +37,8 @@ theme: ./orange-theme
 ---
 
 # Composants et design de la board
+
+<div class="timer">Timer: 40mn</div>
 
 ---
 
@@ -282,7 +287,10 @@ theme: ./orange-theme
 
 ---
 
-# Partie afficheur
+# L'afficheur
+
+<div class="timer">Timer: 25mn</div>
+
 
 ---
 
@@ -372,6 +380,8 @@ theme: ./orange-theme
 ---
 
 # Développement
+
+<div class="timer">Timer: 12mn</div>
 
 ---
 
