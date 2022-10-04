@@ -12,8 +12,9 @@ theme: ./orange-theme
 ### C'est quoi le secteur 3 et la code room ?
 
 - Infos utiles :
-  - ouvert à tous !
+  - Ouvert à tous !
   - Activités (coding dojos, jeudi électronique, rencontre agile)
+  - Le programme : https://plazza.orange.com/groups/tiers-lieu-rennes
 
 - Quelques vieux projets:
   - Borne d'arcade
@@ -25,60 +26,108 @@ theme: ./orange-theme
 
 ---
 ### Le projet : l'horloge à mots
-- Présentation, fonctionnement, tarifs commerciaux
 
-<center>![horloge](images/horloge.png) ![horloge gold](images/horloge-gold.png)</center>
+<center><img src="images/horloge.png" width="500"><img src="images/horloge-gold.png" width="500"></center>
 
 - Nos objectifs : faible coût, composants simples
+
 ---
+
 # Composants et design de la board
+
 ---
+
 ### Préambule : tout ce qu'on a souhaité écarter
-- Les rubans de LEDs adressables
+
+- Les rubans de LEDs adressables 
+  
+  <img src="images/ruban-leds.jpg" width="300">
+  <img style="float: right;" src="images/esp8266.jpg" width="500">
+
+  
 - Connexion Wi-Fi, mise à jour par NTP
 - Arduino, C
+
+  <img src="images/arduino.jpg" width="300">
+
 ---
+
 ### Ce qu'on doit conserver
-- Afficher des LEDs
+
+- Allumer des LEDs
 - Garder l'heure juste
-- (éventuellement) régler l'heure
+- Régler l'heure
+  - éventuellement
+  - comment ?
+
 ---
-### La problématique de base : comment piloter XX leds ?
-  - Quand XX = 1 : 
-     - courant: dans la spec
-     - voltage d'une LED: dans la datasheet de la LED, ~3V pour une LED blanche. Qq mesures pour contrôler
-     - contraintes d'un microcontrôleur: IO qq dizaines mA OU circuit plus complexe
-     ![LED datasheet](images/led_specs.png)
+
+### La problématique de base : comment piloter une LED ?
+
+  - **Courant** : dans la datasheet, ~20mA pour une LED blanche 
+  - **Tension** aux bornes d'une LED : dans la datasheet, ~3V (quelques mesures pour contrôler)
+
+  ![LED datasheet](images/led_specs.png)
+
+  - Contraintes d'un microcontrôleur : quelques dizaines de mA par GPIO 
+  - Sinon, il faut un circuit plus complexe
+
 ---
-### Piloter XX=30 LEDs : 1/3
+
+### Piloter 30 LEDs : 1/3
+
   - 1 pin / LED : 30 IO
     - MCU plus chers, plus complexes à souder
-    - ![lqfp64](images/lqfp64.png)
+    <img alt="lqfp64" src="images/lqfp64.png"  style="float: right;">
     - pas possible de tout allumer en même temps sans *driver* 30\*30mA = 1 A !
+
   - Circuit supplémentaires 
-    - 74HC595 : série -> parallèle
+    - 74HC595 : registre à décalage
+    <img alt="74hc595" src="images/74hc595.png"  style="float: right;">
     - 2 pattes pour piloter toutes les LED (chaînables)
     - 8 LED / circuit : 4 circuits x 10cts ! 
     - Plus complexe a souder / réaliser plus complexe a réaliser.
+
 ---
+
 ### Piloter 30 LEDs : 2/3
+
   ![multiplex](images/led-matrix.png)
-- Multiplexage ligne/colonne: (n/2)²
-- De N=30 à 2\*√N = 12 ! : 
-  - MCU à 20 pattes convient
+
+- Multiplexage ligne/colonne : (Nb<sub>GPIO</sub>/2)² LEDs
+
+- Pour 30 LEDs, il faut 2\*√30 = 12 GPIOs :
+  - Un MCU à 20 pattes convient
+
 - 1 LED allumée à la fois
-  - joue sur la persistence rétinienne
+  - Joue sur la persistence rétinienne
   - Contrôle du courant 
   - Assez rapide pour ne pas clignoter
 
 ---
+
 ### Piloter 30 LEDs : 3/3
-![charlieplex](images/charlieplex.png)
-- CharliePlex: n²-n (\~2001)
-- 2 LED tête bêche, emploie le fait d'éteindre une IO    
-- 6 pattes => 30 pins ! 
-- beaucoup plus complexe, pas nécessaire
+
+![charlieplex](images/charlieplex-tr.png)
+
+- CharliePlex: Nb<sub>GPIO</sub>² - Nb<sub>GPIO</sub> (\~2001)
+- 2 LED tête bêche, emploie le fait d'éteindre une IO
+- 6 GPIOs => 30 LEDs ! 
+
+----
+
+### Piloter 30 LEDs : 3/3
+
+![charlieplex](images/charlieplex-2.png)
+
+- Exemple pour allumer la LED1 :
+  - X1 à Vcc
+  - X2 à la masse
+  - X3 déconnecté
+- Beaucoup plus complexe, pas nécessaire
+
 ---
+
 ### Garder l'heure
 
 - quartz + circuits dédiés logiques

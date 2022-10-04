@@ -437,8 +437,9 @@ div.largeImage img {
 <ul>
 <li><p>Infos utiles :</p>
 <ul>
-<li>ouvert à tous !</li>
+<li>Ouvert à tous !</li>
 <li>Activités (coding dojos, jeudi électronique, rencontre agile)</li>
+<li>Le programme : <a href="https://plazza.orange.com/groups/tiers-lieu-rennes">https://plazza.orange.com/groups/tiers-lieu-rennes</a></li>
 </ul>
 </li>
 <li><p>Quelques vieux projets:</p>
@@ -456,10 +457,7 @@ div.largeImage img {
   </div>
   <div class="slide hidden -" id="slide-4">
     <section class="slide-content"><h3 id="le-projet-l-horloge-mots">Le projet : l&#39;horloge à mots</h3>
-<ul>
-<li>Présentation, fonctionnement, tarifs commerciaux</li>
-</ul>
-<center><img src="images/horloge.png" alt="horloge"> <img src="images/horloge-gold.png" alt="horloge gold"></center>
+<center><img src="images/horloge.png" width="500"><img src="images/horloge-gold.png" width="500"></center>
 
 <ul>
 <li>Nos objectifs : faible coût, composants simples</li>
@@ -473,45 +471,59 @@ div.largeImage img {
   <div class="slide hidden -" id="slide-6">
     <section class="slide-content"><h3 id="pr-ambule-tout-ce-qu-on-a-souhait-carter">Préambule : tout ce qu&#39;on a souhaité écarter</h3>
 <ul>
-<li>Les rubans de LEDs adressables</li>
+<li><p>Les rubans de LEDs adressables </p>
+<p><img src="images/ruban-leds.jpg" width="300">
+<img style="float: right;" src="images/esp8266.jpg" width="500"></p>
+</li>
+</ul>
+<ul>
 <li>Connexion Wi-Fi, mise à jour par NTP</li>
-<li>Arduino, C</li>
+<li><p>Arduino, C</p>
+<p><img src="images/arduino.jpg" width="300"></p>
+</li>
 </ul>
 </section>
   </div>
   <div class="slide hidden -" id="slide-7">
     <section class="slide-content"><h3 id="ce-qu-on-doit-conserver">Ce qu&#39;on doit conserver</h3>
 <ul>
-<li>Afficher des LEDs</li>
+<li>Allumer des LEDs</li>
 <li>Garder l&#39;heure juste</li>
-<li>(éventuellement) régler l&#39;heure</li>
+<li>Régler l&#39;heure<ul>
+<li>éventuellement</li>
+<li>comment ?</li>
+</ul>
+</li>
 </ul>
 </section>
   </div>
   <div class="slide hidden -" id="slide-8">
-    <section class="slide-content"><h3 id="la-probl-matique-de-base-comment-piloter-xx-leds-">La problématique de base : comment piloter XX leds ?</h3>
+    <section class="slide-content"><h3 id="la-probl-matique-de-base-comment-piloter-une-led-">La problématique de base : comment piloter une LED ?</h3>
 <ul>
-<li>Quand XX = 1 : <ul>
-<li>courant: dans la spec</li>
-<li>voltage d&#39;une LED: dans la datasheet de la LED, ~3V pour une LED blanche. Qq mesures pour contrôler</li>
-<li>contraintes d&#39;un microcontrôleur: IO qq dizaines mA OU circuit plus complexe
-<img src="images/led_specs.png" alt="LED datasheet"></li>
-</ul>
+<li><strong>Courant</strong> : dans la datasheet, ~20mA pour une LED blanche </li>
+<li><p><strong>Tension</strong> aux bornes d&#39;une LED : dans la datasheet, ~3V (quelques mesures pour contrôler)</p>
+<p><img src="images/led_specs.png" alt="LED datasheet"></p>
 </li>
+<li><p>Contraintes d&#39;un microcontrôleur : quelques dizaines de mA par GPIO </p>
+</li>
+<li>Sinon, il faut un circuit plus complexe</li>
 </ul>
 </section>
   </div>
   <div class="slide hidden -" id="slide-9">
-    <section class="slide-content"><h3 id="piloter-xx-30-leds-1-3">Piloter XX=30 LEDs : 1/3</h3>
+    <section class="slide-content"><h3 id="piloter-30-leds-1-3">Piloter 30 LEDs : 1/3</h3>
 <ul>
-<li>1 pin / LED : 30 IO<ul>
-<li>MCU plus chers, plus complexes à souder</li>
-<li><img src="images/lqfp64.png" alt="lqfp64"></li>
+<li><p>1 pin / LED : 30 IO</p>
+<ul>
+<li>MCU plus chers, plus complexes à souder
+<img alt="lqfp64" src="images/lqfp64.png"  style="float: right;"></li>
 <li>pas possible de tout allumer en même temps sans <em>driver</em> 30*30mA = 1 A !</li>
 </ul>
 </li>
-<li>Circuit supplémentaires <ul>
-<li>74HC595 : série -&gt; parallèle</li>
+<li><p>Circuit supplémentaires </p>
+<ul>
+<li>74HC595 : registre à décalage
+<img alt="74hc595" src="images/74hc595.png"  style="float: right;"></li>
 <li>2 pattes pour piloter toutes les LED (chaînables)</li>
 <li>8 LED / circuit : 4 circuits x 10cts ! </li>
 <li>Plus complexe a souder / réaliser plus complexe a réaliser.</li>
@@ -524,13 +536,16 @@ div.largeImage img {
     <section class="slide-content"><h3 id="piloter-30-leds-2-3">Piloter 30 LEDs : 2/3</h3>
 <p>  <img src="images/led-matrix.png" alt="multiplex"></p>
 <ul>
-<li>Multiplexage ligne/colonne: (n/2)²</li>
-<li>De N=30 à 2*√N = 12 ! : <ul>
-<li>MCU à 20 pattes convient</li>
+<li><p>Multiplexage ligne/colonne : (Nb<sub>GPIO</sub>/2)² LEDs</p>
+</li>
+<li><p>Pour 30 LEDs, il faut 2*√30 = 12 GPIOs :</p>
+<ul>
+<li>Un MCU à 20 pattes convient</li>
 </ul>
 </li>
-<li>1 LED allumée à la fois<ul>
-<li>joue sur la persistence rétinienne</li>
+<li><p>1 LED allumée à la fois</p>
+<ul>
+<li>Joue sur la persistence rétinienne</li>
 <li>Contrôle du courant </li>
 <li>Assez rapide pour ne pas clignoter</li>
 </ul>
@@ -540,16 +555,29 @@ div.largeImage img {
   </div>
   <div class="slide hidden -" id="slide-11">
     <section class="slide-content"><h3 id="piloter-30-leds-3-3">Piloter 30 LEDs : 3/3</h3>
-<p><img src="images/charlieplex.png" alt="charlieplex"></p>
+<p><img src="images/charlieplex-tr.png" alt="charlieplex"></p>
 <ul>
-<li>CharliePlex: n²-n (~2001)</li>
-<li>2 LED tête bêche, emploie le fait d&#39;éteindre une IO    </li>
-<li>6 pattes =&gt; 30 pins ! </li>
-<li>beaucoup plus complexe, pas nécessaire</li>
+<li>CharliePlex: Nb<sub>GPIO</sub>² - Nb<sub>GPIO</sub> (~2001)</li>
+<li>2 LED tête bêche, emploie le fait d&#39;éteindre une IO</li>
+<li>6 GPIOs =&gt; 30 LEDs !</li>
 </ul>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-12">
+  <div class="slide hidden --" id="slide-12">
+    <section class="slide-content"><h3 id="piloter-30-leds-3-3">Piloter 30 LEDs : 3/3</h3>
+<p><img src="images/charlieplex-2.png" alt="charlieplex"></p>
+<ul>
+<li>Exemple pour allumer la LED1 :<ul>
+<li>X1 à Vcc</li>
+<li>X2 à la masse</li>
+<li>X3 déconnecté</li>
+</ul>
+</li>
+<li>Beaucoup plus complexe, pas nécessaire</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-13">
     <section class="slide-content"><h3 id="garder-l-heure">Garder l&#39;heure</h3>
 <ul>
 <li>quartz + circuits dédiés logiques<ul>
@@ -572,7 +600,7 @@ div.largeImage img {
 </ul>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-13">
+  <div class="slide hidden -" id="slide-14">
     <section class="slide-content"><h3 id="choix-du-micro-contr-leur">Choix du micro-contrôleur</h3>
 <table>
 <thead>
@@ -627,7 +655,7 @@ div.largeImage img {
 </table>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-14">
+  <div class="slide hidden -" id="slide-15">
     <section class="slide-content"><h3 id="choix-d-un-constructeur">Choix d&#39;un constructeur</h3>
 <ul>
 <li>Exemple de constructeurs<ul>
@@ -652,21 +680,21 @@ div.largeImage img {
 </ul>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-15">
+  <div class="slide hidden -" id="slide-16">
     <section class="slide-content"><h3 id="choix-du-microncontr-leur-choix-de-la-famille-dans-la-gamme-constructeur">Choix du microncontrôleur: choix de la famille dans la gamme constructeur</h3>
 <center><img src="images/stm32-1.png" alt="famille"></center></section>
   </div>
-  <div class="slide hidden -" id="slide-16">
+  <div class="slide hidden -" id="slide-17">
     <section class="slide-content"><h3 id="choix-du-microncontr-leur-choix-du-mod-le">Choix du microncontrôleur: choix du modèle</h3>
 <center><img src="images/stm32-2.png" alt="modele1">
 <img src="images/stm32-3.png" alt="modele2"></center></section>
   </div>
-  <div class="slide hidden -" id="slide-17">
+  <div class="slide hidden -" id="slide-18">
     <section class="slide-content"><h1 id="mais">MAIS</h1>
 <h2 id="choix-beaucoup-plus-simple-">Choix beaucoup plus simple !</h2>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-18">
+  <div class="slide hidden -" id="slide-19">
     <section class="slide-content"><h3 id="choix-sur-un-site-connu-atmega328p">Choix sur un site connu: Atmega328P</h3>
 <ul>
 <li>atmega328P (arduino), rechercher ...<center><img src="images/achat328-1.png" alt="rechercher mouser"></center></li>
@@ -675,18 +703,18 @@ div.largeImage img {
 </ul>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-19">
+  <div class="slide hidden -" id="slide-20">
     <section class="slide-content"><h3 id="choix-sur-un-site-connu-atmega328p">Choix sur un site connu : atmega328P</h3>
 <center><img src="images/achat328-2.png" alt="rechercher mouser"></center></section>
   </div>
-  <div class="slide hidden -" id="slide-20">
+  <div class="slide hidden -" id="slide-21">
     <section class="slide-content"><h3 id="choix-sur-un-site-connu-atmega328p">Choix sur un site connu : atmega328P</h3>
 <ul>
 <li>Autre site ! </li>
 </ul>
 <center><img src="images/achat328-3.png" alt="rechercher mouser"></center></section>
   </div>
-  <div class="slide hidden -" id="slide-21">
+  <div class="slide hidden -" id="slide-22">
     <section class="slide-content"><h3 id="algorithme-v2">Algorithme V2</h3>
 <ul>
 <li>Choisir un constructeur</li>
@@ -696,7 +724,7 @@ div.largeImage img {
 </ul>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-22">
+  <div class="slide hidden -" id="slide-23">
     <section class="slide-content"><h3 id="algorithme-v2">Algorithme V2</h3>
 <p><img src="images/achat328-4.png" alt="rechercher lcsc"></p>
 <ul>
@@ -707,14 +735,14 @@ div.largeImage img {
 </ul>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-23">
+  <div class="slide hidden -" id="slide-24">
     <section class="slide-content"><h3 id="comment-interagir-avec-l-objet-">Comment interagir avec l&#39;objet ?</h3>
 <ul>
 <li>Nos idées d&#39;interface utilisateur (PIR, boutons, mise sous tension à heure fixe...)</li>
 </ul>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-24">
+  <div class="slide hidden -" id="slide-25">
     <section class="slide-content"><h3 id="le-sch-ma-de-la-board">Le schéma de la board</h3>
 <p>  <img src="images/schema_avr.png" alt="le schema"></p>
 <ul>
@@ -722,7 +750,7 @@ div.largeImage img {
 </ul>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-25">
+  <div class="slide hidden -" id="slide-26">
     <section class="slide-content"><h3 id="r-alisation-du-circuit-imprim-avec-easyeda">Réalisation du circuit imprimé avec EasyEDA</h3>
 <p>  <center><img src="images/pcb_avr.png" alt="pcb editor"></center></p>
 <ul>
@@ -730,7 +758,7 @@ div.largeImage img {
 </ul>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-26">
+  <div class="slide hidden -" id="slide-27">
     <section class="slide-content"><h3 id="au-final">Au final</h3>
 <p><center><img src="images/board3d.png" alt="3D schema"></center></p>
 <ul>
@@ -738,15 +766,15 @@ div.largeImage img {
 </ul>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-27">
+  <div class="slide hidden -" id="slide-28">
     <section class="slide-content"><h3 id="au-final">Au final</h3>
 <center><img src="images/boards.jpg" alt="boards finies"></center></section>
   </div>
-  <div class="slide hidden -" id="slide-28">
+  <div class="slide hidden -" id="slide-29">
     <section class="slide-content"><h1 id="partie-afficheur-charlotte-gil">Partie afficheur - Charlotte Gil</h1>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-29">
+  <div class="slide hidden -" id="slide-30">
     <section class="slide-content"><h3 id="principe-retenu-pour-l-assemblage-en-multi-couches-">Principe retenu pour l&#39;assemblage en multi-couches :</h3>
 <p><strong>3 Planches</strong> </p>
 <div style="display:grid; grid-template-columns: repeat(2, 1fr);">
@@ -756,11 +784,11 @@ div.largeImage img {
 <img src="images/resine-mots.png" alt="planche mots">
 </div></section>
   </div>
-  <div class="slide hidden -" id="slide-30">
+  <div class="slide hidden -" id="slide-31">
     <section class="slide-content"><p><span>- La troisième pour les leds</span></p>
 <center><img src="images/resine-leds.png" alt="planche leds"></center></section>
   </div>
-  <div class="slide hidden -" id="slide-31">
+  <div class="slide hidden -" id="slide-32">
     <section class="slide-content"><ul>
 <li>Découpe laser vs découpe CNC, les problèmes<blockquote>
 <p>EASEL</p>
@@ -769,13 +797,13 @@ div.largeImage img {
 </ul>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-32">
+  <div class="slide hidden -" id="slide-33">
     <section class="slide-content"><p><strong>La résine</strong></p>
 <p><a href="https://www.epodex.com/fr/produit/pro-system/">Résine Epodex : https://www.epodex.com/fr/produit/pro-system</a></p>
 <p><img src="images/resine-epodex.png" alt="resine_epodex"></p>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-33">
+  <div class="slide hidden -" id="slide-34">
     <section class="slide-content"><p>Comment couler de la résine</p>
 <p><strong>Etape 1 : Mettre du scotch pour contenir la résine</strong></p>
 <p><img src="images/resine-scotch.jpg" alt="resine-scotch" width="600" /></p>
@@ -783,7 +811,7 @@ div.largeImage img {
 <p><img src="images/resine-2PremieresCouches.jpg" alt="resine-2PremieresCouches" width="600" /></p>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-34">
+  <div class="slide hidden -" id="slide-35">
     <section class="slide-content"><p><strong>Etape 3 : Préparer la résine.</strong></p>
 <ul>
 <li><p>Respecter les dosages (2 pour 1)</p>
@@ -796,14 +824,14 @@ div.largeImage img {
 </ul>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-35">
+  <div class="slide hidden -" id="slide-36">
     <section class="slide-content"><p><strong>Etape 4 : Couler la résine.</strong></p>
 <p><img src="images/resine-onVerseLaResine.jpg" alt="resine-onVerseLaResine" width="600" /></p>
 <p><strong>Etape 5 : Positionner les Leds</strong></p>
 <p><img src="images/resine-sechageDesLeds.jpg" alt="resine-sechageDesLeds" width="600" /></p>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-36">
+  <div class="slide hidden -" id="slide-37">
     <section class="slide-content"><p><strong>Test des différents types de LED</strong></p>
 <ul>
 <li>LED traversantes (30°-60°)</li>
@@ -815,11 +843,11 @@ div.largeImage img {
 <p><img src="images/resine-ledCms.jpg" alt="resine-ledCms" width="350" /></p>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-37">
+  <div class="slide hidden -" id="slide-38">
     <section class="slide-content"><h1 id="d-veloppement">Développement</h1>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-38">
+  <div class="slide hidden -" id="slide-39">
     <section class="slide-content"><h3 id="environnement-platformio-florent-seb">Environnement PlatformIO - Florent &amp; Seb</h3>
 <blockquote>
 <p>Pour ceux qui ne connaissent pas et sont restés sur Arduino </p>
@@ -834,19 +862,19 @@ div.largeImage img {
 </ul>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-39">
+  <div class="slide hidden -" id="slide-40">
     <section class="slide-content"><p><div class="largeImage"><img src="images/platformio_home.png" alt="platormIO home"><div></p>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-40">
+  <div class="slide hidden -" id="slide-41">
     <section class="slide-content"><p><div class="largeImage"><img src="images/platformio_ini.png" alt="platormIO ini"><div></p>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-41">
+  <div class="slide hidden -" id="slide-42">
     <section class="slide-content"><h1 id="code-de-l-horloge">Code de l&#39;horloge</h1>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-42">
+  <div class="slide hidden -" id="slide-43">
     <section class="slide-content"><h3 id="compter-l-heure-pr-cis-ment-">Compter l&#39;heure (précisément)</h3>
 <ul>
 <li>un <em>timer</em> 32kHz<ul>
@@ -874,7 +902,7 @@ div.largeImage img {
 </ul>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-43">
+  <div class="slide hidden -" id="slide-44">
     <section class="slide-content"><h3 id="choisir-les-led-allumer-et-le-faire-">Choisir les LED à allumer (et le faire)</h3>
 <ul>
 <li>Choisir les LED<ul>
@@ -902,12 +930,12 @@ div.largeImage img {
 </ul>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-44">
+  <div class="slide hidden -" id="slide-45">
     <section class="slide-content"><h1 id="rust-">Rust 🦀</h1>
 <h2 id="comment-on-essaie-p-niblement-de-on-a-brillament-su-faire-en-rust">Comment on (essaie (péniblement) de) (on a brillament su) faire en Rust</h2>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-45">
+  <div class="slide hidden -" id="slide-46">
     <section class="slide-content"><h3 id="rust-sur-microcontr-leur">Rust sur microcontrôleur</h3>
 <ul>
 <li>Tout est fortement typé / sécure<ul>
@@ -924,12 +952,12 @@ div.largeImage img {
 </ul>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-46">
+  <div class="slide hidden -" id="slide-47">
     <section class="slide-content"><h1 id="conclusion">Conclusion</h1>
 <h2 id="envoyez-des-sioux-l-arc-">Envoyez des sioux ! (à l&#39;arc) !</h2>
 <center><img src="images/fablab.JPG" alt="fablab image"></center></section>
   </div>
-  <div class="slide hidden author-slide" id="slide-47">
+  <div class="slide hidden author-slide" id="slide-48">
     <section class="slide-content"><div class="author">
   <h1 class="name">Florent, François-Xavier, Gil, Charlotte, Seb, Xavier-Frédéric</h1>
 </div>
