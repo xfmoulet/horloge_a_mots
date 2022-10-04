@@ -20,9 +20,10 @@ blockquote p {
 }
 
 .slide-content {
-	margin-top: 30px;
-	width: 1600px;
-	height: 960px;
+	margin: 20px auto 0 auto;
+	width: 90%;
+	font-size: 180%;
+	height: auto;
 }
 
 pre {
