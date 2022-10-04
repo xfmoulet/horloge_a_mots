@@ -186,13 +186,13 @@ theme: ./orange-theme
 
 ---
 
-### Choix du microncontrôleur: choix de la famille dans la gamme constructeur
+### Choix du micro-contrôleur : choix de la famille dans la gamme constructeur
 
 <center>![famille](images/stm32-1.png)</center>
 
 ---
 
-### Choix du microncontrôleur: choix du modèle
+### Choix du micro-contrôleur : choix du modèle
 
 <center>![modele1](images/stm32-2.png)
 ![modele2](images/stm32-3.png)</center>
@@ -204,7 +204,7 @@ theme: ./orange-theme
 
 ---
 
-### Choix sur un site connu: Atmega328P
+### Choix sur un site connu : Atmega328P
 
 - atmega328P (arduino), rechercher ...
 <center>![rechercher mouser](images/achat328-1.png)</center>
