@@ -544,11 +544,5 @@ N'hésitez pas à venir nous applaudir !
 ## Envoyez des sioux ! (à l'arc) !
 
 <center><img src="images/fablab.png" width="25%" /></center>
----
 
-### Retrouvez-nous ! 
-
-- Plazza : https://plazza.orange.com/groups/tiers-lieu-rennes
-- Mattermost : https://mattermost.tech.orange/signup_user_complete/?id=5a43mk7auid3p8ojsd5qjoacxr (devAtalante)
-- Gitlab : https://gitlab.tech.orange/coderoom-atalante
 
