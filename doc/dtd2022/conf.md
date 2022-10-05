@@ -517,9 +517,25 @@ theme: ./orange-theme
 ---
 ### Les liens ! 🔗
 
-- Nos autres présentations aux DTD 2022 : ... 
 - QR code vers le Channel Mattermost ![qrcode](images/mattermost-elec.gif)
 - Cinemascode
+- Plazza : https://plazza.orange.com/groups/tiers-lieu-rennes
+- Gitlab : https://gitlab.tech.orange/coderoom-atalante
+
+Et pendant les dev&test days <small>(ordre d'apparition à l'écran)</small> : 
+
+- Florent : Vendredi à 10h30 - Du machine learning pour détecter le phishing
+- Xavier-Frédéric : Vendredi à 13h00 - WebAssembly à partir de zéro
+- Sébastien : Vendredi à 13h50 - Bienvenu.e.s chez moi !
+- Charlotte : Vendredi à 14h40 - Parcours Futur'O Intégrateur
+
+Sans oublier les guests : 
+
+- Gil
+- François-Xavier
+
+N'hésitez pas à venir nous applaudir !
+
 
 
 ---
@@ -536,16 +552,3 @@ theme: ./orange-theme
 - Mattermost : https://mattermost.tech.orange/signup_user_complete/?id=5a43mk7auid3p8ojsd5qjoacxr (devAtalante)
 - Gitlab : https://gitlab.tech.orange/coderoom-atalante
 
-Et pendant les dev&test days <small>(ordre d'apparition à l'écran)</small> : 
-
-- Florent : Vendredi à 10h30 - Du machine learning pour détecter le phishing
-- Xavier-Frédéric : Vendredi à 13h00 - WebAssembly à partir de zéro
-- Sébastien : Vendredi à 13h50 - Bienvenu.e.s chez moi !
-- Charlotte : Vendredi à 14h40 - Parcours Futur'O Intégrateur
-
-Sans oublier les guests : 
-
-- Gil
-- François-Xavier
-
-N'hésitez pas à venir nous applaudir !
