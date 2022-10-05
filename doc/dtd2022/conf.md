@@ -469,29 +469,55 @@ theme: ./orange-theme
   - certaines LEDs sont doubles: rester plus longtemps dessus -> ds le tableau  
 - fonctions "avancées": réglage de l'heure, détection si quelqu'un passe, ...
   - TODO !
-  - Par exemple appuyer sur le bouton reset à un moment précis (par exemple 13h37 !)
+  - Par exemple: 
+      - LDR pour adapter la luminosité, 
+      - Détection de mouvement "cheap"
+      - Flasher l'heure avec la main / son mobile, 
+      - ~~Boutons pour régler l'heure~~
 
 ---
 
-# Rust 🦀
+# Rust 
 ## Comment on (essaie (péniblement) de) (on a brillament su) faire en Rust
+<center>![RUST](images/t-rust.jpg)</center>
 
 ---
 
-### Rust sur microcontrôleur 
+### Rust sur microcontrôleur 🦀
 
-**Un screenshot du code peut-être ?**
-
-- Tout est fortement typé / sécure
+- Tout est fortement typé / sécure 👮
   - Move semantics
   - Borrow checker
   - Mutex sur matériel
-- Mais se compile en qq octets (Cf. make info) : 1o de RAM
-- Option&lt;LED&gt;[10] en flash
-- Prégénération de code en rust avec build.rs
-- Crate `embedded_hal`
-- ARM32 mieux que AVR (dispo)
+- Types avancés 🚀
+  - Option&lt;LED&gt;[10] en flash
+  - Types zero-sized ex: Pin14 
+  - Se compile en qq octets (Cf. make info) : 1o de RAM
+- Prégénération de code en rust avec build.rs 🏗
+- SDK Rust 🔧
+  - compilateurs AVR / ARM32 dispos avec le vrai rust ! (`no-std`)
+  - Crate `embedded_hal`
+  - ARM32 plus mature que AVR (mais dispo)
 - https://gitlab.tech.orange/coderoom-atalante/coding-dojos/embedded-rust
+---
+### Rust sur AVR / Arduino : Les Dojos 🥋
+
+
+![Dojo Rust 1](images/dojo1.jpg)
+
+---
+### Rust sur AVR / Arduino : Les Dojos 😰 
+
+
+![Dojo Rust 2](images/dojo2.jpg)
+
+---
+### Les liens ! 🔗
+
+- Nos autres présentations aux DTD 2022 : ... 
+- QR code vers le Channel Mattermost ![qrcode](images/mattermost-elec.gif)
+- Cinemascode
+
 
 ---
 
