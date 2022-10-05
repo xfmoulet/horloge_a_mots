@@ -527,4 +527,25 @@ theme: ./orange-theme
 # Conclusion
 ## Envoyez des sioux ! (à l'arc) !
 
-<center>![fablab image](images/fablab.JPG)</center>
+<center><img src="images/fablab.png" width="25%" /></center>
+---
+
+### Retrouvez-nous ! 
+
+- Plazza : https://plazza.orange.com/groups/tiers-lieu-rennes
+- Mattermost : https://mattermost.tech.orange/signup_user_complete/?id=5a43mk7auid3p8ojsd5qjoacxr (devAtalante)
+- Gitlab : https://gitlab.tech.orange/coderoom-atalante
+
+Et pendant les dev&test days <small>(ordre d'apparition à l'écran)</small> : 
+
+- Florent : Vendredi à 10h30 - Du machine learning pour détecter le phishing
+- Xavier-Frédéric : Vendredi à 13h00 - WebAssembly à partir de zéro
+- Sébastien : Vendredi à 13h50 - Bienvenu.e.s chez moi !
+- Charlotte : Vendredi à 14h40 - Parcours Futur'O Intégrateur
+
+Sans oublier les guests : 
+
+- Gil
+- François-Xavier
+
+N'hésitez pas à venir nous applaudir !
