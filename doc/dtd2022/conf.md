@@ -18,7 +18,7 @@ theme: ./orange-theme
   - Activités (coding dojos, jeudi électronique, cinema's code, BBL, Agile Coach Day)
   - Le programme : https://plazza.orange.com/groups/tiers-lieu-rennes
 
-<center><img src="images/auFablab.png" width="400"><img src="images/florent.jpg" width="400"></center >
+<center><img src="images/AuFablab.png" width="400"><img src="images/florent.jpg" width="400"></center >
 
 ---
 ### C'est quoi le secteur 3 et la code room ?
@@ -158,12 +158,29 @@ theme: ./orange-theme
   - besoin d'une horloge stable (temps, quartz) + 1 horloge "rapide" (CPU)
 
 ---
+### Comment régler l'heure ?
+
+  - Avec un ou plusieurs boutons ?
+    <img alt="button" src="images/push-button.jpg"  style="float: right; width: 300px;">
+    - Des GPIO en plus 😒
+
+  - Avec un détecteur infrarouge ?
+    <img alt="PIR" src="images/pir-sensor.jpeg"  style="float: right; width: 400px;">
+    - Une ergonomie douteuse 🤨
+
+  - Aucune entrée utilisateur
+    - Bouton reset à un moment précis (par exemple 13h37 !)
+    - Facile à coder !
+    - Pas de bug 🥰
+---
 
 ### Choix du micro-contrôleur
 
+
+
 | Quoi | Caractéristiques | Besoin |
 |---|-----|----|
-| CPU | 4-32 bits, 1-250 MHZ, ARM/AVR/Autre? ✖ ➗ ? | compilateur, 8/32 bits, 1MHz OK |
+| CPU | 4-32 bits, 1-250 MHZ, ARM/AVR/Autre? ✖ ➗ ? | 8/32 bits, 1MHz OK |
 | RAM interne | 0 (!) à 1MB | code actuel: 1 octet |
 | Flash interne | de 0k (OTP), 2Ko à 2Mo | 4Ko |
 | Périphériques | 1-10+ Timers, n UART, SPI, I2C, CAN ... | Timer Quartz 32KHz |
@@ -171,6 +188,8 @@ theme: ./orange-theme
 | Horloges | PLL, Osc interne / Quartz, ... | Osc. Int High speed ou PLL |
 | Power | 3v3, 1v2, 5v ? mA: Low power ? Sleep ? | 5V plus simple, sinon 3v3|
 | Programmateur | USB, UART, SWD/SPI, autre high power .. | USB, UART |
+| Documentation | Datasheets, manuels de Référence, ... | OUI ! |
+| Logiciel | SDK, compilateur, utilitaires ... | OUI ! |
 
 ---
 
@@ -251,22 +270,6 @@ theme: ./orange-theme
 
 ---
 
-### Comment régler l'heure ?
-
-  - Avec un ou plusieurs boutons ?
-    <img alt="button" src="images/push-button.jpg"  style="float: right; width: 300px;">
-    - Des GPIO en plus 😒
-
-  - Avec un détecteur infrarouge ?
-    <img alt="PIR" src="images/pir-sensor.jpeg"  style="float: right; width: 400px;">
-    - Une ergonomie douteuse 🤨
-
-  - Aucune entrée utilisateur
-    - Facile à coder !
-    - Pas de bug 🥰
-
-
----
 
 ### Le schéma de la board
 
