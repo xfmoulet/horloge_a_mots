@@ -314,6 +314,23 @@ theme: ./orange-theme
 
 ---
 
+### Principe retenu pour l'assemblage en multi-couches
+
+<div style="display:grid; grid-template-columns: repeat(2, 1fr);">
+<span>- 3h10</span>
+<span>- 10h55</span>
+![planche lettres](images/3h10.png)
+![planche mots](images/10h55.png)
+</div>
+&nbsp;
+<div style="display:grid; grid-template-columns: repeat(2, 1fr);">
+<span>- 1h32</span>
+<span>- 1h32</span>
+![planche lettres](images/1h32b.png)
+![planche mots](images/1h32.png)
+</div>
+---
+
 ### Découpe laser vs découpe CNC, les problèmes
   > EASEL
 
