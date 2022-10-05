@@ -15,16 +15,23 @@ theme: ./orange-theme
 
 - Infos utiles :
   - Ouvert à tous !
-  - Activités (coding dojos, jeudi électronique, rencontre agile)
+  - Activités (coding dojos, jeudi électronique, cinema's code, BBL, Agile Coach Day)
   - Le programme : https://plazza.orange.com/groups/tiers-lieu-rennes
+
+<center><img src="images/auFablab.png" width="400"></center >
+
+---
+### C'est quoi le secteur 3 et la code room ?
 
 - Quelques vieux projets:
   - Borne d'arcade
   - TomTom
-  - Afficheur led rotatif
+  - Afficheur led rotatif (Rosace)
   - Développement d'un jeu GameBoy
   - linky
   - Horlogeobus
+
+<center><img src="images/tomtom.jpg" width="500"><img src="images/gameboy.jpg" width="500"><img src="images/rosace.jpg" width="500"></center>
 
 ---
 
