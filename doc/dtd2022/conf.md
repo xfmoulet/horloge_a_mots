@@ -18,7 +18,7 @@ theme: ./orange-theme
   - Activités (coding dojos, jeudi électronique, cinema's code, BBL, Agile Coach Day)
   - Le programme : https://plazza.orange.com/groups/tiers-lieu-rennes
 
-<center><img src="images/auFablab.png" width="400"></center >
+<center><img src="images/auFablab.png" width="400"><img src="images/florent.jpg" width="400"></center >
 
 ---
 ### C'est quoi le secteur 3 et la code room ?
