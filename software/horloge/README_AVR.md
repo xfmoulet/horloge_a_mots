@@ -23,3 +23,13 @@ rustup override set nightly
 
 
 (see also https://github.com/Rahix/avr-hal/tree/main/ravedude ?)
+
+# flasher le bootloader arduino avec un arduino
+
+## mettre un arduino en mode ArduinoISP
+- ouvrir l'IDE Arduino (v1.8 chez moi)
+- ouvrir `Fichier/Exemples/11-ArduinoISP`, les instructions sont au début du fichier
+- Connecter un arduino, uploader l' ISP arduino (upload ArduinoISP)
+- connecter l'Arduino vers la board horloge (5v, GND, Reset, ...) vers pins 5v, 10,11,12,...
+
+## flasher le bootloader Arduino vers la board
