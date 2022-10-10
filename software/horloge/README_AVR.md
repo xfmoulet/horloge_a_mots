@@ -23,3 +23,13 @@ rustup override set nightly
 
 
 (see also https://github.com/Rahix/avr-hal/tree/main/ravedude ?)
+
+### Bootloader
+
+to flash a bootloader using an arduino, check this page: https://docs.arduino.cc/built-in-examples/arduino-isp/ArduinoISP
+en gros: on flashe ArduinoISP sur l'arduino, on utilise ce dernier comme programmateur, et on envoie avec arduinoISP le bon bootloader ou directement le programme sans bootloader (testé).
+
+Pour le bootloader lui-même on peut utiliser minicore (en cours de test): https://github.com/MCUdude/MiniCore
+Choisir le core Atmega8, programmeur Arduino as Programmer
+
+> ATTENTION: bien choisir **internal** clock 4/8 MHz, PAS external clock au risque de "briquer" le système (je parle d'expérience)
