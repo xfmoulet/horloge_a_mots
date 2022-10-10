@@ -24,10 +24,19 @@ rustup override set nightly
 
 (see also https://github.com/Rahix/avr-hal/tree/main/ravedude ?)
 
-### Bootloader
+# flasher le bootloader arduino avec un arduino
 
-to flash a bootloader using an arduino, check this page: https://docs.arduino.cc/built-in-examples/arduino-isp/ArduinoISP
-en gros: on flashe ArduinoISP sur l'arduino, on utilise ce dernier comme programmateur, et on envoie avec arduinoISP le bon bootloader ou directement le programme sans bootloader (testé).
+Voir la page: https://docs.arduino.cc/built-in-examples/arduino-isp/ArduinoISP
+
+## mettre un arduino en mode ArduinoISP
+- ouvrir l'IDE Arduino (v1.8 chez moi)
+- ouvrir `Fichier/Exemples/11-ArduinoISP`, les instructions sont au début du fichier
+- Connecter un arduino, uploader l' ISP arduino (upload ArduinoISP)
+- connecter l'Arduino vers la board horloge (5v, GND, Reset, ...) vers pins 5v, 10,11,12,...
+
+## flasher le bootloader Arduino vers la board
+
+En gros: on flashe ArduinoISP sur l'arduino, on utilise ce dernier comme programmateur, et on envoie avec arduinoISP le bon bootloader ou directement le programme sans bootloader (testé).
 
 Pour le bootloader lui-même on peut utiliser minicore (en cours de test): https://github.com/MCUdude/MiniCore
 Choisir le core Atmega8, programmeur Arduino as Programmer
