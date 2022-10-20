@@ -34,6 +34,15 @@ Voir la page: https://docs.arduino.cc/built-in-examples/arduino-isp/ArduinoISP
 - Connecter un arduino, uploader l' ISP arduino (upload ArduinoISP)
 - connecter l'Arduino vers la board horloge (5v, GND, Reset, ...) vers pins 5v, 10,11,12,...
 
+Attention, si vous utilisez autre chose qu'un arduino UNO en programmateur, vous devez faire attention à avoir les bons pins :)
+
+Arduino UNO :					Horloge à mot :
+
+PIN 10 (reset)					PIN 10 (reset)
+PIN 11 (MOSI)					PIN 11 (MOSI)
+PIN 12 (MISO)					PIN 14 (MISO)
+PIN 13 (SCK)					PIN 12 (SCK)
+
 ## flasher le bootloader Arduino vers la board
 
 En gros: on flashe ArduinoISP sur l'arduino, on utilise ce dernier comme programmateur, et on envoie avec arduinoISP le bon bootloader ou directement le programme sans bootloader (testé).
