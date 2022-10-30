@@ -9,6 +9,10 @@ Par Charlotte, Gil, Sebastien, Florent, François-Xavier, Xavier-Frédéric...
 - Page STM32G030F6: https://www.st.com/en/microcontrollers-microprocessors/stm32g030f6.html
 - Datasheet: https://www.st.com/resource/en/datasheet/stm32g030f6.pdf
 
+## Calcul Resine
+pour une planche de mot de 36*36 => calcul-volume-resine.xlsx
+environ 55 cl
+
 ## Matrice de LED
 
 - lignes et colonnes
