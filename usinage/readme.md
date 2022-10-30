@@ -19,7 +19,7 @@ D'apres la documentation :
 - https://inventables.gitbook.io/x-carve-assembly/calibration-and-maintenance
 - https://discuss.inventables.com/t/grbl-default-settings/47158/6
   
-## a tester
+## validé
 $100 = 40.054 (x, step/mm)
 $101 = 40.054 (y, step/mm)
 
