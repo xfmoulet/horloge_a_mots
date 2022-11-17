@@ -11,7 +11,8 @@ opt-level = "s"
 [dependencies]
 # A panic handler is needed.  This is a crate with the most basic one.
 panic-halt = "0.2.0"
+embedded-hal = "0.2"
 
-[dependencies.arduino-hal]
+[dependencies.atmega-hal]
 git = "https://github.com/Rahix/avr-hal"
-features = ["arduino-nano"]
+features = ["atmega48p"]
