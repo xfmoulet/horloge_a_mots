@@ -11,8 +11,7 @@ opt-level = "s"
 [dependencies]
 # A panic handler is needed.  This is a crate with the most basic one.
 panic-halt = "0.2.0"
-embedded-hal = "0.2"
 
-[dependencies.atmega-hal]
-git = "https://github.com/Rahix/avr-hal"
-features = ["atmega48p"]
+[dependencies.avr-device]
+version = "0.4.0"
+features = ["atmega8","rt"]
