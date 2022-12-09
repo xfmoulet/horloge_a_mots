@@ -1,27 +1,50 @@
+// makes L6 LED blink using very low-level code (no HAL so far)
+
 #![no_std]
 #![no_main]
 
+
 use panic_halt as _;
+use avr_device::atmega8::Peripherals;
 
-use arduino_hal::port::mode::Output;
-use arduino_hal::hal::port::PB5;
-
-fn stutter_blink(led: &mut arduino_hal::port::Pin<Output,PB5>, times: usize) {
-    (0..times).map(|i| i * 10).for_each(|i| {
-        led.toggle();
-        arduino_hal::delay_ms(i as u16);
-    });
+// absolutely inaccurate but eh
+#[inline(always)]
+fn delay(ms: u32) {
+    for _ in 0..ms * 1000 {
+        core::hint::black_box({}) // empty loop
+    }
 }
 
-#[arduino_hal::entry]
+struct BoardLED {
+    dp: Peripherals,
+}
+
+impl BoardLED {
+    fn new() -> BoardLED {
+        let b = BoardLED{ dp: Peripherals::take().unwrap() };
+        // directly configure bit 5 of PORTD as output
+        b.dp.PORTD.ddrd.write(|w| w.pd5().set_bit());
+        b
+    }
+    fn set(&self, b : bool) {
+        self.dp.PORTD.portd.write(
+            |w| if b { w.pd5().set_bit() } else { w.pd5().clear_bit() }
+        );
+    }
+}
+
+#[avr_device::entry]
 fn main() -> ! {
-    let peripherals = arduino_hal::Peripherals::take().unwrap();
-
-    let pins = arduino_hal::pins!(peripherals);
-
-    let mut led = pins.d13.into_output();
+    let led = BoardLED::new();
 
     loop {
-        stutter_blink(&mut led, 25);        
+      delay(100);
+      led.set(false);
+      delay(100);
+      led.set(true);
+      delay(100);
+      led.set(false);
+      delay(500);
+      led.set(true);
     }
 }
