@@ -21,7 +21,7 @@ pub fn led_multiplex(mux_tick: usize, hour: u8, min5: u8, minute: u8) -> Option<
     } else {
         hour
     };
-
+    // Special case: midi/minuit et demi (no E)
     // not a match since we dont have exclusive ranges and ranges cannot be 0..X-1 in rust matches
     if mux_tick < NB_HOURS_LED {
         HOURS_LED[ehour as usize][mux_tick]

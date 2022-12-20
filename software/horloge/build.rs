@@ -12,14 +12,14 @@ use std::io::Write;
 static LED_PANEL: [&str; 6] = [
     "IlEst Deux Quatre Trois",
     "Neuf Une Sept Huit Six Cinq",
-    "Mi Di X Minuit Onze Heure",
+    "Mi Di X Minuit Onze Heure S",
     "Moins Vingt CinqMin DixMin Le Et",
-    "Quart Demie EtDes Pile S",    // S Here physically is after "Heure"
-    "Bananes Dot1 Dot2 Dot3 Dot4", // Alt: use "presque"
+    "Quart Demi E EtDes Pile",
+    "Bananes Dot1 Dot2 Dot3 Dot4",
 ];
 
 #[cfg(feature = "big_panel")]
-static LED_DURATIONS: [(&str, usize); 31] = [
+static LED_DURATIONS: [(&str, usize); 32] = [
     ("IlEst", 3),
     ("Une", 1),
     ("Deux", 2),
@@ -44,7 +44,8 @@ static LED_DURATIONS: [(&str, usize); 31] = [
     ("CinqMin", 2),
     ("Le", 1),
     ("Quart", 3),
-    ("Demie", 3),
+    ("Demi", 2),
+    ("E", 1),
     ("EtDes", 2),
     ("Bananes", 3),
     ("Dot1", 1),
@@ -92,7 +93,7 @@ static MINUTES_5_LED: [&str; 12] = [
     "Et Quart",
     "Vingt",
     "Vingt CinqMin",
-    "Et Demie",
+    "Et Demi E",
     "Moins Vingt CinqMin",
     "Moins Vingt",
     "Moins Le Quart",
