@@ -1,17 +1,9 @@
+use panic_halt as _;
+use avr_device::atmega8::{Peripherals, TC2, PORTC, PORTD};
+
 use horloge::data::*;
 
-use atmega_hal::clock;
-use atmega_hal::delay::Delay;
-use atmega_hal::port::mode::Output;
-use atmega_hal::port::*;
 use panic_halt as _; // panic handler
-
-use atmega_hal::pac::tc2::tccr2b::CS2_A;
-use atmega_hal::pac::TC2;
-
-use embedded_hal::blocking::delay::DelayUs;
-
-type ClockSpeed = clock::MHz16;
 
 // the timer is 8 bit, prescaler 1024 so max rollover is 255 / 32Hz = 8s :(
 // 60s = 2*2*3*5 , let's use 1s ? could be 1,2,3,4,5,6 (10 and 12 are >8s)
@@ -33,33 +25,32 @@ pub struct BoardTimer {
     min5: u8,
     minute: u8,
 
-    delay: Delay<ClockSpeed>,
+    timer: TC2,
 }
 
 impl BoardTimer {
     pub fn new(timer: TC2) -> BoardTimer {
+
         // Set up async timer tc2
         // https://github.com/Rahix/avr-hal/blob/main/examples/arduino-uno/src/bin/uno-timer.rs
 
-        timer.tccr2a.write(|w| w.wgm2().bits(0b00)); // TODO: understand
-        timer.tccr2b.write(|w| {
-            // TODO: understand
-            w.cs2()
-                //.prescale_256()
-                .variant(CS2_A::PRESCALE_1024)
-                .wgm22()
-                .bit(true) // TODO: what is wgm22 ?
-        });
+        // Datasheet p114: control register2
+        timer.tccr2.write(|w| w
+        	// waveform generation : 00 - Normal
+        	.wgm20().clear_bit()
+        	.wgm21().clear_bit()
+            .cs2().val_0x07() // prescale 1024 - Datasheet p. 116
+        ); 
 
-        timer
-            .ocr2a
-            .write(|w| unsafe { w.bits(ROLLOVER_TICKS as u8) });
-        // TODO also set up the timer src on EXT OSC - timer !
+        // Output compare register
+        timer.ocr2.write(|w| unsafe { w.bits(ROLLOVER_TICKS as u8) });
+
+        // Asynchronous mode, from 32KHz crystal
+        timer.assr.write(|w| w.as2().set_bit());
 
         // System clock: keep default internal RC@8MHz
 
         // for interrupt based ticks, see https://blog.rahix.de/005-avr-hal-millis/
-
         BoardTimer {
             tick: 0,
 
@@ -68,7 +59,7 @@ impl BoardTimer {
             min5: 0,
             hour: 0,
 
-            delay: Delay::new(),
+            timer: timer,
         }
     }
 
@@ -80,10 +71,14 @@ impl BoardTimer {
         (self.hour, self.min5, self.minute)
     }
 
-    /// delay a bit
-    pub fn delay_us(&mut self, us: u16) {
-        self.delay.delay_us(us)
-    }
+    /// delay a bit - blocking
+	// absolutely inaccurate but eh
+	#[inline(always)]
+    pub fn delay_us(&self, us: u16) {
+	    for _ in 0..us  {
+	        core::hint::black_box({}) // empty loop
+	    }
+	}    
 
     // to be called faster than ROLLOVER_SECONDS. main thread, not in an interrupt
     pub fn update_time(&mut self) {
@@ -97,6 +92,7 @@ impl BoardTimer {
         self.tick = counter_value;
         */
         self.tick += 1;
+
         if self.tick >= 5 {
             self.tick = 0;
             self.second += 1;
@@ -121,38 +117,36 @@ impl BoardTimer {
 }
 
 pub struct BoardLEDs {
-    line1: atmega_hal::port::Pin<Output, PD0>,
-    line2: atmega_hal::port::Pin<Output, PD1>,
-    line3: atmega_hal::port::Pin<Output, PD2>,
-    line4: atmega_hal::port::Pin<Output, PD3>,
-    line5: atmega_hal::port::Pin<Output, PD4>,
-    line6: atmega_hal::port::Pin<Output, PD5>,
-
-    column1: atmega_hal::port::Pin<Output, PC0>,
-    column2: atmega_hal::port::Pin<Output, PC1>,
-    column3: atmega_hal::port::Pin<Output, PC2>,
-    column4: atmega_hal::port::Pin<Output, PC3>,
-    column5: atmega_hal::port::Pin<Output, PC4>,
-    column6: atmega_hal::port::Pin<Output, PC5>,
+    lines: PORTD,
+    columns: PORTC,
 }
 
 impl BoardLEDs {
-    pub fn new(pins: atmega_hal::Pins) -> BoardLEDs {
-        BoardLEDs {
-            line1: pins.pd0.into_output(),
-            line2: pins.pd1.into_output(),
-            line3: pins.pd2.into_output(),
-            line4: pins.pd3.into_output(),
-            line5: pins.pd4.into_output(),
-            line6: pins.pd5.into_output(),
+    pub fn new(line_port : PORTD, column_port:PORTC) -> BoardLEDs {
+        let b = BoardLEDs {
+            lines: line_port,
+            columns: column_port,
+        };
 
-            column1: pins.pc0.into_output(),
-            column2: pins.pc1.into_output(),
-            column3: pins.pc2.into_output(),
-            column4: pins.pc3.into_output(),
-            column5: pins.pc4.into_output(),
-            column6: pins.pc5.into_output(),
-        }
+        // configure as output
+        b.lines.ddrd.write(|w| 
+        	w.pd0().set_bit()
+        	.pd1().set_bit()
+        	.pd2().set_bit()
+        	.pd3().set_bit()
+        	.pd4().set_bit()
+        	.pd5().set_bit()
+        );
+        // configure as output
+        b.columns.ddrc.write(|w| 
+        	w.pc0().set_bit()
+        	.pc1().set_bit()
+        	.pc2().set_bit()
+        	.pc3().set_bit()
+        	.pc4().set_bit()
+        	.pc5().set_bit()
+        );
+        b
     }
 
     // TODO is this board specific ?
@@ -166,75 +160,34 @@ impl BoardLEDs {
         };
 
         // Lines = Anods ; on = high else low
-        if line == 0 {
-            self.line1.set_high()
-        } else {
-            self.line1.set_low()
-        };
-        if line == 1 {
-            self.line2.set_high()
-        } else {
-            self.line2.set_low()
-        };
-        if line == 2 {
-            self.line3.set_high()
-        } else {
-            self.line3.set_low()
-        };
-        if line == 3 {
-            self.line4.set_high()
-        } else {
-            self.line4.set_low()
-        };
-        if line == 4 {
-            self.line5.set_high()
-        } else {
-            self.line5.set_low()
-        };
-        if line == 5 {
-            self.line6.set_high()
-        } else {
-            self.line6.set_low()
-        };
+        self.lines.portd.write(
+            |w| w
+            .pd0().bit(line == 0)
+            .pd1().bit(line == 1) 
+            .pd2().bit(line == 2) 
+            .pd3().bit(line == 3) 
+            .pd4().bit(line == 4) 
+            .pd5().bit(line == 5) 
+        );
 
         // Columns = Cathod ; on = low else high
-        if column == 0 {
-            self.column1.set_low()
-        } else {
-            self.column1.set_high()
-        };
-        if column == 1 {
-            self.column2.set_low()
-        } else {
-            self.column2.set_high()
-        };
-        if column == 2 {
-            self.column3.set_low()
-        } else {
-            self.column3.set_high()
-        };
-        if column == 3 {
-            self.column4.set_low()
-        } else {
-            self.column4.set_high()
-        };
-        if column == 4 {
-            self.column5.set_low()
-        } else {
-            self.column5.set_high()
-        };
-        if column == 5 {
-            self.column6.set_low()
-        } else {
-            self.column6.set_high()
-        };
+        self.columns.portc.write(
+            |w| w
+            .pc0().bit(!column == 0)
+            .pc1().bit(!column == 1) 
+            .pc2().bit(!column == 2) 
+            .pc3().bit(!column == 3) 
+            .pc4().bit(!column == 4) 
+            .pc5().bit(!column == 5) 
+        );
     }
 }
 
 pub fn new_board() -> (BoardLEDs, BoardTimer) {
-    let peripherals = atmega_hal::Peripherals::take().unwrap();
+    let peripherals = Peripherals::take().unwrap();
+
     (
-        BoardLEDs::new(atmega_hal::pins!(peripherals)),
+        BoardLEDs::new(peripherals.PORTD, peripherals.PORTC),
         BoardTimer::new(peripherals.TC2),
     )
 }
