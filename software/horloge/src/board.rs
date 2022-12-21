@@ -13,12 +13,16 @@ const PRESCALER: u32 = 1024; // also check clock setup
 const ROLLOVER_SECONDS: u32 = 1;
 const ROLLOVER_TICKS: u32 = 32768 / PRESCALER * ROLLOVER_SECONDS + 1;
 
+// some checks
 const _: () = assert!(ROLLOVER_TICKS < 255); // we compute but check at build time
 const _: () = assert!(60 % ROLLOVER_SECONDS == 0);
 
+// fast mode: 1s => 5min, set min/sec to 0
+const FAST_MODE: bool = true;
+
 // use a https://docs.rust-embedded.org/book/peripherals/singletons.html ?
 pub struct BoardTimer {
-    tick: u16, // past value of the timer, updated at 32Hz if presecaled by 1024
+    tick: u8, // past value of the timer, updated at 32Hz if presecaled by 1024
 
     second: u8,
     hour: u8,
@@ -36,9 +40,9 @@ impl BoardTimer {
 
         // Datasheet p114: control register2
         timer.tccr2.write(|w| w
-        	// waveform generation : 00 - Normal
+        	// waveform generation : 10 - CTC: Clear Timer on Compare match
         	.wgm20().clear_bit()
-        	.wgm21().clear_bit()
+        	.wgm21().set_bit()
             .cs2().val_0x07() // prescale 1024 - Datasheet p. 116
         ); 
 
@@ -82,21 +86,19 @@ impl BoardTimer {
 
     // to be called faster than ROLLOVER_SECONDS. main thread, not in an interrupt
     pub fn update_time(&mut self) {
-        /*
         let counter_value = self.timer.tcnt2.read().bits();
 
-        if self.tick < counter_value {
+        if self.tick > counter_value {
             // we looped, so rollover has passed, update N seconds
-            self.second += (60 / ROLLOVER_SECONDS) as u8;
+            if FAST_MODE {
+                self.min5 += ROLLOVER_SECONDS as u8;
+                self.minute = 0;
+                self.second = 0;
+            } else {
+                self.second += ROLLOVER_SECONDS as u8;
+            }
         }
         self.tick = counter_value;
-        */
-        self.tick += 1;
-
-        if self.tick >= 5 {
-            self.tick = 0;
-            self.second += 1;
-        }
 
         if self.second >= 60 {
             self.minute += 1;
