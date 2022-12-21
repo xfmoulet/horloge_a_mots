@@ -65,12 +65,14 @@ impl BoardTimer {
         }
     }
 
-    /// this function returns the current time in RTC as H:M5:M (NOT H:M:S !) where
+    /// this function returns the current time in RTC as H:M5:M:S:T (NOT H:M:S !) where
     ///     H is the hour 0-23
     ///     M5 is the 5-minutes number 0-11
     ///     M is the remaining minutes 0-4
-    pub fn time(&self) -> (u8, u8, u8) {
-        (self.hour, self.min5, self.minute)
+    ///     S is the seconds
+    ///     T 1/32s ticks 
+    pub fn time(&self) -> (u8, u8, u8, u8, u8) {
+        (self.hour, self.min5, self.minute, self.second, self.tick)
     }
 
     /// delay a bit - blocking
@@ -142,7 +144,6 @@ impl BoardLEDs {
         b
     }
 
-    // TODO is this board specific ?
     /// light a LED on the matrix
     pub fn light_led(&mut self, led: Option<LED>) {
         // light correct LED in matrix
