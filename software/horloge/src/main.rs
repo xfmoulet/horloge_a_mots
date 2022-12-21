@@ -17,7 +17,7 @@ fn main() -> ! {
         for mux_tick in 0..MAX_LEDS {
             let led = led_multiplex(mux_tick, hour, min5, minute);
             board_leds.light_led(led);
-            board_timer.delay_us(10_u16);
+            board_timer.delay_us(1000_u16); // prevent "leaks" to same line LED
         }
     }
 }
