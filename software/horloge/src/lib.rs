@@ -5,6 +5,8 @@ It uses the data generated in data.rs
 */
 
 pub mod data;
+pub const SECONDS_PER_MINUTE: u8 = 1; // set to 1 to go 60x faster
+
 use crate::data::*;
 
 pub const MAX_LEDS: usize = NB_HOURS_LED + NB_MIN5_LED + NB_MINUTES_LED; // max LEDs "at a time" (ie muxed)

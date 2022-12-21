@@ -2,6 +2,7 @@ use panic_halt as _;
 use avr_device::atmega8::{Peripherals, TC2, PORTC, PORTD};
 
 use horloge::data::*;
+use horloge::SECONDS_PER_MINUTE;
 
 use panic_halt as _; // panic handler
 
@@ -9,7 +10,6 @@ use panic_halt as _; // panic handler
 // 60s = 2*2*3*5 , let's use 1s ? could be 1,2,3,4,5,6 (10 and 12 are >8s)
 
 const PRESCALER: u32 = 1024; // also check clock setup
-
 const ROLLOVER_SECONDS: u32 = 1;
 const ROLLOVER_TICKS: u32 = 32768 / PRESCALER * ROLLOVER_SECONDS;
 
@@ -17,8 +17,6 @@ const ROLLOVER_TICKS: u32 = 32768 / PRESCALER * ROLLOVER_SECONDS;
 const _: () = assert!(ROLLOVER_TICKS < 255); // we compute but check at build time
 const _: () = assert!(60 % ROLLOVER_SECONDS == 0);
 
-// fast mode: 1s => 5min, set min/sec to 0
-const FAST_MODE: bool = true;
 
 // use a https://docs.rust-embedded.org/book/peripherals/singletons.html ?
 pub struct BoardTimer {
@@ -89,18 +87,11 @@ impl BoardTimer {
         let counter_value = self.timer.tcnt2.read().bits();
 
         if self.tick > counter_value {
-            // we looped, so rollover has passed, update N seconds
-            if FAST_MODE {
-                self.min5 += ROLLOVER_SECONDS as u8;
-                self.minute = 0;
-                self.second = 0;
-            } else {
-                self.second += ROLLOVER_SECONDS as u8;
-            }
+            self.second += ROLLOVER_SECONDS as u8;
         }
         self.tick = counter_value;
-
-        if self.second >= 60 {
+        // TODO make a time + normalize(time) ? 
+        if self.second >= SECONDS_PER_MINUTE {
             self.minute += 1;
             self.second = 0;
         }
