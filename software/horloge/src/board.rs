@@ -45,7 +45,7 @@ impl BoardTimer {
         ); 
 
         // Output compare register
-        timer.ocr2.write(|w| unsafe { w.bits(ROLLOVER_TICKS as u8) });
+        timer.ocr2.write(|w| unsafe { w.bits(ROLLOVER_TICKS as u8 - 1) });
 
         // Asynchronous mode, from 32KHz crystal
         timer.assr.write(|w| w.as2().set_bit());
