@@ -5,30 +5,45 @@ It uses the data generated in data.rs
 */
 
 pub mod data;
+pub const SECONDS_PER_MINUTE: u8 = 1; // set to 1 to go 60x faster
+
 use crate::data::*;
 
 pub const MAX_LEDS: usize = NB_HOURS_LED + NB_MIN5_LED + NB_MINUTES_LED; // max LEDs "at a time" (ie muxed)
 
 // for a given mux tick / hour, return the LED to illuminate
-pub fn led_multiplex(mux_tick: usize, hour: u8, min5: u8, minute: u8) -> Option<LED> {
-    // moins le -> heure effective = heure suivante, attention a minuit
-    let ehour = if min5 > 6 {
-        if hour < 23 {
-            hour + 1
-        } else {
-            0
+pub fn led_multiplex(mux_tick: u8, smooth_tick: u8, mut hour: u8, mut min5: u8, mut minute: u8, second: u8, tick: u8) -> Option<LED> {    
+    // smooth fade to next minute during last second
+    // During last second of a minute, we consider the time to be next minute
+    // Alternatively, according to the pattern tick.
+    if second >= SECONDS_PER_MINUTE-1 && (INTERLEAVE_PATTERNS[tick as usize] & 1<<smooth_tick) != 0 {
+        minute += 1;
+        if minute>=5 {
+            minute = 0;
+            min5 += 1;
         }
-    } else {
-        hour
-    };
+        if min5 >= 12 {
+            min5 = 0;
+            hour += 1;
+        }
+        if hour >= 24 {
+            hour = 0;
+        }
+    }
+
+    // moins le -> heure effective = heure suivante, attention a minuit
+    if min5 > 6 {
+        hour = if hour < 23 { hour + 1 } else { 0 };
+    }
+
     // Special case: midi/minuit et demi (no E)
     // not a match since we dont have exclusive ranges and ranges cannot be 0..X-1 in rust matches
-    if mux_tick < NB_HOURS_LED {
-        HOURS_LED[ehour as usize][mux_tick]
-    } else if mux_tick < NB_HOURS_LED + NB_MIN5_LED {
-        MIN5_LED[min5 as usize][mux_tick - NB_HOURS_LED]
-    } else if mux_tick < NB_HOURS_LED + NB_MIN5_LED + NB_MINUTES_LED {
-        MINUTES_LED[minute as usize][mux_tick - NB_HOURS_LED - NB_MIN5_LED]
+    if mux_tick < NB_HOURS_LED as u8 {
+        HOURS_LED[hour as usize][mux_tick as usize]
+    } else if mux_tick < (NB_HOURS_LED + NB_MIN5_LED) as u8 {
+        MIN5_LED[min5 as usize][mux_tick as usize - NB_HOURS_LED]
+    } else if mux_tick < (NB_HOURS_LED + NB_MIN5_LED + NB_MINUTES_LED) as u8 {
+        MINUTES_LED[minute as usize][mux_tick as usize - NB_HOURS_LED - NB_MIN5_LED]
     } else {
         None
     }

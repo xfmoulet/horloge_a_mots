@@ -9,16 +9,14 @@ lto = true
 opt-level = "s"
 
 [dependencies]
-embedded-hal = "0.2"
-
-# Panic behaviour, see https://crates.io/keywords/panic-impl for alternatives
 panic-halt = "0.2"
 
-[dependencies.atmega-hal]
-git = "https://github.com/Rahix/avr-hal"
-features = ["atmega328p"]
+[dependencies.avr-device]
+version = "0.4.0"
+features = ["atmega8","rt"]
 
 [features]
 default = ["mini_panel"]
 big_panel=[]
 mini_panel=[]
+mini_demo=[]

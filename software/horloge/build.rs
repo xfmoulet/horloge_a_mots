@@ -111,9 +111,60 @@ static MINUTES_LED: [&str; 5] = [
     "EtDes Bananes Dot4",
 ];
 
-// Mini Panel (4x2) ------------------------------------------------------------------------------------
+// Mini Panel 4x2 minutes mode ------------------------------------------------------------------------------------
 
 #[cfg(feature = "mini_panel")]
+// used for placement
+static LED_PANEL: [&str; 6] = [
+    "x1 x2", // unused
+    "x3 x4", // unused
+    "Moins Le",
+    "Et Quart",
+    "Demi Vingt",
+    "DixMin CinqMin",
+];
+
+#[cfg(feature = "mini_panel")]
+static LED_DURATIONS: [(&str, usize); 8] = [
+    ("Moins", 1),
+    ("Et", 1),
+    ("DixMin", 1),
+    ("Vingt", 1),
+    ("CinqMin", 1),
+    ("Le", 1),
+    ("Quart", 1),
+    ("Demi", 1),
+];
+
+// Correspondence bewteen 0-23 hour and corresponding LEDs to illuminate
+#[cfg(feature = "mini_panel")]
+static HOURS_LED: [&str; 0] = [];
+
+// Correspondence between 0-11 5-minutes packs and LEDs
+#[cfg(feature = "mini_panel")]
+static MINUTES_5_LED: [&str; 12] = [
+    "",
+    "CinqMin",
+    "DixMin",
+    "Et Quart",
+    "Vingt",
+    "Vingt CinqMin",
+    "Et Demi",
+    "Moins Vingt CinqMin",
+    "Moins Vingt",
+    "Moins Le Quart",
+    "Moins DixMin",
+    "Moins CinqMin",
+];
+
+// Correspondence between 0-5 remaining minute and LEDs
+#[cfg(feature = "mini_panel")]
+static MINUTES_LED: [&str; 0] = [
+];
+
+// Mini Panel (4x2) knightrider mode ------------------------------------------------------------------------------------
+
+#[cfg(feature = "mini_demo")]
 // used for placement
 static LED_PANEL: [&str;6] = [
 "x1 x2",
@@ -124,7 +175,7 @@ static LED_PANEL: [&str;6] = [
 "L7 L8"
 ];
 
-#[cfg(feature = "mini_panel")]
+#[cfg(feature = "mini_demo")]
 static LED_DURATIONS: [(&str, usize); 8] = [
     ("L1", 1),
     ("L2", 4),
@@ -138,11 +189,11 @@ static LED_DURATIONS: [(&str, usize); 8] = [
 
 // TODO try other durations patterns to reach 16 Max ?
 // Correspondence bewteen 0-23 hour and corresponding LEDs to illuminate
-#[cfg(feature = "mini_panel")]
+#[cfg(feature = "mini_demo")]
 static HOURS_LED: [&str; 0] = [];
 
 // Correspondence between 0-11 5-minutes packs and LEDs
-#[cfg(feature = "mini_panel")]
+#[cfg(feature = "mini_demo")]
 static MINUTES_5_LED: [&str; 12] = [
     "L1",
     "L3",
@@ -152,14 +203,14 @@ static MINUTES_5_LED: [&str; 12] = [
     "L6",
     "L4",
     "L2",
-    "L1 L2",
-    "L1 L2 L3 L4",
-    "L1 L2 L3 L4 L5 L6",
-    "L1 L2 L3 L4 L5 L6 L7 L8",
+    "L1 L3 L5 L7",
+    "L1 L4 L5 L8",
+    "L2 L4 L6 L8",
+    "L2 L3 L6 L7",
 ];
 
 // Correspondence between 0-5 remaining minute and LEDs
-#[cfg(feature = "mini_panel")]
+#[cfg(feature = "mini_demo")]
 static MINUTES_LED: [&str; 0] = [];
 
 // Code Gen ------------------------------------------------------------------------------------
@@ -229,6 +280,23 @@ fn led_position(name: &str) -> Option<(u8, u8)> {
     None
 }
 
+
+fn write_patterns(file: &mut File) -> Result<(),std::io::Error> {
+    file.write_all(b"// Interleaving patterns for 32 values and 32 ticks\npub const INTERLEAVE_PATTERNS: [u32;32] = [\n")?;
+    for value in 0..32 {
+        write!(file, "    0b")?;
+        for tick in 0..32 {
+            let a = (tick + 1) * value / 32;
+            let b = (tick + 0) * value / 32;
+            file.write_all(if a != b { b"1" } else { b"0" })?;
+        // print(value, sum(1 for a in s if a == "*"), s)
+        }
+        writeln!(file,",")?
+    }
+    file.write_all(b"];")?;
+    Ok(())
+}
+
 // Generate the src/data.rs file according to LED tables
 fn main() {
     let mut file = File::create("./src/data.rs").unwrap();
@@ -274,4 +342,7 @@ fn main() {
     write_elements(&mut file, "MIN5_LED", &MINUTES_5_LED, &led_durations);
     writeln!(&mut file, "// ---").unwrap();
     write_elements(&mut file, "MINUTES_LED", &MINUTES_LED, &led_durations);
+
+    writeln!(&mut file, "// ---").unwrap();
+    write_patterns(&mut file).unwrap();
 }
