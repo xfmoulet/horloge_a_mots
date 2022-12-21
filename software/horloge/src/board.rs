@@ -11,7 +11,7 @@ use panic_halt as _; // panic handler
 const PRESCALER: u32 = 1024; // also check clock setup
 
 const ROLLOVER_SECONDS: u32 = 1;
-const ROLLOVER_TICKS: u32 = 32768 / PRESCALER * ROLLOVER_SECONDS + 1;
+const ROLLOVER_TICKS: u32 = 32768 / PRESCALER * ROLLOVER_SECONDS;
 
 // some checks
 const _: () = assert!(ROLLOVER_TICKS < 255); // we compute but check at build time
@@ -56,7 +56,7 @@ impl BoardTimer {
 
         // for interrupt based ticks, see https://blog.rahix.de/005-avr-hal-millis/
         BoardTimer {
-            tick: 0,
+            tick: 0, // 32Hz
 
             second: 0,
             minute: 0,
