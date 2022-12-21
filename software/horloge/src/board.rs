@@ -175,12 +175,12 @@ impl BoardLEDs {
         // Columns = Cathod ; on = low else high
         self.columns.portc.write(
             |w| w
-            .pc0().bit(!column == 0)
-            .pc1().bit(!column == 1) 
-            .pc2().bit(!column == 2) 
-            .pc3().bit(!column == 3) 
-            .pc4().bit(!column == 4) 
-            .pc5().bit(!column == 5) 
+            .pc0().bit(column != 0)
+            .pc1().bit(column != 1) 
+            .pc2().bit(column != 2) 
+            .pc3().bit(column != 3) 
+            .pc4().bit(column != 4) 
+            .pc5().bit(column != 5) 
         );
     }
 }
