@@ -282,7 +282,7 @@ fn led_position(name: &str) -> Option<(u8, u8)> {
 
 
 fn write_patterns(file: &mut File) -> Result<(),std::io::Error> {
-    file.write_all(b"// Interleaving patterns for 32 values and 32 ticks\nconst _INTERLEAVE_PATTERNS: [u32;32] = {\n")?;
+    file.write_all(b"// Interleaving patterns for 32 values and 32 ticks\npub const INTERLEAVE_PATTERNS: [u32;32] = [\n")?;
     for value in 0..32 {
         write!(file, "    0b")?;
         for tick in 0..32 {
@@ -293,7 +293,7 @@ fn write_patterns(file: &mut File) -> Result<(),std::io::Error> {
         }
         writeln!(file,",")?
     }
-    file.write_all(b"};")?;
+    file.write_all(b"];")?;
     Ok(())
 }
 
