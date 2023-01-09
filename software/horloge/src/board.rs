@@ -152,7 +152,10 @@ impl BoardLEDs {
         } else {
             (255, 255) // different from everything, will switch all LEDs off
         };
+        self.light_led_xy(column,line);
+    }
 
+    pub fn light_led_xy(&mut self, column: u8, line: u8) {
         // Lines = Anods ; on = high else low
         self.lines.portd.write(
             |w| w
