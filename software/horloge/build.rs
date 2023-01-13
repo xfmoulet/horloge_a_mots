@@ -10,12 +10,12 @@ use std::io::Write;
 #[cfg(feature = "big_panel")]
 // used for placement
 static LED_PANEL: [&str; 6] = [
-    "IlEst Deux Quatre Trois",
-    "Neuf Une Sept Huit Six Cinq",
-    "Mi Di X Minuit Onze Heure S",
-    "Moins Vingt CinqMin DixMin Le Et",
-    "Quart Demi E EtDes Pile",
-    "Bananes Dot1 Dot2 Dot3 Dot4",
+    "Deux Trois X IlEst Quatre xxx",
+    "Sept Cinq Six Une Neuf Huit",
+    "Minuit S Heure Onze Di Mi",
+    "Vingt Et Le DixMin Moins CinqMin",
+    "E Pile Demi EtDes Quart xxx",
+    "Dot4 xxx Dot3 Dot2 Dot1 Bananes",
 ];
 
 #[cfg(feature = "big_panel")]
