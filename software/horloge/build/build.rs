@@ -9,11 +9,13 @@ use std::io::Write;
 include!{"big_panel.rs"}
 
 #[cfg(feature="mini_panel")]
-include!{"mini_panel"}
+include!{"mini_panel.rs"}
 
 #[cfg(feature="mini_demo")]
-include!{"mini_demo"}
+include!{"mini_demo.rs"}
 
+#[cfg(feature="panel_xfm")]
+include!{"panel_xfm.rs"}
 
 // Code Gen ------------------------------------------------------------------------------------
 

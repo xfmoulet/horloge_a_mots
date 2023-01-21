@@ -3,6 +3,12 @@ name = "horloge"
 version = "0.1.0"
 edition = "2021"
 build="build/build.rs"
+panel="panel_xfm"
+
+[profile.dev]
+panic = "abort"
+lto = true
+opt-level = "s"
 
 [profile.release]
 panic = "abort"
@@ -17,7 +23,8 @@ version = "0.4.0"
 features = ["atmega8","rt"]
 
 [features]
-default = ["mini_panel"]
+default = ["panel_xfm"]
 big_panel=[]
 mini_panel=[]
 mini_demo=[]
+panel_xfm=[]
