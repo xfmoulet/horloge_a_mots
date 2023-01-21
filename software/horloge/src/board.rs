@@ -145,7 +145,7 @@ impl BoardLEDs {
     }
 
     /// light a LED on the matrix
-    pub fn light_led(&mut self, led: Option<LED>) {
+    pub fn light_led(&self, led: Option<LED>) {
         // light correct LED in matrix
         let (column, line) = if let Some(l) = led {
             LED_POSITIONS[l as usize]
@@ -155,27 +155,27 @@ impl BoardLEDs {
         self.light_led_xy(column,line);
     }
 
-    pub fn light_led_xy(&mut self, column: u8, line: u8) {
+    pub fn light_led_xy(&self, column: u8, line: u8) {
         // Lines = Anods ; on = high else low
         self.lines.portd.write(
             |w| w
-            .pd0().bit(line == 0)
-            .pd1().bit(line == 1) 
-            .pd2().bit(line == 2) 
-            .pd3().bit(line == 3) 
-            .pd4().bit(line == 4) 
-            .pd5().bit(line == 5) 
+            .pd0().bit(line != 0)
+            .pd1().bit(line != 1) 
+            .pd2().bit(line != 2) 
+            .pd3().bit(line != 3) 
+            .pd4().bit(line != 4) 
+            .pd5().bit(line != 5) 
         );
 
         // Columns = Cathod ; on = low else high
         self.columns.portc.write(
             |w| w
-            .pc0().bit(column != 0)
-            .pc1().bit(column != 1) 
-            .pc2().bit(column != 2) 
-            .pc3().bit(column != 3) 
-            .pc4().bit(column != 4) 
-            .pc5().bit(column != 5) 
+            .pc0().bit(column == 0)
+            .pc1().bit(column == 1) 
+            .pc2().bit(column == 2) 
+            .pc3().bit(column == 3) 
+            .pc4().bit(column == 4) 
+            .pc5().bit(column == 5) 
         );
     }
 }
