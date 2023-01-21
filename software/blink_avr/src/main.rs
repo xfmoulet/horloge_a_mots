@@ -1,4 +1,4 @@
-// makes L6 LED blink using very low-level code (no HAL so far)
+// makes C6 LED blink using very low-level code (no HAL so far)
 
 #![no_std]
 #![no_main]
@@ -22,13 +22,13 @@ struct BoardLED {
 impl BoardLED {
     fn new() -> BoardLED {
         let b = BoardLED{ dp: Peripherals::take().unwrap() };
-        // directly configure bit 5 of PORTD as output
-        b.dp.PORTD.ddrd.write(|w| w.pd5().set_bit());
+        // directly configure bit 5 of PORTC as output
+        b.dp.PORTC.ddrc.write(|w| w.pc5().set_bit());
         b
     }
     fn set(&self, b : bool) {
-        self.dp.PORTD.portd.write(
-            |w| if b { w.pd5().set_bit() } else { w.pd5().clear_bit() }
+        self.dp.PORTC.portc.write(
+            |w| if b { w.pc5().set_bit() } else { w.pc5().clear_bit() }
         );
     }
 }
