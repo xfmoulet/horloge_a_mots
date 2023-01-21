@@ -1,4 +1,5 @@
 BINARY=target/avr-atmega8/release/horloge.elf
+.PHONY: build
 build:
 	cargo build --release
 flash: build 
