@@ -5,7 +5,7 @@ It uses the data generated in data.rs
 */
 
 pub mod data;
-pub const SECONDS_PER_MINUTE: u8 = 1; // set to 1 to go 60x faster
+pub const SECONDS_PER_MINUTE: u8 = 60; // set to 1 to go 60x faster
 
 use crate::data::*;
 

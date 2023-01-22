@@ -1,5 +1,5 @@
 use panic_halt as _;
-use avr_device::atmega8::{Peripherals, TC2, PORTC, PORTD};
+use avr_device::atmega8::{Peripherals, TC2, PORTB, PORTC, PORTD};
 
 use horloge::data::*;
 use horloge::SECONDS_PER_MINUTE;
@@ -28,10 +28,11 @@ pub struct BoardTimer {
     minute: u8,
 
     timer: TC2,
+    extra_port: PORTB, // GPIO port to read time setting pin
 }
 
 impl BoardTimer {
-    pub fn new(timer: TC2) -> BoardTimer {
+    pub fn new(timer: TC2, extra_port: PORTB, hour: u8, minute: u8) -> BoardTimer {
 
         // Set up async timer tc2
         // https://github.com/Rahix/avr-hal/blob/main/examples/arduino-uno/src/bin/uno-timer.rs
@@ -52,16 +53,21 @@ impl BoardTimer {
 
         // System clock: keep default internal RC@8MHz
 
+        // set GPIO 4 (PB1, see doc/dtd2022/images/schema_avr.png for schema) to input, pull-up
+        extra_port.ddrb.write(|w| w.pb1().clear_bit());
+        extra_port.portb.write(|w| w.pb1().set_bit() );
+
         // for interrupt based ticks, see https://blog.rahix.de/005-avr-hal-millis/
         BoardTimer {
             tick: 0, // 32Hz
 
             second: 0,
-            minute: 0,
-            min5: 0,
-            hour: 0,
+            minute: minute%5,
+            min5: minute/5,
+            hour,
 
-            timer: timer,
+            timer,
+            extra_port,
         }
     }
 
@@ -75,13 +81,6 @@ impl BoardTimer {
         (self.hour, self.min5, self.minute, self.second, self.tick)
     }
 
-
-    pub fn set(&mut self, hour: u8, minute:u8) {
-        self.hour = hour;
-        self.min5 = minute/5;
-        self.minute = minute%5;
-    }
-
     /// delay a bit - blocking
 	// absolutely inaccurate but eh
 	#[inline(always)]
@@ -91,13 +90,25 @@ impl BoardTimer {
 	    }
 	}    
 
+    // are we setting time ?
+    fn time_set(&self) -> bool {
+        self.extra_port.pinb.read().pb1().bit_is_clear()
+    }
+
     // to be called faster than ROLLOVER_SECONDS. main thread, not in an interrupt
     pub fn update_time(&mut self) {
         let counter_value = self.timer.tcnt2.read().bits();
 
         if self.tick > counter_value {
-            self.second += ROLLOVER_SECONDS as u8;
+            if self.time_set() {
+                self.min5 += 1;
+                self.minute=0;
+                self.tick=0;
+            } else {
+                self.second += ROLLOVER_SECONDS as u8;
+            }
         }
+
         self.tick = counter_value;
         // TODO make a time + normalize(time) ? 
         if self.second >= SECONDS_PER_MINUTE {
@@ -187,11 +198,11 @@ impl BoardLEDs {
     }
 }
 
-pub fn new_board() -> (BoardLEDs, BoardTimer) {
+pub fn new_board(hour:u8, minute:u8) -> (BoardLEDs, BoardTimer) {
     let peripherals = Peripherals::take().unwrap();
 
     (
         BoardLEDs::new(peripherals.PORTD, peripherals.PORTC),
-        BoardTimer::new(peripherals.TC2),
+        BoardTimer::new(peripherals.TC2, peripherals.PORTB, hour, minute),
     )
 }

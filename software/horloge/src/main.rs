@@ -31,9 +31,9 @@ fn demo(board_leds: &BoardLEDs, board_timer: &BoardTimer) {
 
 #[no_mangle]
 fn main() -> ! {
-    let (board_leds, mut board_timer) = new_board();
+    let (board_leds, mut board_timer) = new_board(13,37);
+    
     demo(&board_leds, &board_timer);
-    board_timer.set(13,37);
 
     loop {
         board_timer.update_time();
