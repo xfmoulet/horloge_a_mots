@@ -16,11 +16,16 @@ version = "0.4.0"
 features = ["atmega8","rt"]
 
 [features]
-default = ["big_panel", "reverse_led", "first_test_animation"]
-big_panel=[]
+default = ["big_panel", "reverse_led"]
+# all the different panels
+big_panel=[]        
 mini_panel=[]
 mini_demo=[]
 gil_panel=[]
+# Leds modes
 reverse_led=[]
 normal_led=[]
+# Test animation at the starting
 first_test_animation=[]
+# Fading or no_fading during transitions
+no_fading=[]

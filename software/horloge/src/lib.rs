@@ -12,10 +12,13 @@ use crate::data::*;
 pub const MAX_LEDS: usize = NB_HOURS_LED + NB_MIN5_LED + NB_MINUTES_LED; // max LEDs "at a time" (ie muxed)
 
 // for a given mux tick / hour, return the LED to illuminate
-pub fn led_multiplex(mux_tick: u8, smooth_tick: u8, mut hour: u8, mut min5: u8, mut minute: u8, second: u8, tick: u8) -> Option<LED> {    
+pub fn led_multiplex(mux_tick: u8, mut smooth_tick: u8, mut hour: u8, mut min5: u8, mut minute: u8, second: u8, tick: u8) -> Option<LED> {    
     // smooth fade to next minute during last second
     // During last second of a minute, we consider the time to be next minute
     // Alternatively, according to the pattern tick.
+    if cfg!(feature = "no_fading") {
+        smooth_tick = 0;
+    }
     if second >= SECONDS_PER_MINUTE-1 && (INTERLEAVE_PATTERNS[tick as usize] & 1<<smooth_tick) != 0 {
         minute += 1;
         if minute>=5 {
