@@ -7,21 +7,30 @@ use crate::board::new_board;
 use horloge::led_multiplex;
 use horloge::MAX_LEDS;
 
+#[cfg(feature = "first_test_animation")] 
+use board::*;
+
+#[cfg(feature = "first_test_animation")] 
+fn first_test_animation(board_leds : &mut BoardLEDs , board_timer : &mut BoardTimer) {
+    for _ in 0..10 {
+        for column in 0..6u8 {
+            for _ in 0..1000 {
+                for line in 0..6u8 {
+                    board_leds.light_led_xy(column,line);
+                    board_timer.delay_us(300_u16); // prevent "leaks" to same line LED
+                }
+            }
+        }
+    }
+}
+
 #[no_mangle]
 fn main() -> ! {
     let (mut board_leds, mut board_timer) = new_board();
-    // first test animation
-    // for _ in 0..10 {
-    //     for column in 0..6u8 {
-    //         for _ in 0..1000 {
-    //             for line in 0..6u8 {
-    //                 board_leds.light_led_xy(column,line);
-    //                 board_timer.delay_us(300_u16); // prevent "leaks" to same line LED
-    //             }
-    //         }
-    //     }
-    // }
-    
+
+    #[cfg(feature = "first_test_animation")] 
+    first_test_animation(&mut board_leds, &mut board_timer);
+
     // show time!
     loop {
         board_timer.update_time();
