@@ -11,16 +11,17 @@ use horloge::MAX_LEDS;
 fn main() -> ! {
     let (mut board_leds, mut board_timer) = new_board();
     // first test animation
-    for _ in 0..10 {
-        for column in 0..6u8 {
-            for _ in 0..1000 {
-                for line in 0..6u8 {
-                    board_leds.light_led_xy(column,line);
-                    board_timer.delay_us(300_u16); // prevent "leaks" to same line LED
-                }
-            }
-        }
-    }
+    // for _ in 0..10 {
+    //     for column in 0..6u8 {
+    //         for _ in 0..1000 {
+    //             for line in 0..6u8 {
+    //                 board_leds.light_led_xy(column,line);
+    //                 board_timer.delay_us(300_u16); // prevent "leaks" to same line LED
+    //             }
+    //         }
+    //     }
+    // }
+    
     // show time!
     loop {
         board_timer.update_time();

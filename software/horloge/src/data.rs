@@ -102,10 +102,10 @@ pub static MIN5_LED: [[Option<LED>;NB_MIN5_LED];12] = [
     [None, None, None, None, None, None, None, None, ],
     [Some(LED::CinqMin), Some(LED::CinqMin), None, None, None, None, None, None, ],
     [Some(LED::DixMin), Some(LED::DixMin), None, None, None, None, None, None, ],
-    [Some(LED::Et), Some(LED::Quart), Some(LED::Quart), Some(LED::Quart), None, None, None, None, ],
+    [Some(LED::Et), Some(LED::Et), Some(LED::Quart), Some(LED::Quart), Some(LED::Quart), None, None, None, ],
     [Some(LED::Vingt), Some(LED::Vingt), Some(LED::Vingt), None, None, None, None, None, ],
     [Some(LED::Vingt), Some(LED::Vingt), Some(LED::Vingt), Some(LED::CinqMin), Some(LED::CinqMin), None, None, None, ],
-    [Some(LED::Et), Some(LED::Demi), Some(LED::Demi), Some(LED::E), None, None, None, None, ],
+    [Some(LED::Et), Some(LED::Et), Some(LED::Demi), Some(LED::Demi), Some(LED::E), None, None, None, ],
     [Some(LED::Moins), Some(LED::Moins), Some(LED::Moins), Some(LED::Vingt), Some(LED::Vingt), Some(LED::Vingt), Some(LED::CinqMin), Some(LED::CinqMin), ],
     [Some(LED::Moins), Some(LED::Moins), Some(LED::Moins), Some(LED::Vingt), Some(LED::Vingt), Some(LED::Vingt), None, None, ],
     [Some(LED::Moins), Some(LED::Moins), Some(LED::Moins), Some(LED::Le), Some(LED::Quart), Some(LED::Quart), Some(LED::Quart), None, ],
@@ -113,13 +113,13 @@ pub static MIN5_LED: [[Option<LED>;NB_MIN5_LED];12] = [
     [Some(LED::Moins), Some(LED::Moins), Some(LED::Moins), Some(LED::CinqMin), Some(LED::CinqMin), None, None, None, ],
 ];
 // ---
-pub const NB_MINUTES_LED : usize = 6;
+pub const NB_MINUTES_LED : usize = 1;
 pub static MINUTES_LED: [[Option<LED>;NB_MINUTES_LED];5] = [
-    [None, None, None, None, None, None, ],
-    [Some(LED::Dot1), None, None, None, None, None, ],
-    [Some(LED::Dot2), None, None, None, None, None, ],
-    [Some(LED::EtDes), Some(LED::EtDes), Some(LED::Bananes), Some(LED::Bananes), Some(LED::Bananes), Some(LED::Dot3), ],
-    [Some(LED::EtDes), Some(LED::EtDes), Some(LED::Bananes), Some(LED::Bananes), Some(LED::Bananes), Some(LED::Dot4), ],
+    [None, ],
+    [Some(LED::Dot1), ],
+    [Some(LED::Dot2), ],
+    [Some(LED::Dot3), ],
+    [Some(LED::Dot4), ],
 ];
 // ---
 // Interleaving patterns for 32 values and 32 ticks

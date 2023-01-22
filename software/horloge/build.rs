@@ -5,217 +5,34 @@ use std::collections::HashMap;
 use std::fs::File;
 use std::io::Write;
 
-// Big Panel ------------------------------------------------------------------------------------
+// Select a panel in Cargo.toml
 
-#[cfg(feature = "big_panel")]
-// used for placement
-static LED_PANEL: [&str; 6] = [
-    "Deux Trois X IlEst Quatre xxx",
-    "Sept Cinq Six Une Neuf Huit",
-    "Minuit S Heure Onze Di Mi",
-    "Vingt Et Le DixMin Moins CinqMin",
-    "E Pile Demi EtDes Quart xxx",
-    "Dot4 xxx Dot3 Dot2 Dot1 Bananes",
-];
+#[cfg(feature = "big_panel")] 
+mod big_panel;
+#[cfg(feature = "big_panel")] 
+use big_panel::*;
 
-#[cfg(feature = "big_panel")]
-static LED_DURATIONS: [(&str, usize); 32] = [
-    ("IlEst", 3),
-    ("Une", 1),
-    ("Deux", 2),
-    ("Trois", 3),
-    ("Quatre", 3),
-    ("Cinq", 2),
-    ("Six", 2),
-    ("Sept", 2),
-    ("Huit", 2),
-    ("Neuf", 2),
-    ("Onze", 2),
-    ("Mi", 1),
-    ("Di", 1),
-    ("X", 1),
-    ("Minuit", 3),
-    ("Heure", 3),
-    ("S", 1),
-    ("Et", 1),
-    ("Moins", 3),
-    ("DixMin", 2),
-    ("Vingt", 3),
-    ("CinqMin", 2),
-    ("Le", 1),
-    ("Quart", 3),
-    ("Demi", 2),
-    ("E", 1),
-    ("EtDes", 2),
-    ("Bananes", 3),
-    ("Dot1", 1),
-    ("Dot2", 1),
-    ("Dot3", 1),
-    ("Dot4", 1),
-];
+#[cfg(feature = "gil_panel")] 
+mod gil_panel;
+#[cfg(feature = "gil_panel")] 
+use gil_panel::*;
 
-// TODO try other durations patterns to reach 16 Max ?
-// Correspondence bewteen 0-23 hour and corresponding LEDs to illuminate
-#[cfg(feature = "big_panel")]
-static HOURS_LED: [&str; 24] = [
-    "Minuit",
-    "Une Heure",
-    "Deux Heure S",
-    "Trois Heure S",
-    "Quatre Heure S",
-    "Cinq Heure S",
-    "Six Heure S",
-    "Sept Heure S",
-    "Huit Heure S",
-    "Neuf Heure S",
-    "Di X Heure S",
-    "Onze Heure S",
-    "Mi Di",
-    "Une Heure",
-    "Deux Heure S",
-    "Trois Heure S",
-    "Quatre Heure S",
-    "Cinq Heure S",
-    "Six Heure S",
-    "Sept Heure S",
-    "Huit Heure S",
-    "Neuf Heure S",
-    "Di X Heure S",
-    "Onze Heure S",
-];
+#[cfg(feature = "mini_panel")] 
+mod mini_panel;
+#[cfg(feature = "mini_panel")] 
+use mini_panel::*;
 
-// Correspondence between 0-11 5-minutes packs and LEDs
-#[cfg(feature = "big_panel")]
-static MINUTES_5_LED: [&str; 12] = [
-    "",
-    "CinqMin",
-    "DixMin",
-    "Et Quart",
-    "Vingt",
-    "Vingt CinqMin",
-    "Et Demi E",
-    "Moins Vingt CinqMin",
-    "Moins Vingt",
-    "Moins Le Quart",
-    "Moins DixMin",
-    "Moins CinqMin",
-];
+#[cfg(feature = "mini_demo")] 
+mod mini_demo;
+#[cfg(feature = "mini_demo")] 
+use mini_demo::*;
 
-// Correspondence between 0-5 remaining minute and LEDs
-#[cfg(feature = "big_panel")]
-static MINUTES_LED: [&str; 5] = [
-    "",
-    "Dot1",
-    "Dot2",
-    "EtDes Bananes Dot3",
-    "EtDes Bananes Dot4",
-];
-
-// Mini Panel 4x2 minutes mode ------------------------------------------------------------------------------------
-
-#[cfg(feature = "mini_panel")]
-// used for placement
-static LED_PANEL: [&str; 6] = [
-    "x1 x2", // unused
-    "x3 x4", // unused
-    "Moins Le",
-    "Et Quart",
-    "Demi Vingt",
-    "DixMin CinqMin",
-];
-
-#[cfg(feature = "mini_panel")]
-static LED_DURATIONS: [(&str, usize); 8] = [
-    ("Moins", 1),
-    ("Et", 1),
-    ("DixMin", 1),
-    ("Vingt", 1),
-    ("CinqMin", 1),
-    ("Le", 1),
-    ("Quart", 1),
-    ("Demi", 1),
-];
-
-// Correspondence bewteen 0-23 hour and corresponding LEDs to illuminate
-#[cfg(feature = "mini_panel")]
-static HOURS_LED: [&str; 0] = [];
-
-// Correspondence between 0-11 5-minutes packs and LEDs
-#[cfg(feature = "mini_panel")]
-static MINUTES_5_LED: [&str; 12] = [
-    "",
-    "CinqMin",
-    "DixMin",
-    "Et Quart",
-    "Vingt",
-    "Vingt CinqMin",
-    "Et Demi",
-    "Moins Vingt CinqMin",
-    "Moins Vingt",
-    "Moins Le Quart",
-    "Moins DixMin",
-    "Moins CinqMin",
-];
-
-// Correspondence between 0-5 remaining minute and LEDs
-#[cfg(feature = "mini_panel")]
-static MINUTES_LED: [&str; 0] = [
-];
-
-// Mini Panel (4x2) knightrider mode ------------------------------------------------------------------------------------
-
-#[cfg(feature = "mini_demo")]
-// used for placement
-static LED_PANEL: [&str;6] = [
-"x1 x2",
-"x3 x4",
-"L1 L2", 
-"L3 L4", 
-"L5 L6", 
-"L7 L8"
-];
-
-#[cfg(feature = "mini_demo")]
-static LED_DURATIONS: [(&str, usize); 8] = [
-    ("L1", 1),
-    ("L2", 4),
-    ("L3", 1),
-    ("L4", 1),
-    ("L5", 1),
-    ("L6", 1),
-    ("L7", 1),
-    ("L8", 1),
-];
-
-// TODO try other durations patterns to reach 16 Max ?
-// Correspondence bewteen 0-23 hour and corresponding LEDs to illuminate
-#[cfg(feature = "mini_demo")]
-static HOURS_LED: [&str; 0] = [];
-
-// Correspondence between 0-11 5-minutes packs and LEDs
-#[cfg(feature = "mini_demo")]
-static MINUTES_5_LED: [&str; 12] = [
-    "L1",
-    "L3",
-    "L5",
-    "L7",
-    "L8",
-    "L6",
-    "L4",
-    "L2",
-    "L1 L3 L5 L7",
-    "L1 L4 L5 L8",
-    "L2 L4 L6 L8",
-    "L2 L3 L6 L7",
-];
-
-// Correspondence between 0-5 remaining minute and LEDs
-#[cfg(feature = "mini_demo")]
-static MINUTES_LED: [&str; 0] = [];
-
-// Code Gen ------------------------------------------------------------------------------------
-
-// Write to a file the table of option<LED>s (with name `title`, of `max_leds` size) from a list of strings (`elts`), repeating the LEDs accordingly to the durations table
+/**
+ * Code Gen
+ * Write to a file the table of option<LED>s
+ * (with name `title`, of `max_leds` size) from a list of strings (`elts`),
+ * repeating the LEDs accordingly to the durations table
+ */
 fn write_elements<'a>(
     file: &mut File,
     title: &str,
