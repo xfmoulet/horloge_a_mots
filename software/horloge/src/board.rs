@@ -75,6 +75,13 @@ impl BoardTimer {
         (self.hour, self.min5, self.minute, self.second, self.tick)
     }
 
+
+    pub fn set(&mut self, hour: u8, minute:u8) {
+        self.hour = hour;
+        self.min5 = minute/5;
+        self.minute = minute%5;
+    }
+
     /// delay a bit - blocking
 	// absolutely inaccurate but eh
 	#[inline(always)]
