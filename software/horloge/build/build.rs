@@ -6,16 +6,20 @@ use std::fs::File;
 use std::io::Write;
 
 #[cfg(feature="big_panel")]
-include!{"big_panel.rs"}
+#[path="big_panel.rs"]
+mod defs;
 
 #[cfg(feature="mini_panel")]
-include!{"mini_panel.rs"}
+#[path="mini_panel.rs"]
+mod defs;
 
 #[cfg(feature="mini_demo")]
-include!{"mini_demo.rs"}
+#[path="mini_demo.rs"]
+mod defs;
 
 #[cfg(feature="panel_xfm")]
-include!{"panel_xfm.rs"}
+#[path="panel_xfm.rs"]
+mod defs;
 
 // Code Gen ------------------------------------------------------------------------------------
 
@@ -74,7 +78,7 @@ fn write_elements<'a>(
 
 // slow find but not necessary to optimize
 fn led_position(name: &str) -> Option<(u8, u8)> {
-    for (line, words) in LED_PANEL.iter().enumerate() {
+    for (line, words) in defs::LED_PANEL.iter().enumerate() {
         for (column, word) in words.split(' ').enumerate() {
             if word == name {
                 return Some((column as u8, line as u8));
@@ -114,11 +118,11 @@ fn main() {
     // write all words enum
     writeln!(&mut file, "#[derive(Debug, Clone, Copy, PartialEq)]").unwrap();
 
-    let led_durations = HashMap::from(LED_DURATIONS);
+    let led_durations = HashMap::from(defs::LED_DURATIONS);
 
     // LED enum
     writeln!(&mut file, "pub enum LED {{").unwrap();
-    for (word, _len) in LED_DURATIONS.iter() {
+    for (word, _len) in defs::LED_DURATIONS.iter() {
         writeln!(&mut file, "    {word},").unwrap();
     }
     writeln!(&mut file, "}}").unwrap();
@@ -127,10 +131,10 @@ fn main() {
     writeln!(
         &mut file,
         "pub static LED_POSITIONS: [(u8, u8); {}] = [",
-        LED_DURATIONS.len()
+        defs::LED_DURATIONS.len()
     )
     .unwrap();
-    for (word, _len) in LED_DURATIONS.iter() {
+    for (word, _len) in defs::LED_DURATIONS.iter() {
         if let Some((column, line)) = led_position(word) {
             writeln!(&mut file, "    ({column}, {line}), // {word}").unwrap();
         } else {
@@ -141,11 +145,11 @@ fn main() {
 
     // LED hours tables
     writeln!(&mut file, "// ---").unwrap();
-    write_elements(&mut file, "HOURS_LED", &HOURS_LED, &led_durations);
+    write_elements(&mut file, "HOURS_LED", &defs::HOURS_LED, &led_durations);
     writeln!(&mut file, "// ---").unwrap();
-    write_elements(&mut file, "MIN5_LED", &MINUTES_5_LED, &led_durations);
+    write_elements(&mut file, "MIN5_LED", &defs::MINUTES_5_LED, &led_durations);
     writeln!(&mut file, "// ---").unwrap();
-    write_elements(&mut file, "MINUTES_LED", &MINUTES_LED, &led_durations);
+    write_elements(&mut file, "MINUTES_LED", &defs::MINUTES_LED, &led_durations);
 
     writeln!(&mut file, "// ---").unwrap();
     write_patterns(&mut file).unwrap();

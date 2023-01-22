@@ -2,7 +2,7 @@
 
 #[cfg(feature = "mini_demo")]
 // used for placement
-static LED_PANEL: [&str;6] = [
+pub static LED_PANEL: [&str;6] = [
 "x1 x2",
 "x3 x4",
 "L1 L2", 
@@ -12,7 +12,7 @@ static LED_PANEL: [&str;6] = [
 ];
 
 #[cfg(feature = "mini_demo")]
-static LED_DURATIONS: [(&str, usize); 8] = [
+pub static LED_DURATIONS: [(&str, usize); 8] = [
     ("L1", 1),
     ("L2", 4),
     ("L3", 1),
@@ -26,11 +26,11 @@ static LED_DURATIONS: [(&str, usize); 8] = [
 // TODO try other durations patterns to reach 16 Max ?
 // Correspondence bewteen 0-23 hour and corresponding LEDs to illuminate
 #[cfg(feature = "mini_demo")]
-static HOURS_LED: [&str; 0] = [];
+pub static HOURS_LED: [&str; 0] = [];
 
 // Correspondence between 0-11 5-minutes packs and LEDs
 #[cfg(feature = "mini_demo")]
-static MINUTES_5_LED: [&str; 12] = [
+pub static MINUTES_5_LED: [&str; 12] = [
     "L1",
     "L3",
     "L5",
@@ -47,4 +47,4 @@ static MINUTES_5_LED: [&str; 12] = [
 
 // Correspondence between 0-5 remaining minute and LEDs
 #[cfg(feature = "mini_demo")]
-static MINUTES_LED: [&str; 0] = [];
+pub static MINUTES_LED: [&str; 0] = [];

@@ -2,7 +2,7 @@
 
 #[cfg(feature = "mini_panel")]
 // used for placement
-static LED_PANEL: [&str; 6] = [
+pub static LED_PANEL: [&str; 6] = [
     "x1 x2", // unused
     "x3 x4", // unused
     "Moins Le",
@@ -12,7 +12,7 @@ static LED_PANEL: [&str; 6] = [
 ];
 
 #[cfg(feature = "mini_panel")]
-static LED_DURATIONS: [(&str, usize); 8] = [
+pub static LED_DURATIONS: [(&str, usize); 8] = [
     ("Moins", 1),
     ("Et", 1),
     ("DixMin", 1),
@@ -25,11 +25,11 @@ static LED_DURATIONS: [(&str, usize); 8] = [
 
 // Correspondence bewteen 0-23 hour and corresponding LEDs to illuminate
 #[cfg(feature = "mini_panel")]
-static HOURS_LED: [&str; 0] = [];
+pub static HOURS_LED: [&str; 0] = [];
 
 // Correspondence between 0-11 5-minutes packs and LEDs
 #[cfg(feature = "mini_panel")]
-static MINUTES_5_LED: [&str; 12] = [
+pub static MINUTES_5_LED: [&str; 12] = [
     "",
     "CinqMin",
     "DixMin",
@@ -46,5 +46,5 @@ static MINUTES_5_LED: [&str; 12] = [
 
 // Correspondence between 0-5 remaining minute and LEDs
 #[cfg(feature = "mini_panel")]
-static MINUTES_LED: [&str; 0] = [
+pub static MINUTES_LED: [&str; 0] = [
 ];

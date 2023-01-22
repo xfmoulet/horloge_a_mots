@@ -2,7 +2,7 @@
 // Big Panel ------------------------------------------------------------------------------------
 
 // used for placement
-static LED_PANEL: [&str; 6] = [
+pub static LED_PANEL: [&str; 6] = [
     "Quatre Trois S Il Est Deux",
     "Huit Six Cinq Neuf Une Sept",
     "Minuit Onze Heure Mi Di X",
@@ -11,7 +11,7 @@ static LED_PANEL: [&str; 6] = [
     "xx Bananes Dot1 Dot2 Dot3 Dot4",
 ];
 
-static LED_DURATIONS: [(&str, usize); 34] = [
+pub static LED_DURATIONS: [(&str, usize); 34] = [
     ("Il", 3),
     ("Est", 3),
     ("Une", 1),
@@ -50,7 +50,7 @@ static LED_DURATIONS: [(&str, usize); 34] = [
 
 // TODO try other durations patterns to reach 16 Max ?
 // Correspondence bewteen 0-23 hour and corresponding LEDs to illuminate
-static HOURS_LED: [&str; 24] = [
+pub static HOURS_LED: [&str; 24] = [
     "Minuit",
     "Une Heure",
     "Deux Heure S",
@@ -78,7 +78,7 @@ static HOURS_LED: [&str; 24] = [
 ];
 
 // Correspondence between 0-11 5-minutes packs and LEDs
-static MINUTES_5_LED: [&str; 12] = [
+pub static MINUTES_5_LED: [&str; 12] = [
     "",
     "CinqMin",
     "DixMin",
@@ -94,7 +94,7 @@ static MINUTES_5_LED: [&str; 12] = [
 ];
 
 // Correspondence between 0-5 remaining minute and LEDs
-static MINUTES_LED: [&str; 5] = [
+pub static MINUTES_LED: [&str; 5] = [
     "",
     "Dot1",
     "Dot2",
