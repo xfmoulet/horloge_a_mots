@@ -93,9 +93,13 @@ fn write_patterns(file: &mut File) -> Result<(),std::io::Error> {
     file.write_all(b"// Interleaving patterns for 32 values and 32 ticks\npub const INTERLEAVE_PATTERNS: [u32;32] = [\n")?;
     for value in 0..32 {
         write!(file, "    0b")?;
+        // keep less than 32 different values to avoid flicker
+        // generates 32 values so that it maps directly on ticks
+        let real_value = if value <16 {0} else { (value-12)*2 & !0b111 };
+
         for tick in 0..32 {
-            let a = (tick + 1) * value / 32;
-            let b = (tick + 0) * value / 32;
+            let a = (tick + 1) * real_value / 32;
+            let b = (tick + 0) * real_value / 32;
             file.write_all(if a != b { b"1" } else { b"0" })?;
         // print(value, sum(1 for a in s if a == "*"), s)
         }
