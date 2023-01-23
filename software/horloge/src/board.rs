@@ -4,8 +4,6 @@ use avr_device::atmega8::{Peripherals, TC2, PORTB, PORTC, PORTD};
 use horloge::data::*;
 use horloge::SECONDS_PER_MINUTE;
 
-use panic_halt as _; // panic handler
-
 // the timer is 8 bit, prescaler 1024 so max rollover is 255 / 32Hz = 8s :(
 // 60s = 2*2*3*5 , let's use 1s ? could be 1,2,3,4,5,6 (10 and 12 are >8s)
 
