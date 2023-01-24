@@ -8,17 +8,25 @@ use horloge::led_multiplex;
 use horloge::MAX_LEDS;
 
 #[cfg(feature = "first_test_animation")] 
-use board::*;
+use board::{BoardLEDs, BoardTimer};
 
 #[cfg(feature = "first_test_animation")] 
-fn first_test_animation(board_leds : &mut BoardLEDs , board_timer : &mut BoardTimer) {
-    for _ in 0..10 {
-        for column in 0..6u8 {
-            for _ in 0..1000 {
-                for line in 0..6u8 {
-                    board_leds.light_led_xy(column,line);
-                    board_timer.delay_us(300_u16); // prevent "leaks" to same line LED
-                }
+fn first_test_animation(board_leds : &BoardLEDs , board_timer : &mut BoardTimer) {
+    // all columns
+    for column in 0..6u8 {
+        for _ in 0..1000 {
+            for line in 0..6u8 {
+                board_leds.light_led_xy(column,line);
+                board_timer.delay_us(300_u16); // prevent "leaks" to same line LED
+            }
+        }
+    }
+    // all lines
+    for line in 0..6u8 {
+        for _ in 0..1000 {
+            for column in 0..6u8 {
+                board_leds.light_led_xy(column,line);
+                board_timer.delay_us(300_u16); // prevent "leaks" to same line LED
             }
         }
     }
@@ -26,12 +34,11 @@ fn first_test_animation(board_leds : &mut BoardLEDs , board_timer : &mut BoardTi
 
 #[no_mangle]
 fn main() -> ! {
-    let (mut board_leds, mut board_timer) = new_board();
+    let (board_leds, mut board_timer) = new_board(13,37);
 
     #[cfg(feature = "first_test_animation")] 
-    first_test_animation(&mut board_leds, &mut board_timer);
+    first_test_animation(&board_leds, &mut board_timer);
 
-    // show time!
     loop {
         board_timer.update_time();
         let (hour, min5, minute, seconds, tick) = board_timer.time();

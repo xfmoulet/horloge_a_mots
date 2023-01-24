@@ -1,5 +1,11 @@
 # Word Clock Software 
 
+## Firmware usage
+
+- A demo lights up all columns then all lines
+- Clock starts at 13:37
+- Connect GPIO pin 4 to GND to set time (1s -> +5 minutes)
+
 ## General 
 
 - Main principle is a compute loop : 

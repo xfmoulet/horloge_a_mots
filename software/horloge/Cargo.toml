@@ -2,6 +2,12 @@
 name = "horloge"
 version = "0.1.0"
 edition = "2021"
+build="build/build.rs"
+
+[profile.dev]
+panic = "abort"
+lto = true
+opt-level = "s"
 
 [profile.release]
 panic = "abort"
@@ -16,12 +22,13 @@ version = "0.4.0"
 features = ["atmega8","rt"]
 
 [features]
-default = ["big_panel", "reverse_led"]
+default = ["panel_xfm","no_fading","first_test_animation"]
 # all the different panels
 big_panel=[]
 mini_panel=[]
 mini_demo=[]
 gil_panel=[]
+panel_xfm=[]
 # Leds modes
 reverse_led=[]
 # Test animation at the starting

@@ -1,15 +1,19 @@
+
+// Big Panel ------------------------------------------------------------------------------------
+
 // used for placement
 pub static LED_PANEL: [&str; 6] = [
-    "Deux Trois X IlEst Quatre xxx",
-    "Sept Cinq Six Une Neuf Huit",
-    "Minuit S Heure Onze Di Mi",
-    "Vingt Et Le DixMin Moins CinqMin",
-    "E Pile Demi EtDes Quart xxx",
-    "Dot4 xxx Dot3 Dot2 Dot1 Bananes",
+    "Quatre Trois S Il Est Deux",
+    "Huit Six Cinq Neuf Une Sept",
+    "Minuit Onze Heure Mi Di X",
+    "DixMin Le Et Moins Vingt CinqMin",
+    "Et2 Des Pile Quart Demi E",
+    "xx Bananes Dot1 Dot2 Dot3 Dot4",
 ];
 
-pub static LED_DURATIONS: [(&str, usize); 32] = [
-    ("IlEst", 3),
+pub static LED_DURATIONS: [(&str, usize); 34] = [
+    ("Il", 3),
+    ("Est", 3),
     ("Une", 1),
     ("Deux", 2),
     ("Trois", 3),
@@ -26,7 +30,7 @@ pub static LED_DURATIONS: [(&str, usize); 32] = [
     ("Minuit", 3),
     ("Heure", 3),
     ("S", 1),
-    ("Et", 2),
+    ("Et", 1),
     ("Moins", 3),
     ("DixMin", 2),
     ("Vingt", 3),
@@ -35,7 +39,8 @@ pub static LED_DURATIONS: [(&str, usize); 32] = [
     ("Quart", 3),
     ("Demi", 2),
     ("E", 1),
-    ("EtDes", 2),
+    ("Et2", 2),
+    ("Des", 2),
     ("Bananes", 3),
     ("Dot1", 1),
     ("Dot2", 1),
@@ -93,6 +98,6 @@ pub static MINUTES_LED: [&str; 5] = [
     "",
     "Dot1",
     "Dot2",
-    "Dot3",
-    "Dot4",
+    "Et Des Bananes Dot3",
+    "Et Des Bananes Dot4",
 ];
