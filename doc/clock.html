@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+ <meta charset="utf-8"> 
+<style type="text/css">
+body {
+	color: lightgrey;
+	background-color: black;
+}
+div {
+	width: 150px;
+	height: 150px;
+	border:  1px solid grey;
+	background-color: black;
+}
+.on { background-color: white; }
+
+</style>
+<h1>Horloge à mots</h1>
+<p>Mettez la LDR face au bloc clignotant pour mettre à l'heure</p>
+
+<div id="blinker"></div>
+<h3>Format</h3>
+<ul>
+	<li>more than 500ms black between frames</li>
+	<li>total 13 bits = [ hour: 5bits (0-23) | 5min: 4bits (0-11) | min : 3bits (0-4) | 1 parity bit ]</li>
+	<li>bit = 1 (long) : 200ms white then 100 ms black</li>
+	<li>bit = 0 (short): 100ms white then 100 ms black</li>
+</ul>
+
+
+<script type="text/javascript">	
+
+	// long/short flash then back to black for 10ms
+	async function flash(long) {
+		document.getElementById("blinker").classList.add("on");
+		await new Promise(r => setTimeout(r, long==1 ? 200:100));
+		document.getElementById("blinker").classList.remove("on");
+		await new Promise(r => setTimeout(r, 100));
+	}
+	async function showtime() {
+		const date = new Date();
+
+		// total is 12 bits
+		const bin_hours = ('00000'+date.getHours().toString(2)).slice(-5); // 5 bits for hour
+		const bin_5min =  ('0000'+Math.floor(date.getMinutes()/5).toString(2)).slice(-4);  // 4 bits for 5min 
+		const bin_min =   ('000'+(date.getMinutes()%5).toString(2)).slice(-3);   // 3 bits for mins
+		const bits = bin_hours + bin_5min + bin_min;
+		const parity = (bits.split("1").length - 1)%2
+		console.log("it's", bits,'parity',parity);
+
+		for (let bit of bits+parity) {
+			await flash(bit);
+		}
+	}
+
+	showtime();
+	setInterval( showtime, (300)*(13+3));
+</script>
