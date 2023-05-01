@@ -14,8 +14,11 @@ rustup toolchain install nightly
 rustup component add rust-src --toolchain nightly
 sudo apt-get install binutils gcc-avr avr-libc avrdude # ubuntu, see https://book.avr-rust.com/002.1-installing-required-third-party-tools.html
 cd myproject
-rustup override set nightly
+rustup override set nightly-2023-03-24
 ```
+
+We're currently using nightly-2023-03-24 because there is an issue with more recent versions
+(there is a bug in LLVM, see https://github.com/rust-lang/compiler-builtins/issues/523)
 
 ### flashing 
 
