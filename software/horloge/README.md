@@ -45,3 +45,14 @@
 - `src/data.rs`  : this is a generated file. It will contain the static correspondence tables for led multiplexing.
 - `src/board.rs` : handling all hardware-related functions. It is currently not a trait bout could be for testing (useful?), implements driving LEDs, reading time and waiting 
 - `src/main.rs`      : main file with high-level logic
+
+## Setting time
+
+The time is set using the LDR that must be pointed to a LCD screen on the webpage clock.html in /doc.
+It will blink and set the time with the following "protocol" : 
+- more than 500ms black between frames
+- total 13 bits = [ hour: 5bits (0-23) | 5min: 4bits (0-11) | min : 3bits (0-4) | 1 parity bit ]
+- bit = 1 (long) : 200ms white then 100 ms black
+- bit = 0 (short): 100ms white then 100 ms black
+
+The current software waits for one time to be received then starts displaying time.
