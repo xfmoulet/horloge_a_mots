@@ -254,13 +254,13 @@ impl BoardLEDs {
     }
 }
 
-const LDR_THRESHOLD: u16 = 500; // adc difference between dark and light
+const LDR_THRESHOLD: u16 = 700; // adc difference between dark and light
 
 const DURATION_TOO_SMALL: u16 = 50;
 const DURATION_RESET: u16 = 800;
 const DURATION_LONG: u16 = 120;
 const NB_BITS: usize = 13;
-const MAX_LOOP: usize = 10;
+const MAX_LOOP: usize = 30_000; // 30s max
 
 // reads the time using LDR and simple 13bit receiving time protocol (see readme)
 // returns hour:minute. If notthing is founs after a moment, start at 13:37
@@ -335,10 +335,10 @@ fn ldr_time(adc: ADC) -> (u8, u8) {
             oldvalue = value;
         }
 
-        delay_us(1000); // delay in between reads for stability
+        delay_us(1300); // delay in between reads for stability
     }
-    // default hour
-    (13, 37)
+    // default hour (should be an option .. )
+    (0, 0)
 }
 
 pub fn new_board() -> (BoardLEDs, BoardTimer) {
